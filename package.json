@@ -1,10 +1,21 @@
 {
   "name": "@feathers-service-manager/workspace",
   "private": true,
+  "author": {
+    "name": "Luke Burpee",
+    "email": "lukeburpee@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukeburpee/feathers-service-manager.git"
+  },
+  "license": "MIT",
   "scripts": {
     "install": "lerna bootstrap",
     "clean": "rimraf node_modules && rimraf packages/**/node_modules && rimraf packages/**/dist && rimraf packages/**/yarn.lock && rimraf yarn.lock",
-    "test": "nyc lerna run test"
+    "test": "nyc lerna run test",
+    "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
+    "coverage": "yarn test | coveralls"
   },
   "devDependencies": {
     "lerna": "^3.4.3",
