@@ -38,7 +38,7 @@
     "test:start-mongodb": "mongod --dbpath=data/db",
     "test:mongodb": "nyc ts-mocha test/mongodb-services.test.ts",
     "test:mongoose": "nyc ts-mocha test/mongoose-services.test.ts",
-    "test": "nyc ts-mocha test/**/*.ts"
+    "test": "ts-mocha test/**/*.ts"
   },
   "dependencies": {
     "@feathers-service-manager/utils": "^0.0.1-alpha",

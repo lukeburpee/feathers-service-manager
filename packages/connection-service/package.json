@@ -30,14 +30,11 @@
     "tslint": "tslint -p tsconfig.json -c tslint.json",
     "prepare": "yarn build",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
-    "mocha": "ts-mocha test/**/*.ts",
     "prebuild": "rimraf dist",
     "build": "tsc",
     "clean": "rimraf node_modules",
     "pretest": "yarn build",
-    "test": "nyc yarn mocha",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "coverage:local": "nyc report --reporter=html"
+    "test": "ts-mocha test/**/*.ts"
   },
   "dependencies": {
     "@feathers-service-manager/utils": "^0.0.1-alpha",

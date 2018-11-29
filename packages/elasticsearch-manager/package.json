@@ -32,7 +32,7 @@
     "build": "tsc",
     "clean": "rimraf node_modules",
     "pretest": "yarn build",
-    "test": "nyc ts-mocha test/**/*.ts"
+    "test": "ts-mocha test/**/*.ts"
   },
   "dependencies": {
     "@feathers-service-manager/utils": "^0.0.1-alpha",
