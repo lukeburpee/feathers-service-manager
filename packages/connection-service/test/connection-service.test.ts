@@ -10,25 +10,24 @@ import { v4 as uuid } from 'uuid'
 const debug = require('debug')('feathers-service-manager:connection-service:test')
 
 describe('feathers-service-manager:connection-service', () => {
-	let serviceOptionsMissingClient, serviceOptions, serviceOptionsConnectionId
 	const app = feathers()
-	serviceOptionsMissingClient = {
+
+	const missingClient = {
 		events: ['testing']
 	}
-	serviceOptions = {
+
+	const options = {
 		connectionId: uuid(),
 		client: {},
 		events: ['testing']
 	}
-	serviceOptionsConnectionId = {
-		client: serviceOptions.connectionId,
-		events: ['testing']
-	}
+
+	app.use('conns', ConnectionService(options))
 
 	describe('Initialization', () => {
 		describe('Missing client option', () => {
 			it('throws an error', () => {
-				expect(() => new Service(serviceOptionsMissingClient))
+				expect(() => new Service(missingClient))
 				.to.throw('connection-base client or connectionId must be provided')
 			})
 		})
@@ -38,14 +37,12 @@ describe('feathers-service-manager:connection-service', () => {
 			expect(typeof Service).to.equal('function')
 		})
 	})
-	app.use('c-service', ConnectionService(serviceOptions))
-	const cService = app.service('c-service')
 	describe('Common Service Tests', () => {
-		base(app, errors, 'c-service', 'id')
+		base(app, errors, 'conns', 'id')
 	})
 	describe('Custom Methods', () => {
 		const connId = uuid()
-		const rawService = new Service(serviceOptions)
+		const rawService = new Service(options)
 		rawService.setup(app, '/connection-service-test')
 		describe('createConnection', () => {
 			it('adds a connection to the connection store and returns the original connection data', () => {
@@ -91,7 +88,7 @@ describe('feathers-service-manager:connection-service', () => {
 
 		describe('getConnectionId', () => {
 			it(`returns the current service's connectionId`, () => {
-				expect(rawService.getConnectionId()).to.equal(serviceOptions.connectionId)
+				expect(rawService.getConnectionId()).to.equal(options.connectionId)
 			})
 		})
 
@@ -133,8 +130,8 @@ describe('feathers-service-manager:connection-service', () => {
 
 		describe('removeConnection', () => {
 			it('removes a connection from the connection store and returns the removed connection', (() => {
-				return rawService.removeConnection(serviceOptions.connectionId).then(result => {
-					expect(result.id).to.equal(serviceOptions.connectionId)
+				return rawService.removeConnection(options.connectionId).then(result => {
+					expect(result.id).to.equal(options.connectionId)
 				})
 			}))
 		})
