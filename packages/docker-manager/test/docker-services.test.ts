@@ -71,6 +71,7 @@ describe('feathers-docker-manager', () => {
 		//	base(app, errors, 'd-service', 'id')
 		//})
 	})
+	/**
 	describe('Swarm Service', () => {
 		const rawSwarmService = new SwarmService(serviceOptions)
 		rawSwarmService.setup(app, '/swarm-service')
@@ -577,4 +578,5 @@ describe('feathers-docker-manager', () => {
 			})
 		})
 	})
+	**/
 })
