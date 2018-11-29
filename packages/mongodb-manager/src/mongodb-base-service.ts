@@ -3,7 +3,7 @@ import errors from '@feathersjs/errors'
 import { filterQuery, sorter, select, _ } from '@feathersjs/commons';
 import sift from 'sift'
 
-import { ConnectionClass } from 'feathers-connection-service'
+import { ConnectionClass } from '@feathers-service-manager/connection-service'
 
 export default function (options: ServiceOptions) {
   return new Service(options)

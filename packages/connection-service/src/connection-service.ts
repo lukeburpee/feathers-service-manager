@@ -91,6 +91,6 @@ export class Service extends BaseServiceClass {
 		}
 		this.app = app
 		this.path = path
-		this.connections = this.app.service('connections')
+		this.connections = app.service('connections')
 	}
 }

@@ -10,7 +10,7 @@ export class Service extends ConnectionClass {
 		super(options)
 	}
 	public getConnectionType (): string {
-		return 'ipfs'
+		return 'upload'
 	}
 	public getServiceType (): string {
 		return 'base-service'

@@ -33,12 +33,12 @@
     "clean": "rimraf node_modules"
   },
   "dependencies": {
+    "@feathers-service-manager/connection-service": "^0.0.1-alpha",
     "@feathers-service-manager/utils": "^0.0.1-alpha",
     "@feathersjs/commons": "^3.0.1",
     "@feathersjs/errors": "^3.3.4",
     "@feathersjs/feathers": "^3.2.3",
     "@types/uuid": "^3.4.4",
-    "feathers-connection-service": "^0.0.8-alpha",
     "sift": "^7.0.1",
     "uuid": "^3.3.2"
   },

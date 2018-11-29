@@ -1,5 +1,5 @@
 import { Id } from '@feathersjs/feathers'
-import { ConnectionClass } from 'feathers-connection-service'
+import { ConnectionClass } from '@feathers-service-manager/connection-service'
 
 export default function init (options: ServiceOptions) {
   return new Service(options)
