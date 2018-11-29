@@ -21,7 +21,8 @@ describe('feathers-service-manager:connection-service', () => {
 		events: ['testing']
 	}
 	serviceOptionsConnectionId = {
-		client: serviceOptions.connectionId
+		client: serviceOptions.connectionId,
+		events: ['testing']
 	}
 
 	describe('Initialization', () => {
