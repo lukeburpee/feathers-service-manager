@@ -1,5 +1,5 @@
 import { Params } from '@feathersjs/feathers'
-import BaseService, { Service as BaseServiceClass } from './base-service'
+import BaseService, { BaseServiceClass } from '@feathers-service-manager/base-service'
 import { _select } from '@feathers-service-manager/utils'
 
 export default function init (options: ServiceOptions) {
