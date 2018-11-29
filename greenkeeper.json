@@ -1,0 +1,15 @@
+{
+	"groups": {
+		"default": {
+			"packages": [
+				"package.json",
+				"packages/utils/package.json",
+				"packages/docker-manager/package.json",
+				"packages/mongodb-manager/package.json",
+				"packages/elasticsearch-manager/package.json",
+				"packages/types/package.json",
+				"packages/utils/package.json"
+			]
+		}
+	}
+}

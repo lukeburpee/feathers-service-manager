@@ -1,0 +1,23 @@
+{
+	"verbose": false,
+	"tempDirectory": "./coverage/.tmp",
+	"extension": [
+		".ts",
+		".tsx"
+	],
+	"exclude": [
+		"**/src/index.ts",
+		"**/**/*.d.ts",
+		"**/test/*",
+		"**/dist/*",
+		"coverage"
+	],
+	"print": "detail",
+	"reporter": [
+		"html",
+		"text",
+		"text-summary",
+		"lcov"
+	],
+	"all": true
+}

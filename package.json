@@ -1,0 +1,14 @@
+{
+  "name": "@feathers-service-manager/workspace",
+  "private": true,
+  "scripts": {
+    "install": "lerna bootstrap",
+    "clean": "rimraf node_modules && rimraf packages/**/node_modules && rimraf packages/**/dist && rimraf packages/**/yarn.lock && rimraf yarn.lock",
+    "test": "nyc lerna run test"
+  },
+  "devDependencies": {
+    "lerna": "^3.4.3",
+    "nyc": "^13.1.0",
+    "rimraf": "^2.6.2"
+  }
+}
