@@ -28,7 +28,7 @@ describe('feathers-service-manager:connection-service', () => {
 		describe('Missing client option', () => {
 			it('throws an error', () => {
 				expect(() => new Service(serviceOptionsMissingClient))
-				.to.throw('connection-base client must be provided')
+				.to.throw('connection-base client or connectionId must be provided')
 			})
 		})
 	})
