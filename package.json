@@ -18,6 +18,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "lerna": "^3.4.3",
     "nyc": "^13.1.0",
     "rimraf": "^2.6.2"
