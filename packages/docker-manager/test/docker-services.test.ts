@@ -108,8 +108,6 @@ describe('feathers-docker-manager', () => {
 					})
 					.then((result: any) => {
 						expect(result).to.be.a('string')
-					}).catch((error: any) => {
-						console.log(`docker create swarm test error: ${error.message}`)
 					})
 				})
 			})
@@ -118,18 +116,14 @@ describe('feathers-docker-manager', () => {
 					return rawSwarmService.joinSwarm({})
 					.then((result: any) => {
 						expect(result).to.have.property('Name')
-					}).catch((error: any) => {
-						console.log(`docker join swarm test error: ${error.message}`)
 					})
 				})
 			})
 			describe('updateSwarm', () => {
 				it (`updates an existing docker swarm`, () => {
-					return rawSwarmService.updateSwarm({})
-					.then((result: any) => {
+					return rawSwarmService.updateSwarm({
+					}).then((result: any) => {
 						expect(result).to.have.property('Name')
-					}).catch((error: any) => {
-						console.log(`docker update swarm test error: ${error.message}`)
 					})
 				})
 			})
@@ -137,11 +131,8 @@ describe('feathers-docker-manager', () => {
 				it (`leaves a docker swarm`, () => {
 					return rawSwarmService.leaveSwarm({
 						force: true
-					})
-					.then((result: any) => {
+					}).then((result: any) => {
 						expect(result).to.equal('')
-					}).catch((error: any) => {
-						console.log(`docker leave swarm test error: ${error.message}`)
 					})
 				})
 			})
@@ -165,12 +156,9 @@ describe('feathers-docker-manager', () => {
 		describe('Network Specific Methods', () => {
 			describe('createNetwork', () => {
 				it(`creates a docker network and returns the network id`, () => {
-					return rawNetworkService.createNetwork({})
-					.then((results: any) => {
+					return rawNetworkService.createNetwork({
+					}).then((results: any) => {
 						expect(results).to.not.be.null
-					})
-					.catch((error: any) => {
-						console.log(`docker create network test error: ${error.message}`)
 					})
 				})
 			})
@@ -180,9 +168,6 @@ describe('feathers-docker-manager', () => {
 					.then((results: any) => {
 						expect(results).to.not.be.null
 					})
-					.catch((error: any) => {
-						console.log(`docker get network test error: ${error.message}`)
-					})
 				})
 			})
 			describe('listNetworks', () => {
@@ -190,9 +175,6 @@ describe('feathers-docker-manager', () => {
 					return rawNetworkService.listNetworks({})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					})
-					.catch((error: any) => {
-						console.log(`docker list networks test error: ${error.message}`)
 					})
 				})
 			})
@@ -202,9 +184,6 @@ describe('feathers-docker-manager', () => {
 					.then((results: any) => {
 						expect(results).to.not.be.null
 					})
-					.catch((error: any) => {
-						console.log(`docker prune networks test error: ${error.message}`)
-					})
 				})
 			})
 			describe('executeAction', () => {
@@ -213,17 +192,11 @@ describe('feathers-docker-manager', () => {
 					.then((results: any) => {
 						expect(results).to.not.be.null
 					})
-					.catch((error: any) => {
-						console.log(`docker execute remove network action test error: ${error.message}`)
-					})
 				})
 				it(`executes connect network command`, () => {
 					return rawNetworkService.executeAction('Id', 'connect', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					})
-					.catch((error: any) => {
-						console.log(`docker execute connect network action test error: ${error.message}`)
 					})
 				})
 				it(`executes disconnect network command`, () => {
@@ -231,17 +204,11 @@ describe('feathers-docker-manager', () => {
 					.then((results: any) => {
 						expect(results).to.not.be.null
 					})
-					.catch((error: any) => {
-						console.log(`docker execute disconnect network action test error: ${error.message}`)
-					})
 				})
 				it(`executes inspect network command`, () => {
 					return rawNetworkService.executeAction('Id', 'inspect', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					})
-					.catch((error: any) => {
-						console.log(`docker execute inspect network action test error: ${error.message}`)
 					})
 				})
 			})
@@ -278,8 +245,6 @@ describe('feathers-docker-manager', () => {
 					.then((container: any) => {
 						testContainer = container.id
 						expect(container).to.have.property('id')
-					}).catch((error: any) => {
-						console.log(`docker create container test error: ${error.message}`)
 					})
 				})
 			})
@@ -301,8 +266,6 @@ describe('feathers-docker-manager', () => {
 						.then((result: any) => {
 							expect(result.id).to.equal(testContainer)
 						})
-					}).catch((error: any) => {
-						console.log(`docker get container test error: ${error.message}`)
 					})
 				})
 			})
@@ -311,8 +274,6 @@ describe('feathers-docker-manager', () => {
 					return rawContainerService.listContainers({})
 					.then((results: any) => {
 						expect(results.length).to.equal(0)
-					}).catch((error: any) => {
-						console.log(`docker list containers test error: ${error.message}`)
 					})
 				})
 			})
@@ -321,8 +282,6 @@ describe('feathers-docker-manager', () => {
 					return rawContainerService.pruneContainers({})
 					.then((results: any) => {
 						expect(results).to.have.property('ContainersDeleted')
-					}).catch((error: any) => {
-						console.log(`docker prune container test error: ${error.message}`)
 					})
 				})
 			})
@@ -331,176 +290,132 @@ describe('feathers-docker-manager', () => {
 					return rawContainerService.executeAction('Id', 'inspect', {})
 					.then((results: any) => {
 
-					}).catch((error: any) => {
-						console.log(`docker execute inspect container action test error: ${error.message}`)
 					})
 				})
 				it(`executes rename container command`, () => {
 					return rawContainerService.executeAction('Id', 'rename', {})
 					.then((results: any) => {
 
-					}).catch((error: any) => {
-						console.log(`docker execute rename container action test error: ${error.message}`)
 					})
 				})
 				it(`executes update container command`, () => {
 					return rawContainerService.executeAction('Id', 'update', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute update container action test error: ${error.message}`)
 					})
 				})
 				it (`executes top container command`, () => {
 					return rawContainerService.executeAction('Id', 'top', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute top container action test error: ${error.message}`)
 					})
 				})
 				it (`executes check container changes command`, () => {
 					return rawContainerService.executeAction('Id', 'changes', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute check changes container action test error: ${error.message}`)
 					})
 				})
 				it (`executes export container command`, () => {
 					return rawContainerService.executeAction('Id', 'export', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute export container action test error: ${error.message}`)
 					})
 				})
 				it (`executes start container command`, () => {
 					return rawContainerService.executeAction('Id', 'start', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute start container action test error: ${error.message}`)
 					})
 				})
 				it (`executes stop container command`, () => {
 					return rawContainerService.executeAction('Id', 'stop', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute stop container action test error: ${error.message}`)
 					})
 				})
 				it (`executes pause container command`, () => {
 					return rawContainerService.executeAction('Id', 'pause', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute pause container action test error: ${error.message}`)
 					})
 				})
 				it (`executes unpause container command`, () => {
 					return rawContainerService.executeAction('Id', 'unpause', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute unpause container action test error: ${error.message}`)
 					})
 				})
 				it (`executes commit container command`, () => {
 					return rawContainerService.executeAction('Id', 'commit', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute commit container action test error: ${error.message}`)
 					})
 				})
 				it (`executes restart container command`, () => {
 					return rawContainerService.executeAction('Id', 'restart', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute restart container action test error: ${error.message}`)
 					})
 				})
 				it (`executes kill container command`, () => {
 					return rawContainerService.executeAction('Id', 'kill', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute kill container action test error: ${error.message}`)
 					})
 				})
 				it (`executes resize container command`, () => {
 					return rawContainerService.executeAction('Id', 'resize', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute resize container action test error: ${error.message}`)	
 					})
 				})
 				it (`executes attach container command`, () => {
 					return rawContainerService.executeAction('Id', 'attach', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute attach container action test error: ${error.message}`)
 					})
 				})
 				it (`executes wait container command`, () => {
 					return rawContainerService.executeAction('Id', 'wait', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute wait container action test error: ${error.message}`)
 					})
 				})
 				it (`executes remove container command`, () => {
 					return rawContainerService.executeAction('Id', 'remove', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute remove container action test error: ${error.message}`)
 					})
 				})
 				it (`executes get archive container command`, () => {
 					return rawContainerService.executeAction('Id', 'get-archive', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute get archive container action test error: ${error.message}`)
 					})
 				})
 				it (`executes info archive container command`, () => {
 					return rawContainerService.executeAction('Id', 'info-archive', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute info archive container action test error: ${error.message}`)
 					})
 				})
 				it (`executes put archive container command`, () => {
 					return rawContainerService.executeAction('Id', 'put-archive', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute put archive container action test error: ${error.message}`)
 					})
 				})
 				it (`executes container log command`, () => {
 					return rawContainerService.executeAction('Id', 'logs', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute logs container action test error: ${error.message}`)
 					})
 				})
 				it (`executes container stats command`, () => {
 					return rawContainerService.executeAction('Id', 'stats', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute stats container action test error: ${error.message}`)
 					})
 				})
 			})
@@ -527,17 +442,11 @@ describe('feathers-docker-manager', () => {
 				.then((results: any) => {
 					expect(results).to.not.be.null
 				})
-				.catch((error: any) => {
-					console.log(`docker create image test error: ${error.message}`)
-				})
 			})
 			describe('loadImage', () => {
 				return rawImageService.loadImage({}, {})
 				.then((results: any) => {
 					expect(results).to.not.be.null
-				})
-				.catch((error: any) => {
-					console.log(`docker load image test error: ${error.message}`)
 				})
 			})
 			describe('importImage', () => {
@@ -545,17 +454,11 @@ describe('feathers-docker-manager', () => {
 				.then((results: any) => {
 					expect(results).to.not.be.null
 				})
-				.catch((error: any) => {
-					console.log(`docker import image test error: ${error.message}`)
-				})
 			})
 			describe('buildImage', () => {
 				return rawImageService.buildImage({}, {})
 				.then((results: any) => {
 					expect(results).to.not.be.null
-				})
-				.catch((error: any) => {
-					console.log(`docker build image test error: ${error.message}`)
 				})
 			})
 			describe('getImage', () => {
@@ -563,17 +466,11 @@ describe('feathers-docker-manager', () => {
 				.then((results: any) => {
 					expect(results).to.not.be.null
 				})
-				.catch((error: any) => {
-					console.log(`docker get image test error: ${error.message}`)
-				})
 			})
 			describe('listImages', () => {
 				return rawImageService.listImages({})
 				.then((results: any) => {
 					expect(results).to.not.be.null
-				})
-				.catch((error: any) => {
-					console.log(`docker list images test error: ${error.message}`)
 				})
 			})
 			describe('pruneImages', () => {
@@ -581,49 +478,36 @@ describe('feathers-docker-manager', () => {
 				.then((results: any) => {
 					expect(results).to.not.be.null
 				})
-				.catch((error: any) => {
-					console.log(`docker prune images test error: ${error.message}`)
-				})
 			})
 			describe('executeAction', () => {
 				it (`executes get image command`, () => {
 					return rawImageService.executeAction('Id', 'get', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute get image action test error: ${error.message}`)
 					})
 				})
 				it (`executes history image command`, () => {
 					return rawImageService.executeAction('Id', 'history', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute get history image action test error: ${error.message}`)
 					})
 				})
 				it (`executes push image command`, () => {
 					return rawImageService.executeAction('Id', 'push', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute push image action test error: ${error.message}`)
 					})
 				})
 				it (`executes tag image command`, () => {
 					return rawImageService.executeAction('Id', 'tag', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute tag image action test error: ${error.message}`)
 					})
 				})
 				it (`executes remove command`, () => {
 					return rawImageService.executeAction('Id', 'remove', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					}).catch((error: any) => {
-						console.log(`docker execute remove image action test error: ${error.message}`)
 					})
 				})
 			})
@@ -651,9 +535,6 @@ describe('feathers-docker-manager', () => {
 					.then((results: any) => {
 						expect(results).to.not.be.null
 					})
-					.catch((error: any) => {
-						console.log(`docker create volume test error: ${error.message}`)
-					})
 				})
 			})
 			describe('getVolume', () => {
@@ -661,9 +542,6 @@ describe('feathers-docker-manager', () => {
 					return rawVolumeService.getVolume('')
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					})
-					.catch((error: any) => {
-						console.log(`docker get volume test error: ${error.message}`)
 					})
 				})
 			})
@@ -673,9 +551,6 @@ describe('feathers-docker-manager', () => {
 					.then((results: any) => {
 						expect(results).to.not.be.null
 					})
-					.catch((error: any) => {
-						console.log(`docker list volumes test error: ${error.message}`)
-					})
 				})
 			})
 			describe('pruneVolumes', () => {
@@ -683,9 +558,6 @@ describe('feathers-docker-manager', () => {
 					return rawVolumeService.pruneVolumes({})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					})
-					.catch((error: any) => {
-						console.log(`docker prune volumes test error: ${error.message}`)
 					})
 				})
 			})
@@ -695,17 +567,11 @@ describe('feathers-docker-manager', () => {
 					.then((results: any) => {
 						expect(results).to.not.be.null
 					})
-					.catch((error: any) => {
-						console.log(`docker execute remove volume action test error: ${error.message}`)
-					})
 				})
 				it(`executes inspect volume command`, () => {
 					return rawVolumeService.executeAction('Id', 'inspect', {})
 					.then((results: any) => {
 						expect(results).to.not.be.null
-					})
-					.catch((error: any) => {
-						console.log(`docker execute inspect volume action test error: ${error.message}`)
 					})
 				})
 			})
