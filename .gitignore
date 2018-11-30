@@ -1,3 +1,6 @@
+# test database directory
+data
+
 # Apple
 .DS_Store
 
