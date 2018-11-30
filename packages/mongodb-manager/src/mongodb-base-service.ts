@@ -16,9 +16,6 @@ export class Service extends ConnectionServiceClass {
   constructor (options: ServiceOptions) {
     super(options)
   }
-  public getConnectionType (): string {
-    return 'mongodb'
-  }
 
   public connect (options: any): any {
     return this.client.then((client: any) => {
@@ -33,6 +30,10 @@ export class Service extends ConnectionServiceClass {
         client
       )
     })
+  }
+
+  public getConnectionType (): string {
+    return 'mongodb'
   }
 
   public getServiceType (): string {
