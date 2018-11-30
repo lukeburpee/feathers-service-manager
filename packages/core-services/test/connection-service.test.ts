@@ -54,8 +54,7 @@ describe('feathers-service-manager:connection-service', () => {
 					it('uses the existing connection service as internal connection service', () => {
 						setupAppServiceExists.use('connections', BaseService({id: existingServiceId, events:['testing']}))
 						setupAppServiceExists.use('conns', ConnectionService(options))
-						expect(setupAppServiceExists.service('conns'))
-						.to.have.property('connections', setupAppServiceExists.service('connections'))
+						expect(setupAppServiceExists.service('conns').connections.id).to.equal(existingServiceId)
 					})
 				})
 			})
