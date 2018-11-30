@@ -50,16 +50,6 @@ describe('feathers-service-manager:connection-service', () => {
 						expect(createdService).to.not.equal('undefined')
 					})
 				})
-				describe('connection service exists on app', () => {
-					const connExistsApp = feathers()
-					connExistsApp.use('connections', BaseService({id: existingServiceId, events: ['testing']}))
-					connExistsApp.use('conns', ConnectionService(options))
-					const connExistsService = connExistsApp.service('conns')
-					const internalConnections = connExistsService.connections
-					it('uses the existing connection service as internal connection service', () => {
-						expect(internalConnections.id).to.equal(existingServiceId)
-					})
-				})
 			})
 		})
 		describe('custom options', () => {
