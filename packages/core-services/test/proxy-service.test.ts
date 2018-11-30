@@ -17,7 +17,7 @@ describe('feathers-service-manager:proxy-service', () => {
 
 	const app = feathers()
 	
-	app.use('proxy', JsonService(options))
+	app.use('proxy', ProxyService(options))
 
 	describe('Common Service Tests', () => {
 		base(app, errors, 'proxy')
