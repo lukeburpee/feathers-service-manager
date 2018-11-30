@@ -3,7 +3,7 @@ import errors from '@feathersjs/errors'
 import { _ } from '@feathersjs/commons'
 import { _select } from '@feathers-service-manager/utils'
 
-import { Service as DockerBaseService } from './docker-base-service'
+import { ServiceClass as DockerBaseService } from './docker-base-service'
 
 export default function (options: ServiceOptions) {
   return new Service(options)
