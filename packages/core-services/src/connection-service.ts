@@ -25,10 +25,6 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public setup (app: any, path: string): any {
-		if (typeof app.service('connections') === 'undefined') {
-			console.log(`no connection service`)
-			app.use('connections', BaseService({id:'id'}))
-		}
 		this.app = app
 		this.path = path
 		this.connectionServiceCheck(app)
