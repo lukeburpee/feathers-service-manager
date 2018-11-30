@@ -2,7 +2,7 @@ import { Id } from '@feathersjs/feathers'
 import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
 
 export default function init (options: ServiceOptions) {
-  return new Service(options)
+  return new ServiceClass(options)
 }
 
 export class ServiceClass extends ConnectionServiceClass {
