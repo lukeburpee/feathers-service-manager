@@ -24,6 +24,13 @@ describe('@feathers-service-manager/elasticsearch-manager', () => {
 	describe('Base Service', () => {
 		const rawService = new ServiceClass(options)
 		rawService.setup(app, '/elasticsearch-service')
+
+		describe('Requiring', () => {
+			it('exposes the Service Constructor', () => {
+				expect(typeof ServiceClass).to.equal('function')
+			})
+		})
+		
 		describe('Connection Methods', () => {
 			describe('getConnectionType', () => {
 				it(`returns the 'elasticsearch' connection type`, () => {
