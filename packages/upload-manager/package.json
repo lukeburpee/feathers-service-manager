@@ -27,10 +27,13 @@
   "license": "MIT",
   "scripts": {
     "tslint": "tslint -p tsconfig.json -c tslint.json",
+    "prepare": "yarn build",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "clean": "rimraf node_modules"
+    "clean": "rimraf node_modules",
+    "pretest": "yarn build",
+    "test": "ts-mocha test/**/*.ts"
   },
   "dependencies": {
     "@feathers-service-manager/connection-service": "^0.0.1-alpha",
