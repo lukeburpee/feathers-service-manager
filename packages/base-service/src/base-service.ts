@@ -15,7 +15,6 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
   public path!: any;
   public paginate!: Paginated<any>;
   public id!: any;
-  public _id!: any;
   public store!: any;
   public Model!: any;
   public events!: any;
@@ -27,7 +26,6 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
     }
     this.paginate = options.paginate ? options.paginate : {};
     this.id = options.id || 'id'
-    this._id = options.id || 'id'
     this.store = options.store || {}
     this.Model = options.Model || {}
     this.events = options.events || []
