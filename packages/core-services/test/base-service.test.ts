@@ -5,7 +5,7 @@ import configuration from '@feathersjs/configuration';
 import { base } from 'feathers-service-tests';
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
-import BaseService, { Service } from '../src/base-service'
+import BaseService, { ServiceClass } from '../src/base-service'
 import * as assert from 'assert'
 
 const debug = require('debug')('feathers-service-manager:base-service:test')
@@ -25,21 +25,21 @@ describe('feathers-service-manager:base-service', () => {
 	describe('Initialization', () => {
 		describe('Missing Options', () => {
 			it('throws an error', () => {
-				expect(() => new Service(null)).to.throw('service requires options')
+				expect(() => new ServiceClass(null)).to.throw('service requires options')
 			})
 		})
 		it('attaches application to service', () => {
-			const attachService = new Service(options)
+			const attachService = new ServiceClass(options)
 			attachService.setup(app, '/attach')
 			expect(attachService).to.have.property('app')
 		})
 		it('attaches path to service', () => {
-			const attachService = new Service(options)
+			const attachService = new ServiceClass(options)
 			attachService.setup(app, '/attach')
 			expect(attachService).to.have.property('path')
 		})
 		it('sets default paginate', () => {
-			const defaultPaginate = new Service({events:['testing'], paginate:{ default:5, max:10 }})
+			const defaultPaginate = new ServiceClass({events:['testing'], paginate:{ default:5, max:10 }})
 			expect(defaultPaginate.paginate).to.have.property('default', 5)
 			expect(defaultPaginate.paginate).to.have.property('max', 10)
 		})
@@ -47,7 +47,7 @@ describe('feathers-service-manager:base-service', () => {
 	describe('Requiring', () => {
 		const lib = require('../src/base-service')
 		it('exposes the Service Constructor', () => {
-			expect(typeof Service).to.equal('function')
+			expect(typeof ServiceClass).to.equal('function')
 		})
 	})
 
@@ -75,7 +75,7 @@ describe('feathers-service-manager:base-service', () => {
 	})
 	describe('Custom Methods', () => {
 		const params = {query: {$select:['name']}}
-		const service = new Service(options)
+		const service = new ServiceClass(options)
 		describe('processParams', () => {
 			it('returns the processed query and filters from params', () => {
 				expect(service.processParams(params).filters).to.have.property('$select')
@@ -116,9 +116,9 @@ describe('feathers-service-manager:base-service', () => {
 			}).catch(error => console.log(error))
 		})
 	})
-	describe('Common Tests for Extended Base Service', () => {
+	describe('Common Tests for Extended BaseServiceClass', () => {
 
-		class ExtendedService extends Service {
+		class ExtendedService extends ServiceClass {
 			constructor(options: ServiceOptions) {
 				super(options)
 			}
