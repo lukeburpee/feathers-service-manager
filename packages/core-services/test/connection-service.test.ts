@@ -1,5 +1,5 @@
 import { assert, expect } from 'chai';
-import feathers from '@feathersjs/feathers';
+import feathers, { Service } from '@feathersjs/feathers';
 import * as errors from '@feathersjs/errors';
 import configuration from '@feathersjs/configuration';
 import { base } from 'feathers-service-tests';
@@ -12,7 +12,9 @@ const debug = require('debug')('feathers-service-manager:connection-service:test
 
 describe('feathers-service-manager:connection-service', () => {
 	const app = feathers()
-
+	const setupApp = feathers()
+	const setupAppServiceExists = feathers()
+	const existingServiceId = uuid()
 	const missingConnectionId = {
 		client: {},
 		events: ['testing']
@@ -31,7 +33,29 @@ describe('feathers-service-manager:connection-service', () => {
 	app.use('conns', ConnectionService(options))
 	app.use('conns-missing-connectionId', ConnectionService(missingConnectionId))
 
+	describe('Requiring', () => {
+		it('exposes the Service Constructor', () => {
+			expect(typeof ConnectionService).to.equal('function')
+		})
+	})
+
 	describe('Initialization', () => {
+		describe('setup', () => {
+			describe('internal connection service', () => {
+				describe('connection service exists on app', () => {
+					it('uses the existing connection service as internal connection service', () => {
+						setupAppServiceExists.use('connections', BaseService({id: existingServiceId, events:['testing']}))
+						setupAppServiceExists.use('conns', ConnectionService(options))
+						expect(setupAppServiceExists.service('conns'))
+						.to.have.property('connections', setupAppServiceExists.service('connections'))
+					})
+				})
+				describe('no connection service on app at initialization', () => {
+					setupApp.use('conns', ConnectionService(options))
+					assert(setupApp.service('connections') instanceof Service)
+				})
+			})
+		})
 		describe('custom options', () => {
 			describe('connectionId option', () => {
 				it('sets the service connectionId', () => {
@@ -53,14 +77,7 @@ describe('feathers-service-manager:connection-service', () => {
 			})
 		})
 	})
-	describe('Requiring', () => {
-		it('exposes the Service Constructor', () => {
-			expect(typeof ConnectionService).to.equal('function')
-		})
-	})
-	describe('Common Service Tests', () => {
-		base(app, errors, 'conns')
-	})
+
 	describe('Custom Methods', () => {
 		const connId = uuid()
 		const rawService = new ServiceClass(options)
@@ -156,5 +173,8 @@ describe('feathers-service-manager:connection-service', () => {
 				})
 			}))
 		})
+	})
+	describe('Common Service Tests', () => {
+		base(app, errors, 'conns')
 	})
 })
