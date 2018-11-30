@@ -44,6 +44,7 @@
     "@feathersjs/feathers": "^3.2.3",
     "debug": "^4.1.0",
     "sift": "^7.0.1",
+    "uberproto": "^2.0.4",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

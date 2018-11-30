@@ -43,6 +43,7 @@
     "@types/uuid": "^3.4.4",
     "elasticsearch": "^15.2.0",
     "sift": "^7.0.1",
+    "uberproto": "^2.0.4",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
