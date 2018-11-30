@@ -83,7 +83,7 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
 
   protected patchImplementation (store: any, id: Id, data: any, params?: Params): any {
     if (id in store) {
-      _.extend(store[id], _.omit(data, this._id));
+      _.extend(store[id], _.omit(data, this.id));
 
       return Promise.resolve(store[id])
         .then(_select(params, this.id));
@@ -216,7 +216,7 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
     if (id === null) {
       return this._find(params).then(page => {
         return Promise.all(page.data.map(
-          (current: any) => this._patch(current[this._id], data, params))
+          (current: any) => this._patch(current[this.id], data, params))
         );
       });
     }
@@ -233,7 +233,7 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
     if (id === null) {
       return this._find(params).then((page: any) =>
         Promise.all(page.data.map((current: any) =>
-          this._remove(current[this._id], params)
+          this._remove(current[this.id], params)
         )));
     }
 
