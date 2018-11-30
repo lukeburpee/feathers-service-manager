@@ -1,11 +1,11 @@
 import { Id } from '@feathersjs/feathers'
-import { ConnectionClass } from '@feathers-service-manager/connection-service'
+import { ConnectionServiceClass } from '@feathers-service-manager/connection-service'
 
 export default function init (options: ServiceOptions) {
   return new Service(options)
 }
 
-export class Service extends ConnectionClass {
+export class Service extends ConnectionServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 	}

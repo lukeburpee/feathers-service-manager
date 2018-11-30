@@ -3,13 +3,13 @@ import errors from '@feathersjs/errors'
 import { filterQuery, sorter, select, _ } from '@feathersjs/commons';
 import sift from 'sift'
 
-import { ConnectionClass } from '@feathers-service-manager/connection-service'
+import { ConnectionServiceClass } from '@feathers-service-manager/connection-service'
 
 export default function (options: ServiceOptions) {
   return new Service(options)
 }
 
-export class Service extends ConnectionClass {
+export class Service extends ConnectionServiceClass {
   public default!: any;
   public admin!: any;
   constructor (options: ServiceOptions) {

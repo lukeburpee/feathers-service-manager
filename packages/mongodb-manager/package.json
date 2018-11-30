@@ -28,16 +28,12 @@
   "license": "MIT",
   "scripts": {
     "tslint": "tslint -p tsconfig.json -c tslint.json",
-    "prepublish": "yarn build",
+    "prepare": "yarn build",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "prebuild": "rimraf dist",
     "build": "tsc",
     "clean": "rimraf node_modules",
-    "clean:mongodb": "rimraf data/db/**",
     "pretest": "yarn build",
-    "test:start-mongodb": "mongod --dbpath=data/db",
-    "test:mongodb": "nyc ts-mocha test/mongodb-services.test.ts",
-    "test:mongoose": "nyc ts-mocha test/mongoose-services.test.ts",
     "test": "ts-mocha test/**/*.ts"
   },
   "dependencies": {
