@@ -10,7 +10,4 @@ export class ServiceClass extends BaseServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 	}
-	public throwNotFound (id: Id): NotFound {
-    	throw new NotFound(`No record found for id '${id}'`)
-	}
 }

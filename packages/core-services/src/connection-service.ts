@@ -23,10 +23,6 @@ export class ServiceClass extends BaseServiceClass {
 		this.defaultOptions = options.defaultOptions || {}
 		this.connect(options)
 	}
-	
-	public throwNotFound (id: Id): NotFound {
-    	throw new NotFound(`No record found for id '${id}'`)
-	}
 
 	public connect(options: any): any {
 		return this.createConnection(
