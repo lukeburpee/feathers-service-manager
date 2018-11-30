@@ -32,6 +32,13 @@ describe('feathers-docker-manager', () => {
 	describe('Base Service', () => {
 		const rawService = new ServiceClass(serviceOptions)
 		rawService.setup(app, '/docker-service')
+
+		describe('Requiring', () => {
+			it('exposes the Service Constructor', () => {
+				expect(typeof ServiceClass).to.equal('function')
+			})
+		})
+		
 		describe('Connection Methods', () => {
 			describe('getConnectionType', () => {
 				it(`returns the 'docker' connection type`, () => {
