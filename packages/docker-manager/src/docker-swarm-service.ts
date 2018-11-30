@@ -6,10 +6,10 @@ import { _select } from '@feathers-service-manager/utils'
 import { ServiceClass as DockerBaseService } from './docker-base-service'
 
 export default function (options: ServiceOptions) {
-  return new Service(options)
+  return new ServiceClass(options)
 }
 
-export class Service extends DockerBaseService {
+export class ServiceClass extends DockerBaseService {
   constructor (private options: ServiceOptions) {
     super(options)
   }

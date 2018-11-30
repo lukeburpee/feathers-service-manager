@@ -6,7 +6,7 @@ import { _select } from '@feathers-service-manager/utils'
 import { ServiceClass as DockerBaseService } from './docker-base-service'
 
 export default function (options: ServiceOptions) {
-  return new Service(options)
+  return new ServiceClass(options)
 }
 
 const actions: any = {
@@ -17,7 +17,7 @@ const actions: any = {
   REMOVE: 'remove'
 }
 
-export class Service extends DockerBaseService {
+export class ServiceClass extends DockerBaseService {
   constructor (options: ServiceOptions) {
     super(options)
   }

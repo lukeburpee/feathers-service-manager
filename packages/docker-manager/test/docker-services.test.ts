@@ -7,12 +7,12 @@ import  Docker from 'dockerode/lib/docker'
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 
-import DockerService, { Service } from '../src/docker-base-service'
-import DockerSwarmService, { Service as SwarmService } from '../src/docker-swarm-service'
-import DockerNetworkService, { Service as NetworkService } from '../src/docker-network-service'
-import DockerContainerService, { Service as ContainerService } from '../src/docker-container-service'
-import DockerImageService, { Service as ImageService } from '../src/docker-image-service'
-import DockerVolumeService, { Service as VolumeService } from '../src/docker-volume-service'
+import DockerService, { ServiceClass } from '../src/docker-base-service'
+import DockerSwarmService, { ServiceClass as SwarmService } from '../src/docker-swarm-service'
+import DockerNetworkService, { ServiceClass as NetworkService } from '../src/docker-network-service'
+import DockerContainerService, { ServiceClass as ContainerService } from '../src/docker-container-service'
+import DockerImageService, { ServiceClass as ImageService } from '../src/docker-image-service'
+import DockerVolumeService, { ServiceClass as VolumeService } from '../src/docker-volume-service'
 
 const debug = require('debug')('feathers-docker-manager:test')
 
