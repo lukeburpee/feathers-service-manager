@@ -26,14 +26,28 @@ export class ServiceClass extends BaseServiceClass {
 
 	public setup (app: any, path: string): any {
 		if (typeof app.service('connections') === 'undefined') {
-			app.use('connections', BaseService({events: ['testing']}))
+			console.log(`no connection service`)
+			app.use('connections', BaseService())
 		}
 		this.app = app
 		this.path = path
-		this.connections = app.service('connections')
+		this.connectionServiceCheck(app)
 	}
 
-	public connect(options: any): any {
+	private connectionServiceCheck (app: any): any {
+		if (typeof app.service('connection') === 'undefined') {
+			console.log(`no connection service found on provided application.
+				${this.getConnectionType()} service will create connection service.`
+			)
+			app.use('connections', BaseService())
+			this.connections = app.service('connections')
+			return this.connections
+		}
+		this.connections = app.service('connections')
+		return this.connections
+	}
+
+	public connect (options: any): any {
 		return this.createConnection(
 			this.connectionId,
 			this.client
