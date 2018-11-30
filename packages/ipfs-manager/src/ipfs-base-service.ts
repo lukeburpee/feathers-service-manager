@@ -5,7 +5,7 @@ export default function init (options: ServiceOptions) {
   return new Service(options)
 }
 
-export class Service extends ConnectionServiceClass {
+export class ServiceClass extends ConnectionServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 	}

@@ -6,24 +6,19 @@ import { base } from 'feathers-service-tests';
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 
-import IpfsService, { Service } from '../src/ipfs-base-service'
+import IpfsService, { ServiceClass } from '../src/ipfs-base-service'
 
 const debug = require('debug')('feathers-ipfs-manager:test')
 
 describe('feathers-ipfs-manager', () => {
-	let testSwarm, testConfig, testContainer
+	const app = feathers()
 	const serviceOptions = {
 		connectionId: uuid(),
 		client: 'client',
 		events: ['testing']
 	}
-	const serviceOptionsConnectionId = {
-		client: serviceOptions.connectionId,
-		events: ['testing']
-	}
-	const app = feathers()
 	describe('Base Service', () => {
-		const rawService = new Service(serviceOptions)
+		const rawService = new ServiceClass(serviceOptions)
 		rawService.setup(app, '/ipfs-service')
 		describe('Connection Methods', () => {
 			describe('getConnectionType', () => {
