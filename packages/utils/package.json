@@ -23,9 +23,9 @@
   "license": "MIT",
   "scripts": {
     "tslint": "tslint -p tsconfig.json -c tslint.json",
-    "prepublish": "yarn build",
-    "publish": "git push origin --tags && npm run changelog && git push origin",
+    "prepare": "yarn build",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
+    "prebuild": "rimraf dist",
     "build": "tsc",
     "clean": "rimraf node_modules"
   },
