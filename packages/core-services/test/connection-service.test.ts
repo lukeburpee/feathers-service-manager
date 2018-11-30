@@ -42,6 +42,12 @@ describe('feathers-service-manager:connection-service', () => {
 	describe('Initialization', () => {
 		describe('setup', () => {
 			describe('internal connection service', () => {
+				describe('connection service does not exist on app at initialization', () => {
+					it('creates a connection service on the application and uses created service as internal connection service', () => {
+						setupApp.use('conns', ConnectionService(options))
+						assert(typeof setupApp.service('connections') !== 'undefined')
+					})
+				})
 				describe('connection service exists on app', () => {
 					it('uses the existing connection service as internal connection service', () => {
 						setupAppServiceExists.use('connections', BaseService({id: existingServiceId, events:['testing']}))
@@ -49,10 +55,6 @@ describe('feathers-service-manager:connection-service', () => {
 						expect(setupAppServiceExists.service('conns'))
 						.to.have.property('connections', setupAppServiceExists.service('connections'))
 					})
-				})
-				describe('no connection service on app at initialization', () => {
-					setupApp.use('conns', ConnectionService(options))
-					assert(setupApp.service('connections') instanceof Service)
 				})
 			})
 		})
