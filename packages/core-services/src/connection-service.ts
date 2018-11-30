@@ -24,6 +24,15 @@ export class ServiceClass extends BaseServiceClass {
 		this.connect(options)
 	}
 
+	public setup (app: any, path: string): any {
+		if (typeof app.service('connections') === 'undefined') {
+			app.use('connections', BaseService({events: ['testing']}))
+		}
+		this.app = app
+		this.path = path
+		this.connections = app.service('connections')
+	}
+
 	public connect(options: any): any {
 		return this.createConnection(
 			this.connectionId,
@@ -92,13 +101,5 @@ export class ServiceClass extends BaseServiceClass {
 		}).then((results: any) => {
 			return results
 		})
-	}
-	public setup (app: any, path: string): any {
-		if (typeof app.service('connections') === 'undefined') {
-			app.use('connections', BaseService({events: ['testing']}))
-		}
-		this.app = app
-		this.path = path
-		this.connections = app.service('connections')
 	}
 }

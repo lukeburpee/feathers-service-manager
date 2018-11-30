@@ -6,6 +6,7 @@ import { base } from 'feathers-service-tests';
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 
+import BaseService from '../src/base-service'
 import ConnectionService, { ServiceClass } from '../src/connection-service'
 
 const debug = require('debug')('feathers-service-manager:connection-service:test')
@@ -45,7 +46,8 @@ describe('feathers-service-manager:connection-service', () => {
 				describe('connection service does not exist on app at initialization', () => {
 					it('creates a connection service on the application and uses created service as internal connection service', () => {
 						setupApp.use('conns', ConnectionService(options))
-						assert(typeof setupApp.service('connections') !== 'undefined')
+						const createdService = setupApp.service('connections')
+						expect(createdService).to.not.equal('undefined')
 					})
 				})
 				describe('connection service exists on app', () => {
