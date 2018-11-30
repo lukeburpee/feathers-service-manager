@@ -4,26 +4,25 @@ import * as errors from '@feathersjs/errors';
 import configuration from '@feathersjs/configuration';
 import { base } from 'feathers-service-tests';
 import { _ } from '@feathersjs/commons';
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid';
+import { Client } from 'elasticsearch';
 
-import ElasticsearchService, { Service } from '../src/elasticsearch-base-service'
+import Service, { ServiceClass } from '../src/elasticsearch-base-service'
 
-const debug = require('debug')('feathers-elasticsearch-manager:test')
+const debug = require('debug')('@feathers-service-manager/elasticsearch-manager:test')
 
-describe('feathers-elasticsearch-manager', () => {
-	let testSwarm, testConfig, testContainer
-	const serviceOptions = {
-		connectionId: uuid(),
-		client: 'client',
-		events: ['testing']
-	}
-	const serviceOptionsConnectionId = {
-		client: serviceOptions.connectionId,
-		events: ['testing']
-	}
+describe('@feathers-service-manager/elasticsearch-manager', () => {
 	const app = feathers()
+	const client = new Client({
+		host: 'localhost:9200'
+	})
+	const options = {
+		connectionId: uuid(),
+		client: client,
+		events: ['testing']
+	}
 	describe('Base Service', () => {
-		const rawService = new Service(serviceOptions)
+		const rawService = new ServiceClass(options)
 		rawService.setup(app, '/elasticsearch-service')
 		describe('Connection Methods', () => {
 			describe('getConnectionType', () => {
@@ -39,7 +38,7 @@ describe('feathers-elasticsearch-manager', () => {
 			describe('healthCheck', () => {
 				it(`returns the results of the elasticsearch server health check`, () => {
 					return rawService.healthCheck().then((status: any) => {
-						expect(status).to.equal('nan')
+						expect(status).to.equal('ok')
 					})
 				})
 			})
@@ -58,7 +57,7 @@ describe('feathers-elasticsearch-manager', () => {
 				})
 			})
 		})
-		//app.use('d-service', DockerService(serviceOptions))
+		//app.use('d-service', DockerService(options))
 		//const dService = app.service('d-service')
 		//describe('Common Service Tests', () => {
 		//	base(app, errors, 'd-service', 'id')

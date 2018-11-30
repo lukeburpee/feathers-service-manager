@@ -2,13 +2,14 @@ import { Id } from '@feathersjs/feathers'
 import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
 
 export default function init (options: ServiceOptions) {
-  return new Service(options)
+  return new ServiceClass(options)
 }
 
-export class Service extends ConnectionServiceClass {
+export class ServiceClass extends ConnectionServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 	}
+
 	public getConnectionType (): string {
 		return 'elasticsearch'
 	}
@@ -17,7 +18,7 @@ export class Service extends ConnectionServiceClass {
 	}
 	public healthCheck (): any {
 		return new Promise(resolve => {
-			resolve('nan')
+			resolve(this.client.ping())
 		})
 	}
 	public getInfo (): any {
