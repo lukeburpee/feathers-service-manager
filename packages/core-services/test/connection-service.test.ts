@@ -13,6 +13,11 @@ const debug = require('debug')('feathers-service-manager:connection-service:test
 describe('feathers-service-manager:connection-service', () => {
 	const app = feathers()
 
+	const missingConnectionId = {
+		client: {},
+		events: ['testing']
+	}
+
 	const missingClient = {
 		events: ['testing']
 	}
@@ -24,12 +29,27 @@ describe('feathers-service-manager:connection-service', () => {
 	}
 
 	app.use('conns', ConnectionService(options))
+	app.use('conns-missing-connectionId', ConnectionService(missingConnectionId))
 
 	describe('Initialization', () => {
-		describe('Missing client option', () => {
-			it('throws an error', () => {
-				expect(() => new ServiceClass(missingClient))
-				.to.throw('connection-base client or connectionId must be provided')
+		describe('custom options', () => {
+			describe('connectionId option', () => {
+				it('sets the service connectionId', () => {
+					expect(app.service('conns')).to.have.property('connectionId', options.connectionId)
+				})
+				describe('missing', () => {
+					it('generates a new connectionId and attaches the id to the service', () => {
+						expect(app.service('conns-missing-connectionId')).to.have.property('connectionId')
+					})
+				})
+			})
+			describe('client option', () => {
+				describe('missing', () => {
+					it('throws an error', () => {
+						expect(() => new ServiceClass(missingClient))
+						.to.throw('connection-base client or connectionId must be provided')
+					})
+				})
 			})
 		})
 	})
