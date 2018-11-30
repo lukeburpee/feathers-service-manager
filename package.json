@@ -12,7 +12,8 @@
   "license": "MIT",
   "scripts": {
     "install": "lerna bootstrap",
-    "clean": "rimraf node_modules && rimraf packages/**/node_modules && rimraf packages/**/dist && rimraf packages/**/yarn.lock && rimraf yarn.lock",
+    "clean": "rimraf node_modules && rimraf packages/**/node_modules && rimraf packages/**/dist",
+    "clean:lock-files": "rimraf yarn.lock && rimraf packages/**/yarn.lock",
     "test": "nyc lerna run test",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
