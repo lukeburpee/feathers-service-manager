@@ -3,7 +3,7 @@ import errors from '@feathersjs/errors'
 import { filterQuery, sorter, select, _ } from '@feathersjs/commons';
 import sift from 'sift'
 
-import { ConnectionServiceClass } from '@feathers-service-manager/connection-service'
+import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
 
 export default function (options: ServiceOptions) {
   return new Service(options)
@@ -12,26 +12,33 @@ export default function (options: ServiceOptions) {
 export class Service extends ConnectionServiceClass {
   public default!: any;
   public admin!: any;
+
   constructor (options: ServiceOptions) {
     super(options)
-    this.client.then((client: any) => {
+  }
+  public getConnectionType (): string {
+    return 'mongodb'
+  }
+
+  public connect (options: any): any {
+    return this.client.then((client: any) => {
       if (options.defaultDb) {
         this.default = client.db(options.defaultDb)
       } else {
         this.default = client.db('default')
       }
       this.admin = this.default.admin()
-      this.healthCheck().then((status: any) => {
-        console.log(`mongodb service status: ${JSON.stringify(status)}`)
-      })
+      this.createConnection(
+        options.connectionId || this.generateId(),
+        client
+      )
     })
   }
-  public getConnectionType (): string {
-    return 'mongodb'
-  }
+
   public getServiceType (): string {
     return 'base-service'
   }
+
   public healthCheck (): any {
     return new Promise(resolve => {
       this.admin.ping().then((status: any) => {

@@ -3,9 +3,10 @@ import feathers from '@feathersjs/feathers';
 import * as errors from '@feathersjs/errors';
 import configuration from '@feathersjs/configuration';
 import { base } from 'feathers-service-tests';
-import ConnectionService, { Service } from '../src/connection-service'
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
+
+import ConnectionService, { ServiceClass } from '../src/connection-service'
 
 const debug = require('debug')('feathers-service-manager:connection-service:test')
 
@@ -27,14 +28,14 @@ describe('feathers-service-manager:connection-service', () => {
 	describe('Initialization', () => {
 		describe('Missing client option', () => {
 			it('throws an error', () => {
-				expect(() => new Service(missingClient))
+				expect(() => new ServiceClass(missingClient))
 				.to.throw('connection-base client or connectionId must be provided')
 			})
 		})
 	})
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
-			expect(typeof Service).to.equal('function')
+			expect(typeof ConnectionService).to.equal('function')
 		})
 	})
 	describe('Common Service Tests', () => {
@@ -42,7 +43,7 @@ describe('feathers-service-manager:connection-service', () => {
 	})
 	describe('Custom Methods', () => {
 		const connId = uuid()
-		const rawService = new Service(options)
+		const rawService = new ServiceClass(options)
 		rawService.setup(app, '/connection-service-test')
 		describe('createConnection', () => {
 			it('adds a connection to the connection store and returns the original connection data', () => {

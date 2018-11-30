@@ -1,12 +1,12 @@
 import { Id } from '@feathersjs/feathers'
 import { NotFound } from '@feathersjs/errors'
-import { BaseServiceClass } from '@feathers-service-manager/base-service'
+import { ServiceClass as BaseServiceClass } from './base-service'
 
 export default function init (options: ServiceOptions) {
-  return new Service(options)
+  return new ServiceClass(options)
 }
 
-export class Service extends BaseServiceClass {
+export class ServiceClass extends BaseServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 	}

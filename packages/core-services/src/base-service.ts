@@ -6,10 +6,10 @@ import sift from 'sift'
 import { v4 as uuid } from 'uuid'
 
 export default function init (options: ServiceOptions) {
-  return new Service(options)
+  return new ServiceClass(options)
 }
 
-export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
+export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
   public app!: any;
   public path!: any;
   public paginate!: Paginated<any>;

@@ -1,13 +1,13 @@
 import { Id, Params } from '@feathersjs/feathers'
 import { NotFound } from '@feathersjs/errors'
-import BaseService, { BaseServiceClass } from '@feathers-service-manager/base-service'
 import { _select } from '@feathers-service-manager/utils'
+import { ServiceClass as BaseServiceClass } from './base-service'
 
 export default function init (options: ServiceOptions) {
-  return new Service(options)
+  return new ServiceClass(options)
 }
 
-export class Service extends BaseServiceClass {
+export class ServiceClass extends BaseServiceClass {
 	public connections!: any;
 	public connectionId!: any;
 	public client!: any;
@@ -19,20 +19,20 @@ export class Service extends BaseServiceClass {
 			throw new Error(`${this.getConnectionType()} client or connectionId must be provided`)
 		}
 		this.client = options.client
+		this.connectionId = options.connectionId || this.generateId()
 		this.defaultOptions = options.defaultOptions || {}
-		this.createConnection(
-			options.connectionId || this.generateId(),
-			options.client
-		).then((connection: any) => {
-			this.connectionId = connection.id
-			console.log(`${this.getConnectionType()} connection created: ${this.connectionId}`)
-		}).catch((error: any) => {
-			console.log(`${this.getConnectionType()} failed to create connection: ${error.message}`)
-		})
+		this.connect(options)
 	}
 	
 	public throwNotFound (id: Id): NotFound {
     	throw new NotFound(`No record found for id '${id}'`)
+	}
+
+	public connect(options: any): any {
+		return this.createConnection(
+			this.connectionId,
+			this.client
+		)
 	}
 
 	public createConnection (id: any, client: any): any {
@@ -46,8 +46,13 @@ export class Service extends BaseServiceClass {
 				info: info
 			}
 			return this.connections.create(connection)
-		})).catch((error: any) => {
-			throw new Error(`${this.getConnectionType()} failed to collectect connection info: ${error.message}`)
+		}))
+		.then((result: any) => {
+			console.log(`${this.getConnectionType()} connection created: ${this.connectionId}`)
+			return result
+		})
+		.catch((error: any) => {
+			throw new Error(`${this.getConnectionType()} failed to connect ${this.getConnectionType()}: ${error.message}`)
 		})
 	}
 	public getConnection (connectionId: any): any {

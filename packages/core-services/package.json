@@ -1,5 +1,5 @@
 {
-  "name": "@feathers-service-manager/base-service",
+  "name": "@feathers-service-manager/core-services",
   "version": "0.0.1-alpha",
   "description": "",
   "main": "dist/",
@@ -16,11 +16,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lukeburpee/feathers-service-manager/base-service.git"
+    "url": "git+https://github.com/lukeburpee/feathers-service-manager/core-services.git"
   },
   "keywords": [
     "feathers",
-    "feathers-memory",
     "typescript",
     "service-discovery",
     "service-management"
@@ -43,14 +42,12 @@
     "@feathersjs/feathers": "^3.2.3",
     "debug": "^4.1.0",
     "sift": "^7.0.1",
-    "uberproto": "^2.0.4",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@feathersjs/configuration": "^2.0.4",
     "@types/chai": "^4.1.7",
     "@types/debug": "^0.0.31",
-    "@types/dockerode": "^2.5.8",
     "@types/feathersjs__configuration": "^1.0.1",
     "@types/feathersjs__errors": "^3.2.1",
     "@types/feathersjs__feathers": "^3.0.5",
