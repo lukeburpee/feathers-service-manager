@@ -39,7 +39,7 @@ export class ServiceClass extends BaseServiceClass {
 			console.log(`no connection service found on provided application.
 				${this.getConnectionType()} service will create connection service.`
 			)
-			app.use('connections', BaseService())
+			app.use('connections', BaseService({}))
 			this.connections = app.service('connections')
 			return this.connections
 		}
