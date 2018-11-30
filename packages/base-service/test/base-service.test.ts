@@ -116,4 +116,19 @@ describe('feathers-service-manager:base-service', () => {
 			}).catch(error => console.log(error))
 		})
 	})
+	describe('Common Tests for Extended Base Service', () => {
+
+		class ExtendedService extends Service {
+			constructor(options: ServiceOptions) {
+				super(options)
+			}
+		}
+
+		function initExtendedService (options: ServiceOptions) {
+			return new ExtendedService(options)
+		}
+
+		app.use('extended', initExtendedService(options));
+		base(app, errors, 'extended', 'id')
+	})
 })

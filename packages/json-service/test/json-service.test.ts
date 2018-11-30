@@ -12,7 +12,6 @@ const debug = require('debug')('feathers-service-manager:json-service:test')
 
 describe('feathers-service-manager:json-service', () => {
 	const options = {
-		id: 'id',
 		events: ['testing']
 	}
 
@@ -21,6 +20,6 @@ describe('feathers-service-manager:json-service', () => {
 	app.use('json', JsonService(options))
 
 	describe('Common Service Tests', () => {
-		base(app, errors, 'json', 'id')
+		base(app, errors, 'json')
 	})
 })

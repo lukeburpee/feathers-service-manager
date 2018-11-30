@@ -1,4 +1,5 @@
-import { Params } from '@feathersjs/feathers'
+import { Id, Params } from '@feathersjs/feathers'
+import { NotFound } from '@feathersjs/errors'
 import BaseService, { BaseServiceClass } from '@feathers-service-manager/base-service'
 import { _select } from '@feathers-service-manager/utils'
 
@@ -11,6 +12,7 @@ export class Service extends BaseServiceClass {
 	public connectionId!: any;
 	public client!: any;
 	public defaultOptions!: any;
+
 	constructor (options: ServiceOptions) {
 		super(options)
 		if (!options.client && !options.connectionId) {
@@ -28,6 +30,11 @@ export class Service extends BaseServiceClass {
 			console.log(`${this.getConnectionType()} failed to create connection: ${error.message}`)
 		})
 	}
+	
+	public throwNotFound (id: Id): NotFound {
+    	throw new NotFound(`No record found for id '${id}'`)
+	}
+
 	public createConnection (id: any, client: any): any {
 		return this.getInfo().then(((info: any) => {
 			const connection = {

@@ -37,6 +37,9 @@ describe('feathers-service-manager:connection-service', () => {
 			expect(typeof Service).to.equal('function')
 		})
 	})
+	describe('Common Service Tests', () => {
+		base(app, errors, 'conns')
+	})
 	describe('Custom Methods', () => {
 		const connId = uuid()
 		const rawService = new Service(options)

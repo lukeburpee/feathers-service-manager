@@ -1,8 +1,7 @@
 import { Application, Id, NullableId, Paginated, Params, ServiceMethods, SetupMethod } from '@feathersjs/feathers'
-import errors from '@feathersjs/errors'
+import { BadRequest, NotFound } from '@feathersjs/errors'
 import { filterQuery, sorter, _ } from '@feathersjs/commons'
 import { _select } from '@feathers-service-manager/utils'
-import Proto from 'uberproto'
 import sift from 'sift'
 import { v4 as uuid } from 'uuid'
 
@@ -15,17 +14,19 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
   public path!: any;
   public paginate!: Paginated<any>;
   public id!: any;
+  public _id!: any;
   public store!: any;
   public Model!: any;
   public events!: any;
   public _matcher!: any;
   public _sorter!: any;
+
   constructor (options: ServiceOptions) {
     if (!options) {
       throw new Error('service requires options')
     }
     this.paginate = options.paginate ? options.paginate : {};
-    this.id = options.id || 'id'
+    this._id = this.id = options.idField || options.id || 'id'
     this.store = options.store || {}
     this.Model = options.Model || {}
     this.events = options.events || []
@@ -36,14 +37,20 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
     this.app = app
     this.path = path
   }
-  
-  public extend (obj: any) {
-    return Proto.extend(obj, this);
-  }
-  protected generateId(): any {
+  /**
+  Utility Methods
+  **/
+  public generateId(): any {
     return uuid()
   }
-  protected createImplementation (store: any, data: any, params?: Params): any {
+
+  public throwNotFound (id: Id): NotFound {
+    throw new NotFound(`No record found for id '${id}'`)
+  }
+  /**
+  Implementation Methods
+  **/
+  public createImplementation (store: any, data: any, params?: Params): any {
     let id = data[this.id] || this.generateId();
     let current = _.extend({}, data, { [this.id]: id });
 
@@ -51,7 +58,7 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
       .then(_select(params, this.id));
   }
 
-  protected getImplementation (store: any, id: Id, params?: Params): any {
+  public getImplementation (store: any, id: Id, params?: Params): any {
     if (id in store) {
       return Promise.resolve(store[id])
       .then(_select(params, this.id));
@@ -59,11 +66,11 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
     return false
   }
 
-  protected listImplementation (store: any): any {
+  public listImplementation (store: any): any {
     return Promise.resolve(_.values(store))
   }
 
-  protected updateImplementation (store: any, id: Id, data: any, params?: Params): any {
+  public updateImplementation (store: any, id: Id, data: any, params?: Params): any {
     if (id in store) {
       // We don't want our id to change type if it can be coerced
 
@@ -73,35 +80,26 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
       return Promise.resolve(store[id])
         .then(_select(params, this.id));
     }
-
-    return Promise.reject(
-      new errors.NotFound(`No record found for id '${id}'`)
-    );
+    return this.throwNotFound(id)
   }
 
-  protected patchImplementation (store: any, id: Id, data: any, params?: Params): any {
+  public patchImplementation (store: any, id: Id, data: any, params?: Params): any {
     if (id in store) {
       _.extend(store[id], _.omit(data, this.id));
 
       return Promise.resolve(store[id])
         .then(_select(params, this.id));
     }
-
-    return Promise.reject(
-      new errors.NotFound(`No record found for id '${id}'`)
-    );
+    return this.throwNotFound(id)
   }
 
-  protected removeImplementation(store: any, id: Id, params?: Params): any {
+  public removeImplementation(store: any, id: Id, params?: Params): any {
     if (id in store) {
       return this.removeFromStore(store, id, params)
     }
-
-    return Promise.reject(
-      new errors.NotFound(`No record found for id '${id}'`)
-    );
+    return this.throwNotFound(id)
   }
-  protected removeFromStore(store: any, id: Id, params?: Params): any {
+  public removeFromStore(store: any, id: Id, params?: Params): any {
     const deleted = store[id]
     delete store[id]
     return Promise.resolve(deleted)
@@ -110,10 +108,10 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
   public processParams (params?: any, getFilter = filterQuery): any {
     return getFilter(params)
   }
-  protected formatListValues (values: any): any {
+  public formatListValues (values: any): any {
     return values
   }
-  protected filterListValues (query: any, filters: any, values: any): any {
+  public filterListValues (query: any, filters: any, values: any): any {
     if (this._matcher) {
       values = values.filter(this._matcher(query));
     }
@@ -170,15 +168,13 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
   public async get (id: Id, params?: Params): Promise<any> {
     const results = this.getImplementation(this.store, id, params)
     if (!results) {
-      return Promise.reject(
-        new errors.NotFound(`No record found for id '${id}'`)
-      )
+      return this.throwNotFound(id)
     }
     return results
   }
 
   // Create without hooks and mixins that can be used internally
-  protected async _create (data: any, params?: Params): Promise<any> {
+  public async _create (data: any, params?: Params): Promise<any> {
     return this.createImplementation(this.store, data, params)
   }
 
@@ -191,22 +187,19 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
   }
 
   // Update without hooks and mixins that can be used internally
-  protected async _update (id: Id, data: any, params: Params | undefined): Promise<any> {
+  public async _update (id: Id, data: any, params: Params | undefined): Promise<any> {
     return this.updateImplementation(this.store, id, data, params)
   }
 
   public async update (id: Id, data: any, params?: Params): Promise<any> {
     if (id === null || Array.isArray(data)) {
-      return Promise.reject(new errors.BadRequest(
-        `You can not replace multiple instances. Did you mean 'patch'?`
-      ));
+      throw new BadRequest(`You can not replace multiple instances. Did you mean 'patch'?`)
     }
-
     return this._update(id, data, params);
   }
 
   // Patch without hooks and mixins that can be used internally
-  protected async _patch (id: Id, data: any, params?: Params): Promise<any> {
+  public async _patch (id: Id, data: any, params?: Params): Promise<any> {
     return this.patchImplementation(this.store, id, data, params)
   }
 
@@ -223,7 +216,7 @@ export class Service implements Partial<ServiceMethods<any>>, SetupMethod {
   }
 
   // Remove without hooks and mixins that can be used internally
-  protected async _remove (id: Id, params?: Params): Promise<any> {
+  public async _remove (id: Id, params?: Params): Promise<any> {
     return this.removeImplementation(this.store, id, params)
   }
 

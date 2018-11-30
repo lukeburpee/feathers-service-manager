@@ -5,6 +5,7 @@ declare module 'assert'
 
 interface ServiceOptions {
   id?: any;
+  idField?: any;
   events?: any;
   client?: any;
   connectionId?: any;
