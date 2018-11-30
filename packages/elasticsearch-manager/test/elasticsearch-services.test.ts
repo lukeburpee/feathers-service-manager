@@ -38,7 +38,7 @@ describe('@feathers-service-manager/elasticsearch-manager', () => {
 			describe('healthCheck', () => {
 				it(`returns the results of the elasticsearch server health check`, () => {
 					return rawService.healthCheck().then((status: any) => {
-						expect(status).to.equal('ok')
+						expect(status).to.equal(true)
 					})
 				})
 			})
