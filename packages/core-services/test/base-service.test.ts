@@ -45,9 +45,8 @@ describe('feathers-service-manager:base-service', () => {
 		})
 	})
 	describe('Requiring', () => {
-		const lib = require('../src/base-service')
 		it('exposes the Service Constructor', () => {
-			expect(typeof ServiceClass).to.equal('function')
+			expect(typeof require('../src/base-service')).to.equal('function')
 		})
 	})
 
