@@ -12,6 +12,7 @@ const debug = require('debug')('feathers-service-manager:json-service:test')
 
 describe('feathers-service-manager:json-service', () => {
 	const options = {
+		id: 'id',
 		events: ['testing']
 	}
 
