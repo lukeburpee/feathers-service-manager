@@ -30,7 +30,7 @@ describe('feathers-docker-manager', () => {
 	}
 	const app = feathers()
 	describe('Base Service', () => {
-		const rawService = new Service(serviceOptions)
+		const rawService = new ServiceClass(serviceOptions)
 		rawService.setup(app, '/docker-service')
 		describe('Connection Methods', () => {
 			describe('getConnectionType', () => {
