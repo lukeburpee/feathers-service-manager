@@ -2,6 +2,7 @@ declare module 'uberproto'
 declare module 'feathers-memory'
 declare module 'feathers-service-tests'
 declare module 'assert'
+declare module 'selfsigned'
 
 interface ServiceOptions {
   id?: any;
