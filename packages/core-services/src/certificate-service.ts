@@ -1,4 +1,4 @@
-import { Id } from '@feathersjs/feathers'
+import { Id, Params } from '@feathersjs/feathers'
 import { NotFound } from '@feathersjs/errors'
 import { ServiceClass as BaseServiceClass } from './base-service'
 
