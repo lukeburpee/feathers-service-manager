@@ -19,7 +19,7 @@ describe('feathers-service-manager:certificate-service', () => {
 	
 	app.use('certificates', CertificateService(options))
 
-	describe('Common Service Tests', () => {
-		base(app, errors, 'certificates')
-	})
+	//describe('Common Service Tests', () => {
+	//	base(app, errors, 'certificates')
+	//})
 })
