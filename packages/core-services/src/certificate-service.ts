@@ -18,24 +18,8 @@ export class ServiceClass extends BaseServiceClass {
 		this.defaultSettings = { days: 365 }
 
 	}
-	private generateCertificate (data: any): any {
-		if (data.attributes) {
-			if (data.settings) {
-				generate(data.attributes, data.settings, (err: any, pems: any) => {
-					if (err) {
-						return Promise.reject(err)
-					}
-					return Promise.resolve(pems)
-				})
-			}
-			generate(data.attributes, this.defaultSettings, (err: any, pems: any) => {
-				if (err) {
-					return Promise.reject(err)
-				}
-				return Promise.resolve(pems)
-			})
-		}
-		generate(null, this.defaultSettings, (err: any, pems: any) => {
+	public generateCertificate (data: any): any {
+		generate(data.attributes || null, data.settings || this.defaultSettings, (err: any, pems: any) => {
 			if (err) {
 				return Promise.reject(err)
 			}
