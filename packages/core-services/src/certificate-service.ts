@@ -1,5 +1,7 @@
 import { Id, Params } from '@feathersjs/feathers'
 import { NotFound } from '@feathersjs/errors'
+import { filterQuery, sorter, _ } from '@feathersjs/commons'
+import { _select } from '@feathers-service-manager/utils'
 import { ServiceClass as BaseServiceClass } from './base-service'
 
 export default function init (options: ServiceOptions) {
