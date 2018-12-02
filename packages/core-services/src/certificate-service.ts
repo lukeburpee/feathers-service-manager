@@ -15,26 +15,27 @@ export class ServiceClass extends BaseServiceClass {
 
 	constructor (options: ServiceOptions) {
 		super(options)
+		this.defaultSettings = { days: 365 }
 
 	}
 	private generateCertificate (data: any): any {
 		if (data.attributes) {
 			if (data.settings) {
-				generate(data.attributes, data.settings, (err, pems) => {
+				generate(data.attributes, data.settings, (err: any, pems: any) => {
 					if (err) {
 						return Promise.reject(err)
 					}
 					return Promise.resolve(pems)
 				})
 			}
-			generate(data.attributes, this.defaultSettings, (err, pems) => {
+			generate(data.attributes, this.defaultSettings, (err: any, pems: any) => {
 				if (err) {
 					return Promise.reject(err)
 				}
 				return Promise.resolve(pems)
 			})
 		}
-		generate(null, this.defaultSettings, (err, pems) => {
+		generate(null, this.defaultSettings, (err: any, pems: any) => {
 			if (err) {
 				return Promise.reject(err)
 			}
@@ -44,7 +45,7 @@ export class ServiceClass extends BaseServiceClass {
 	public createImplementation (store: any, data: any, params?: Params): any {
 		let id = data[this.id] || this.generateId();
 		this.generateCertificate(data)
-			.then((pems) => {
+			.then((pems: any) => {
 				const current = _.extend({}, pems, { [this.id]: id });
 				return Promise.resolve((store[id] = current))
 					.then(_select(params, this.id));
