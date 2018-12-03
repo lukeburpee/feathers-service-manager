@@ -22,7 +22,7 @@ export class ServiceClass extends BaseServiceClass {
 		const attributes = data.attributes ? data.attributes : null
 		const settings = data.settings ? data.settings : this.defaultSettings
 		return new Promise((resolve, reject) => {
-			generate(attributes, settings, (err: any, pems: any) => {
+			return generate(attributes, settings, (err: any, pems: any) => {
 				if (err) {
 					return reject(err)
 				}
