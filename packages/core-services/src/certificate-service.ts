@@ -19,11 +19,13 @@ export class ServiceClass extends BaseServiceClass {
 
 	}
 	public generateCertificate (data: any): any {
-		generate(data.attributes || null, data.settings || this.defaultSettings, (err: any, pems: any) => {
-			if (err) {
-				return Promise.reject(err)
-			}
-			return Promise.resolve(pems)
+		return new Promise((resolve, reject) => {
+			generate(data.attributes || null, data.settings || this.defaultSettings, (err: any, pems: any) => {
+				if (err) {
+					reject(err)
+				}
+				resolve(pems)
+			})
 		})
 	}
 	public createImplementation (store: any, data: any, params?: Params): any {

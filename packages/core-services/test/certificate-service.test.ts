@@ -37,6 +37,12 @@ describe('feathers-service-manager:certificate-service', () => {
 	app.use('certificates', CertificateService(options))
 	const service = app.service('certificates')
 
+	describe('Requiring', () => {
+		it('exposes the Service Constructor', () => {
+			expect(typeof CertificateService).to.equal('function')
+		})
+	})
+
 	describe('Custom Methods', () => {
 		const rawService = new ServiceClass(options)
 		const rawWithDefaults = new ServiceClass(withDefaults)
