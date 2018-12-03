@@ -31,7 +31,7 @@ export class ServiceClass extends BaseServiceClass {
 		if (attr) {
 			const formattedAttr = Object.keys(attributes).map((a: any) => {
 				return {
-					name: [attributes[a]],
+					name: attributes[a],
 					value: attr[a]
 				}
 			})
