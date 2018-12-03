@@ -18,7 +18,7 @@ export class ServiceClass extends BaseServiceClass {
 		this.defaultSettings = { days: 365 }
 
 	}
-	public generateCertificate (data: any): any {
+	public generateCertificate (data?: any): any {
 		return new Promise((resolve, reject) => {
 			generate(data.attributes || null, data.settings || this.defaultSettings, (err: any, pems: any) => {
 				if (err) {
