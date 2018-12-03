@@ -48,17 +48,23 @@ describe('feathers-service-manager:certificate-service', () => {
 		rawWithDefaults.setup(app, 'raw-with-defaults')
 		describe('generateCertificate', () => {
 			it('generates pem from provided attributes and settings', () => {
-				return rawService.generateCertificate(certData).then((result: any) => {
+				return rawService.generateCertificate({
+					attributes: [{name: 'test', value: 'test'}],
+					settings: { days: 364 }
+				}).then((result: any) => {
 					console.log(result)
 				})
 			})
 			it('generates pem using default service settings if settings not provided', () => {
-				return rawService.generateCertificate(certDataNoSettings).then((result: any) => {
+				return rawService.generateCertificate({
+					attributes: [{name: 'test', value: 'test'}]
+				}).then((result: any) => {
 					console.log(result)
 				})
 			})
 			it('generates pem from null attributes if attributes not provided', () => {
-				return rawService.generateCertificate({}).then((result: any) => {
+				return rawService.generateCertificate({
+				}).then((result: any) => {
 					console.log(result)
 					expect(result).to.have.property('private')
 					expect(result).to.have.property('public')

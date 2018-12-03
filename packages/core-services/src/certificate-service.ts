@@ -19,10 +19,9 @@ export class ServiceClass extends BaseServiceClass {
 
 	}
 	public async generateCertificate (data?: any): Promise<any> {
+		const attributes = data.attributes ? data.attributes : null
+		const settings = data.settings ? data.settings : this.defaultSettings
 		return new Promise((resolve, reject) => {
-			let attributes = data.attributes || null
-			let settings = data.settings || this.defaultSettings
-
 			generate(attributes, settings, (err: any, pems: any) => {
 				if (err) {
 					return reject(err)
