@@ -21,17 +21,15 @@ describe('feathers-service-manager:certificate-service', () => {
 		events: ['testing']
 	}
 
-	const certAttr = [{name: 'test', value: 'test'}]
-
 	const certSettings = { days: 364 }
 
 	const certData = {
-		attributes: certAttr,
-		settings: certSettings
+		attributes: [{name: 'test', value: 'test'}],
+		settings: { days: 364 }
 	}
 
 	const certDataNoSettings = {
-		attributes: certAttr
+		attributes: [{name: 'test', value: 'test'}]
 	}
 
 	app.use('certificates', CertificateService(options))
@@ -55,6 +53,7 @@ describe('feathers-service-manager:certificate-service', () => {
 					expect(result).to.have.property('public')
 					expect(result).to.have.property('cert')
 				})
+				.catch((error: any) => console.log(error))
 			})
 			it('generates pem using default service settings if settings not provided', () => {
 				return rawService.generateCertificate(certDataNoSettings).then((result: any) => {
@@ -62,6 +61,7 @@ describe('feathers-service-manager:certificate-service', () => {
 					expect(result).to.have.property('public')
 					expect(result).to.have.property('cert')
 				})
+				.catch((error: any) => console.log(error))
 			})
 			it('generates pem from null attributes if attributes not provided', () => {
 				return rawService.generateCertificate({}).then((result: any) => {
@@ -69,6 +69,7 @@ describe('feathers-service-manager:certificate-service', () => {
 					expect(result).to.have.property('public')
 					expect(result).to.have.property('cert')
 				})
+				.catch((error: any) => console.log(error))
 			})
 		})
 	})
