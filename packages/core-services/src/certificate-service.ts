@@ -20,23 +20,28 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public formatAttributes (attr?: any): any {
-		const attributes: any = {
-			name: 'commonName',
-			country: 'countryName',
-			locality: 'localityName',
-			state: 'stateOrProviceName',
-			organization: 'organizationName',
-			orgUnit: 'organizationalUnitName'
-		}
 		if (attr) {
-			const formattedAttr = Object.keys(attributes).map((a: any) => {
-				return {
-					name: attributes[a],
-					value: attr[a] || null
+			const attributes: any = {
+				name: 'commonName',
+				country: 'countryName',
+				locality: 'localityName',
+				state: 'stateOrProviceName',
+				organization: 'organizationName',
+				orgUnit: 'organizationalUnitName'
+			}
+			const formatterKeys = Object.keys(attributes)
+			const validationKeys = Object.keys(attr)
+			const output = validationKeys.map((key: any) => {
+				if(formatterKeys.includes(key)) {
+					return {
+						name: attributes[key],
+						value: attr[key]
+					}
 				}
+				throw new Error(`Invalid certificate attribute: ${key}`)
 			})
-			console.log(formattedAttr)
-			return formattedAttr
+			console.log(output)
+			return output
 		}
 		return null
 	}
