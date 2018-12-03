@@ -22,9 +22,9 @@ export class ServiceClass extends BaseServiceClass {
 		return new Promise((resolve, reject) => {
 			generate(data.attributes || null, data.settings || this.defaultSettings, (err: any, pems: any) => {
 				if (err) {
-					reject(err)
+					return reject(err)
 				}
-				resolve(pems)
+				return resolve(pems)
 			})
 		})
 	}
