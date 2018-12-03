@@ -41,7 +41,6 @@ describe('feathers-service-manager:certificate-service', () => {
 					attributes: { name: 'test' },
 					settings: { days: 364 }
 				}).then((result: any) => {
-					console.log(result)
 					expect(result).to.have.property('private')
 					expect(result).to.have.property('public')
 					expect(result).to.have.property('cert')
@@ -51,7 +50,6 @@ describe('feathers-service-manager:certificate-service', () => {
 				return rawService.generateCertificate({
 					attributes: { name: 'test' }
 				}).then((result: any) => {
-					console.log(result)
 					expect(result).to.have.property('private')
 					expect(result).to.have.property('public')
 					expect(result).to.have.property('cert')
@@ -60,10 +58,16 @@ describe('feathers-service-manager:certificate-service', () => {
 			it('generates pem from null attributes if attributes not provided', () => {
 				return rawService.generateCertificate({
 				}).then((result: any) => {
-					console.log(result)
 					expect(result).to.have.property('private')
 					expect(result).to.have.property('public')
 					expect(result).to.have.property('cert')
+				})
+			})
+			describe('Invalid Pem Certificate Attributes', () => {
+				it ('throws an error', () => {
+					expect(rawService.generateCertificate({
+						attributes: { test: 'test' }
+					})).to.throw('certificate-service error: Invalid certificate attribute test')
 				})
 			})
 		})

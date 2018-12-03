@@ -19,7 +19,7 @@ export class ServiceClass extends BaseServiceClass {
 
 	}
 
-	public formatAttributes (attr?: any): any {
+	public validateCertAttributes (attr?: any): any {
 		if (attr) {
 			const attributes: any = {
 				name: 'commonName',
@@ -38,9 +38,8 @@ export class ServiceClass extends BaseServiceClass {
 						value: attr[key]
 					}
 				}
-				throw new Error(`Invalid certificate attribute: ${key}`)
+				throw new Error(`certificate-service error: Invalid certificate attribute ${key}`)
 			})
-			console.log(output)
 			return output
 		}
 		return null
@@ -48,7 +47,7 @@ export class ServiceClass extends BaseServiceClass {
 
 	public async generateCertificate (data?: any): Promise<any> {
 		return new Promise((resolve, reject) => {
-			return generate(this.formatAttributes(data.attributes), data.settings || this.defaultSettings, (err: any, pems: any) => {
+			return generate(this.validateCertAttributes(data.attributes), data.settings || this.defaultSettings, (err: any, pems: any) => {
 				if (err) {
 					return reject(err)
 				}
