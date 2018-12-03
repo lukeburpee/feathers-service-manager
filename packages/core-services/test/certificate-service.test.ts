@@ -75,6 +75,26 @@ describe('feathers-service-manager:certificate-service', () => {
 			})
 		})
 	})
+	describe('Base Service Methods', () => {
+		let store = {}
+		const rawService = new ServiceClass(options)
+		rawService.setup(app, 'raw-service')
+		describe('createImplementation', () => {
+			it(`generates pem, stores pem in provided storage, and returns the generated pem`, () => {
+				return rawService.createImplementation(store, {
+					attributes: {
+						name: 'test'
+					}
+				}).then((result: any) => {
+					expect(result).to.have.property('id')
+					expect(result).to.have.property('private')
+					expect(result).to.have.property('public')
+					expect(result).to.have.property('cert')
+					console.log(store)
+				})
+			})
+		})
+	})
 	//describe('Common Service Tests', () => {
 	//	base(app, errors, 'certificates')
 	//})
