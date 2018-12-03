@@ -65,7 +65,7 @@ describe('feathers-service-manager:certificate-service', () => {
 			})
 			describe('Invalid Pem Certificate Attributes', () => {
 				it ('throws an error', () => {
-					rawService.generateCertificate({
+					return rawService.generateCertificate({
 						attributes: { test: 'test' }
 					})
 					.catch((error: any) => {
