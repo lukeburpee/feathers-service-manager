@@ -5,15 +5,6 @@ import { _select } from '@feathers-service-manager/utils'
 import { ServiceClass as BaseServiceClass } from './base-service'
 import { generate } from 'selfsigned'
 
-const attributes = {
-	name: 'commonName',
-	country: 'countryName',
-	locality: 'localityName',
-	state: 'stateOrProviceName',
-	organization: 'organizationName',
-	orgUnit: 'organizationalUnitName'
-}
-
 export default function init (options: ServiceOptions) {
   return new ServiceClass(options)
 }
@@ -38,12 +29,14 @@ export class ServiceClass extends BaseServiceClass {
 			orgUnit: 'organizationalUnitName'
 		}
 		if (attr) {
-			return Object.keys(attributes).map((a: any) => {
+			const formattedAttr = Object.keys(attributes).map((a: any) => {
 				return {
 					name: [attributes[a]],
 					value: attr[a]
 				}
 			})
+			console.log(formattedAttr)
+			return formattedAttr
 		}
 		return null
 	}
