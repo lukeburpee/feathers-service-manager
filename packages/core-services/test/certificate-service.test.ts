@@ -49,27 +49,21 @@ describe('feathers-service-manager:certificate-service', () => {
 		describe('generateCertificate', () => {
 			it('generates pem from provided attributes and settings', () => {
 				return rawService.generateCertificate(certData).then((result: any) => {
-					expect(result).to.have.property('private')
-					expect(result).to.have.property('public')
-					expect(result).to.have.property('cert')
+					console.log(result)
 				})
-				.catch((error: any) => console.log(error))
 			})
 			it('generates pem using default service settings if settings not provided', () => {
 				return rawService.generateCertificate(certDataNoSettings).then((result: any) => {
-					expect(result).to.have.property('private')
-					expect(result).to.have.property('public')
-					expect(result).to.have.property('cert')
+					console.log(result)
 				})
-				.catch((error: any) => console.log(error))
 			})
 			it('generates pem from null attributes if attributes not provided', () => {
 				return rawService.generateCertificate({}).then((result: any) => {
+					console.log(result)
 					expect(result).to.have.property('private')
 					expect(result).to.have.property('public')
 					expect(result).to.have.property('cert')
 				})
-				.catch((error: any) => console.log(error))
 			})
 		})
 	})
