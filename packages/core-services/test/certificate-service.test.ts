@@ -21,17 +21,6 @@ describe('feathers-service-manager:certificate-service', () => {
 		events: ['testing']
 	}
 
-	const certSettings = { days: 364 }
-
-	const certData = {
-		attributes: [{name: 'test', value: 'test'}],
-		settings: { days: 364 }
-	}
-
-	const certDataNoSettings = {
-		attributes: [{name: 'test', value: 'test'}]
-	}
-
 	app.use('certificates', CertificateService(options))
 	const service = app.service('certificates')
 
@@ -49,17 +38,23 @@ describe('feathers-service-manager:certificate-service', () => {
 		describe('generateCertificate', () => {
 			it('generates pem from provided attributes and settings', () => {
 				return rawService.generateCertificate({
-					attributes: [{name: 'test', value: 'test'}],
+					attributes: { name: 'test' },
 					settings: { days: 364 }
 				}).then((result: any) => {
 					console.log(result)
+					expect(result).to.have.property('private')
+					expect(result).to.have.property('public')
+					expect(result).to.have.property('cert')
 				})
 			})
 			it('generates pem using default service settings if settings not provided', () => {
 				return rawService.generateCertificate({
-					attributes: [{name: 'test', value: 'test'}]
+					attributes: { name: 'test' }
 				}).then((result: any) => {
 					console.log(result)
+					expect(result).to.have.property('private')
+					expect(result).to.have.property('public')
+					expect(result).to.have.property('cert')
 				})
 			})
 			it('generates pem from null attributes if attributes not provided', () => {

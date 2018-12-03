@@ -5,6 +5,15 @@ import { _select } from '@feathers-service-manager/utils'
 import { ServiceClass as BaseServiceClass } from './base-service'
 import { generate } from 'selfsigned'
 
+const attributes = {
+	name: 'commonName',
+	country: 'countryName',
+	locality: 'localityName',
+	state: 'stateOrProviceName',
+	organization: 'organizationName',
+	orgUnit: 'organizationalUnitName'
+}
+
 export default function init (options: ServiceOptions) {
   return new ServiceClass(options)
 }
@@ -18,11 +27,30 @@ export class ServiceClass extends BaseServiceClass {
 		this.defaultSettings = { days: 365 }
 
 	}
+
+	public formatAttributes (attr?: any): any {
+		const attributes: any = {
+			name: 'commonName',
+			country: 'countryName',
+			locality: 'localityName',
+			state: 'stateOrProviceName',
+			organization: 'organizationName',
+			orgUnit: 'organizationalUnitName'
+		}
+		if (attr) {
+			return Object.keys(attributes).map((a: any) => {
+				return {
+					name: [attributes[a]],
+					value: attr[a]
+				}
+			})
+		}
+		return null
+	}
+
 	public async generateCertificate (data?: any): Promise<any> {
-		const attributes = data.attributes ? data.attributes : null
-		const settings = data.settings ? data.settings : this.defaultSettings
 		return new Promise((resolve, reject) => {
-			return generate(attributes, settings, (err: any, pems: any) => {
+			return generate(this.formatAttributes(data.attributes), data.settings || this.defaultSettings, (err: any, pems: any) => {
 				if (err) {
 					return reject(err)
 				}
