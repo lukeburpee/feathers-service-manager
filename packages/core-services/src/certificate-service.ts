@@ -47,7 +47,7 @@ export class ServiceClass extends BaseServiceClass {
 
 	public async generateCertificate (data?: any): Promise<any> {
 		return new Promise((resolve, reject) => {
-			return generate(this.validateCertAttributes(data.attributes), data.settings || this.defaultSettings, (err: any, pems: any) => {
+			return generate (this.validateCertAttributes(data.attributes), data.settings || this.defaultSettings, (err: any, pems: any) => {
 				if (err) {
 					return reject(err)
 				}
@@ -55,9 +55,9 @@ export class ServiceClass extends BaseServiceClass {
 			})
 		})
 	}
-	public createImplementation (store: any, data: any, params?: Params): any {
+	public createImplementation (store: any, data: any, params?: Params): Promise<any> {
 		let id = data[this.id] || this.generateId();
-		this.generateCertificate(data)
+		return this.generateCertificate(data)
 			.then((pems: any) => {
 				const current = _.extend({}, pems, { [this.id]: id });
 				return Promise.resolve((store[id] = current))
