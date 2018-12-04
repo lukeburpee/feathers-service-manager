@@ -90,8 +90,7 @@ export class ServiceClass extends BaseServiceClass {
 			}
 			const storedData = store[id]
 			if (data.regenerate) {
-				console.log(storedData)
-				return this.createImplementation({
+				return this.createImplementation(store, {
 					[this.id]: id,
 					attributes: storedData.attributes,
 					settings: storedData.settings
