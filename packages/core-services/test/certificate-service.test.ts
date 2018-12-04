@@ -106,7 +106,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			it('supports $select', () => {
-				return certificates.get(getId, { $select: ['cert'] }).then((result: any) => {
+				return certificates.get(getId, { query: {$select: ['cert'] }}).then((result: any) => {
 					expect(result).to.have.property('id')
 					expect(result).to.have.property('cert')
 					expect(result).to.not.have.property('private')
