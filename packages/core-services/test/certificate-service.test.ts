@@ -75,41 +75,86 @@ describe('feathers-service-manager:certificate-service', () => {
 			})
 		})
 	})
-	describe('Base Service Methods', () => {
-		let store = {}
-		const rawService = new ServiceClass(options)
-		rawService.setup(app, 'raw-service')
-		describe('createImplementation', () => {
-			it(`generates pem, stores pem in provided storage, and returns the generated pem`, () => {
-				return rawService.createImplementation(store, {
-					attributes: {
-						name: 'test'
-					}
-				}).then((result: any) => {
-					expect(result).to.have.property('id', store[result.id].id)
-					expect(result).to.have.property('private', store[result.id].private)
-					expect(result).to.have.property('public', store[result.id].public)
-					expect(result).to.have.property('cert', store[result.id].cert)
-				})
-			})
-		})
-	})
+	//describe('Base Service Methods', () => {
+	//	let store = {}
+	//	const rawService = new ServiceClass(options)
+	//	rawService.setup(app, 'raw-service')
+	//	describe('createImplementation', () => {
+	//		it(`generates pem, stores pem in provided storage, and returns the generated pem`, () => {
+	//			return rawService.createImplementation(store, {
+	//				attributes: {
+	//					name: 'test'
+	//				}
+	//			}).then((result: any) => {
+	//				expect(result).to.have.property('id', store[result.id].id)
+	//				expect(result).to.have.property('private', store[result.id].private)
+	//				expect(result).to.have.property('public', store[result.id].public)
+	//				expect(result).to.have.property('cert', store[result.id].cert)
+	//			})
+	//		})
+	//	})
+	//})
 	describe('Standard Service Methods', () => {
 		const commonApp = feathers()
 		commonApp.use('certificates', CertificateService(options))
 		const certificates = commonApp.service('certificates')
 
 		describe('create', () => {
-			it(`creates and returns pem certificate`, () => {
+			it(`creates and returns pem certificate with provided attributes and settings`, () => {
 				return certificates.create({
 					attributes: {
 						name: 'test'
+					},
+					settings: {
+						days: 364
 					}
 				}).then((result: any) => {
 					expect(result).to.have.property('id')
 					expect(result).to.have.property('private')
 					expect(result).to.have.property('public')
 					expect(result).to.have.property('cert')
+				})
+			})
+			describe('missing attributes', () => {
+				it('creates a certificate with null attributes', () => {
+					return certificates.create({
+						settings: {
+							days: 364
+						}
+					}).then((result: any) => {
+						expect(result).to.have.property('id')
+						expect(result).to.have.property('private')
+						expect(result).to.have.property('public')
+						expect(result).to.have.property('cert')
+					})
+				})
+			})
+			describe('missing settings', () => {
+				it('creates a certificate with null settings', () => {
+					return certificates.create({
+						attributes: {
+							name: 'test'
+						}
+					}).then((result: any) => {
+						expect(result).to.have.property('id')
+						expect(result).to.have.property('private')
+						expect(result).to.have.property('public')
+						expect(result).to.have.property('cert')
+					})
+				})
+			})
+			describe('invalid attributes', () => {
+				it('throws an error', () => {
+					return certificates.create({
+						attributes: {
+							test: 'test'
+						},
+						settings: {
+							days: 364
+						}
+					}).catch((error: any) => {
+						expect(error.message).to.equal('certificate-service error: Invalid certificate attribute test')
+					})
 				})
 			})
 		})
