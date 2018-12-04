@@ -23,14 +23,15 @@ export class ServiceClass extends BaseServiceClass {
 		this.client = options.client
 		this.connectionId = options.connectionId || this.generateId()
 		this.defaultOptions = options.defaultOptions || {}
-		this.connect(options)
+		this.connectionServiceCheck().then(() => {
+			this.connect(options)
+		})
 		debug('connection-service initialized')
 	}
 
 	public setup (app: any, path: string): any {
 		this.app = app
 		this.path = path
-		this.connectionServiceCheck(app)
 	}
 
 	public connect (options?: any): any {
@@ -103,16 +104,18 @@ export class ServiceClass extends BaseServiceClass {
 			return results
 		})
 	}
-	private connectionServiceCheck (app: any): any {
-		if (typeof app.service('connection') === 'undefined') {
-			debug(`no connection service found on provided application.
-				${this.getConnectionType()} service will create connection service.`
-			)
-			app.use('connections', BaseService({id: 'id'}))
-			this.connections = app.service('connections')
-			return this.connections
-		}
-		this.connections = app.service('connections')
-		return this.connections
+	private connectionServiceCheck (): any {
+		return new Promise(resolve => {
+			if (typeof this.app.service('connection') === 'undefined') {
+				debug(`no connection service found on provided application.
+					${this.getConnectionType()} service will create connection service.`
+				)
+				this.app.use('connections', BaseService({id: 'id'}))
+				this.connections = this.app.service('connections')
+				return resolve()
+			}
+			this.connections = this.app.service('connections')
+			return resolve()
+		})
 	}
 }
