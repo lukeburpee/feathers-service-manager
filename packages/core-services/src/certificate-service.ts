@@ -55,6 +55,16 @@ export class ServiceClass extends BaseServiceClass {
 			})
 		})
 	}
+
+	public throwPemChangeError (id: any): any {
+		throw new Error(
+		`certificate-service update error: certificate ${id} pem cannot be changed directly.
+		To regenerate pems with new attributes and settings, use [service].update(id, { attributes, settings }).
+		To regenerate pems with patched attributes or settings use [service].patch(id, { attributes, settings }).
+		To regenerate using current attributes and settings, use [service].patch(id, { regenerate: true}).`
+		)
+	}
+
 	public createImplementation (store: any, data: any, params?: Params): Promise<any> {
 		let id = data[this.id] || this.generateId();
 		return this.generateCertificate(data)
@@ -66,5 +76,34 @@ export class ServiceClass extends BaseServiceClass {
 				return Promise.resolve((store[id] = current))
 					.then(_select(params, this.id));
 			})
+	}
+
+	public updateImplementation (store: any, id: Id, data: any, params?: Params): any {
+		if (id in store) {
+			if (data.private || data.public || data.cert) {
+				this.throwPemChangeError(id)
+			}
+			const updateData = _.extend({}, data, { [this.id]: id });
+			return this.createImplementation(store, updateData, params)
+		}
+		return this.throwNotFound(id)
+	}
+	public patchImplementation (store: any, id: Id, data: any, params?: Params): any {
+		if (id in store) {
+			if (data.private || data.public || data.cert) {
+				this.throwPemChangeError(id)
+			}
+			const storedData = store[id]
+			if (data.regenerate) {
+				return this.createImplementation({
+					id: id,
+					attributes: storedData.attributes,
+					settings: storedData.settings
+				}, params)
+			}
+			const updateData = _.extend({}, storedData, _.omit(data, this.id))
+			return this.createImplementation(store, updateData, params)
+		}
+		return this.throwNotFound(id)
 	}
 }
