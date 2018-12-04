@@ -36,6 +36,7 @@
     "coveralls": "^3.0.2",
     "feathers-service-tests": "^0.10.2",
     "lerna": "^3.4.3",
+    "lerna-changelog": "^0.8.2",
     "nyc": "^13.1.0",
     "rimraf": "^2.6.2",
     "source-map-support": "^0.5.9",
