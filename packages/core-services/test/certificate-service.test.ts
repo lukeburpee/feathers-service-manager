@@ -146,7 +146,7 @@ describe('feathers-service-manager:certificate-service', () => {
 					regenerate: true
 				}).then((result: any) => {
 					expect(result.id).to.equal(current.id)
-					expect(result.attributes).to.equal(current.attributes)
+					expect(result.attributes.name).to.equal(current.attributes.name)
 					expect(result.settings).to.equal(current.settings)
 					expect(result.private).to.not.equal(current.private)
 					expect(result.public).to.not.equal(current.public)
