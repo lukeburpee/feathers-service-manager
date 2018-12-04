@@ -89,12 +89,10 @@ export class ServiceClass extends BaseServiceClass {
 			if (data.private || data.public || data.cert) {
 				this.throwPemChangeError(id)
 			}
-			let patchData: any = {}
 			if (data.regenerate) {
-				patchData = _.extend({}, store[id])
 				return this.createImplementation(store, store[id], params)
 			}
-			patchData = _.extend({}, store[id], _.omit(data, this.id))
+			const patchData = _.extend({}, store[id], _.omit(data, this.id))
 			return this.createImplementation(store, patchData, params)
 		}
 		return this.throwNotFound(id)
