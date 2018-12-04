@@ -168,7 +168,7 @@ describe('feathers-service-manager:certificate-service', () => {
 			describe('id not found in store', () => {
 				it('throws an error', () => {
 					const errorId = uuid()
-					return certificates.update(errorId, {
+					return certificates.patch(errorId, {
 						attribuutes: {
 							name: 'name'
 						}
