@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import feathers from '@feathersjs/feathers';
 import { v4 as uuid } from 'uuid'
-import * as Debug from 'debug'
+import { default as Debug } from 'debug'
 import { ServiceClass } from '../src/ipfs-base-service'
 
 const debug = Debug('feathers-ipfs-manager:test')

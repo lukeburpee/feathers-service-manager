@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import feathers from '@feathersjs/feathers';
 import { v4 as uuid } from 'uuid'
-import * as Debug from 'debug'
+import { default as Debug } from 'debug'
 
 import { default as ConnectionService, ServiceClass } from '../src/connection-service'
 

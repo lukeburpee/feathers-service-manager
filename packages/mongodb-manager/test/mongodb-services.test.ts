@@ -6,20 +6,20 @@ import { base } from 'feathers-service-tests';
 import { connect } from 'mongodb';
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
-
+import { default as Debug } from 'debug'
 import MongoService, { Service } from '../src/mongodb-base-service'
 import MDBService, { Service as DatabaseService } from '../src/mongodb-database-service'
 
-const debug = require('debug')('feathers-mongodb-manager:mongodb:test')
+const debug = Debug('feathers-mongodb-manager:mongodb:test')
 
 describe('feathers-mongodb-manager:mongodb', () => {
-	let conn
+	let conn: any;
 	const app = feathers()
 	const db = {
 		useNewUrlParser: true,
-      	poolSize: 10,
-      	autoReconnect: true,
-      	keepAlive: true
+		poolSize: 10,
+		autoReconnect: true,
+		keepAlive: true
 	}
 
 	const connection = () => {
@@ -27,7 +27,7 @@ describe('feathers-mongodb-manager:mongodb', () => {
 			conn = connection
 			return connection
 		}).catch(error => {
-			console.log(`error connecting to mongodb: ${error.message}`)
+			debug(`error connecting to mongodb: ${error.message}`)
 		});
 	}
 

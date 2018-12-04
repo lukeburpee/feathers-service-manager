@@ -6,7 +6,7 @@ import { base } from 'feathers-service-tests';
 import Docker from 'dockerode/lib/docker'
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
-import * as Debug from 'debug'
+import { default as Debug } from 'debug'
 
 import DockerService, { ServiceClass } from '../src/docker-base-service'
 import DockerSwarmService, { ServiceClass as SwarmService } from '../src/docker-swarm-service'

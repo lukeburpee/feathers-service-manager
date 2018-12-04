@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import feathers from '@feathersjs/feathers';
 import { v4 as uuid } from 'uuid'
-import * as Debug from 'debug'
+import { default as Debug } from 'debug'
 
 import { default as CertificateService } from '../src/certificate-service'
 const debug = Debug('feathers-service-manager:core-services:base-service:tests')

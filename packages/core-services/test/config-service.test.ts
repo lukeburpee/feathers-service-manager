@@ -1,5 +1,5 @@
 import feathers from '@feathersjs/feathers'
-import * as Debug from 'debug'
+import { default as Debug } from 'debug'
 
 import ConfigService from '../src/config-service'
 

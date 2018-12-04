@@ -1,13 +1,12 @@
 import { expect } from 'chai';
 import feathers from '@feathersjs/feathers';
 import * as errors from '@feathersjs/errors';
-import configuration from '@feathersjs/configuration';
 import { base } from 'feathers-service-tests';
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 import BaseService, { ServiceClass } from '../src/base-service'
 import * as assert from 'assert'
-import * as Debug from 'debug'
+import { default as Debug } from 'debug'
 
 const debug = Debug('feathers-service-manager:core-services:base-service:tests')
 
