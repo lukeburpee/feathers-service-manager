@@ -1,21 +1,16 @@
-import { assert, expect } from 'chai';
-import feathers, { Service } from '@feathersjs/feathers';
-import * as errors from '@feathersjs/errors';
-import configuration from '@feathersjs/configuration';
-import { base } from 'feathers-service-tests';
-import { _ } from '@feathersjs/commons';
+import { expect } from 'chai';
+import feathers from '@feathersjs/feathers';
 import { v4 as uuid } from 'uuid'
+import * as Debug from 'debug'
 
-import BaseService from '../src/base-service'
-import ConnectionService, { ServiceClass } from '../src/connection-service'
+import { default as ConnectionService, ServiceClass } from '../src/connection-service'
 
-const debug = require('debug')('feathers-service-manager:connection-service:test')
+const debug = Debug('feathers-service-manager:core-services:base-service:tests')
 
 describe('feathers-service-manager:connection-service', () => {
+	debug('connection-service tests starting')
 	const app = feathers()
 	const setupApp = feathers()
-	const setupAppServiceExists = feathers()
-	const existingServiceId = uuid()
 	const missingConnectionId = {
 		client: {},
 		events: ['testing']
@@ -44,7 +39,7 @@ describe('feathers-service-manager:connection-service', () => {
 		describe('setup', () => {
 			describe('internal connection service', () => {
 				describe('connection service does not exist on app at initialization', () => {
-					it('creates a connection service on the application and uses created service as internal connection service', () => {
+					it('creates internal connection service', () => {
 						setupApp.use('conns', ConnectionService(options))
 						const createdService = setupApp.service('connections')
 						expect(createdService).to.not.equal('undefined')
@@ -164,13 +159,13 @@ describe('feathers-service-manager:connection-service', () => {
 
 		describe('removeConnection', () => {
 			it('removes a connection from the connection store and returns the removed connection', (() => {
-				return rawService.removeConnection(options.connectionId).then(result => {
+				return rawService.removeConnection(options.connectionId).then((result: any) => {
 					expect(result.id).to.equal(options.connectionId)
 				})
 			}))
 		})
 	})
-	describe('Common Service Tests', () => {
-		base(app, errors, 'conns')
-	})
+	// describe('Common Service Tests', () => {
+	// base(app, errors, 'conns')
+	// })
 })

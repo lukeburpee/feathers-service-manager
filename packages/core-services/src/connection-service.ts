@@ -14,7 +14,7 @@ export class ServiceClass extends BaseServiceClass {
 	public connectionId!: any;
 	public client!: any;
 	public defaultOptions!: any;
-
+	public options!: any;
 	constructor (options: ServiceOptions) {
 		super(options)
 		if (!options.client && !options.connectionId) {
@@ -34,6 +34,7 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public connect (options?: any): any {
+		this.options = options
 		return this.createConnection(
 			this.connectionId,
 			this.client

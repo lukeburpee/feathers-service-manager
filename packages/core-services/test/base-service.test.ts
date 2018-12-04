@@ -7,10 +7,12 @@ import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 import BaseService, { ServiceClass } from '../src/base-service'
 import * as assert from 'assert'
+import * as Debug from 'debug'
 
-const debug = require('debug')('feathers-service-manager:base-service:test')
+const debug = Debug('feathers-service-manager:core-services:base-service:tests')
 
 describe('feathers-service-manager:base-service', () => {
+	debug('starting base-service tests')
 	const app = feathers()
 	const options = {
 		events: ['testing']
@@ -39,13 +41,12 @@ describe('feathers-service-manager:base-service', () => {
 			expect(attachService).to.have.property('path')
 		})
 		it('sets default paginate', () => {
-			const defaultPaginate = new ServiceClass({events:['testing'], paginate:{ default:5, max:10 }})
+			const defaultPaginate = new ServiceClass({events: ['testing'], paginate: { default: 5, max: 10 }})
 			expect(defaultPaginate.paginate).to.have.property('default', 5)
 			expect(defaultPaginate.paginate).to.have.property('max', 10)
 		})
 	})
 	describe('Requiring', () => {
-		const lib = require('../src/base-service')
 		it('exposes the Service Constructor', () => {
 			expect(typeof ServiceClass).to.equal('function')
 		})
@@ -59,11 +60,11 @@ describe('feathers-service-manager:base-service', () => {
 		const idOne = uuid()
 		const idTwo = uuid()
 		const service = app.service('base')
-		it('throws an error if updating multiple items', () => {
+		it('throws an error if updating multiple items', async () => {
 			return service.create([
-				{id: idOne, name: 'name-one'}, 
+				{id: idOne, name: 'name-one'},
 				{id: idTwo, name: 'name-two'}
-			]).then((result: any) => {
+			]).then(() => {
 				service.update(null, [
 					{id: idOne, name: 'new-name-one'},
 					{id: idTwo, name: 'new-name-two'}
@@ -74,7 +75,7 @@ describe('feathers-service-manager:base-service', () => {
 		})
 	})
 	describe('Custom Methods', () => {
-		const params = {query: {$select:['name']}}
+		const params = {query: {$select: ['name']}}
 		const service = new ServiceClass(options)
 		describe('processParams', () => {
 			it('returns the processed query and filters from params', () => {
@@ -83,7 +84,7 @@ describe('feathers-service-manager:base-service', () => {
 		})
 	})
 	describe('Custom Options', () => {
-		it('allows custom sorter', () => {
+		it('allows custom sorter', async () => {
 			let sorterCalled = false
 			app.use('/sorter', BaseService({
 				sorter () {
@@ -97,9 +98,9 @@ describe('feathers-service-manager:base-service', () => {
 				query: { $sort: { something: 1 } }
 			}).then(() => {
 				assert.ok(sorterCalled, 'sorter called')
-			}).catch(error => console.log(error))
+			}).catch(error => debug(error))
 		})
-		it('allows custom matcher', () => {
+		it('allows custom matcher', async () => {
 			let matcherCalled = false
 			app.use('/matcher', BaseService({
 				matcher () {
@@ -113,7 +114,7 @@ describe('feathers-service-manager:base-service', () => {
 				query: { $sort: { something: 1 } }
 			}).then(() => {
 				assert.ok(matcherCalled, 'matcher called')
-			}).catch(error => console.log(error))
+			}).catch(error => debug(error))
 		})
 	})
 	describe('Common Tests for Extended BaseServiceClass', () => {

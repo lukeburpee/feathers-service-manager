@@ -1,20 +1,17 @@
 import { expect } from 'chai';
 import feathers from '@feathersjs/feathers';
-import * as errors from '@feathersjs/errors';
-import configuration from '@feathersjs/configuration';
-import { base } from 'feathers-service-tests';
-import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
+import * as Debug from 'debug'
 
-import CertificateService, { ServiceClass } from '../src/certificate-service'
-
-const debug = require('debug')('feathers-service-manager:certificate-service:test')
+import { default as CertificateService } from '../src/certificate-service'
+const debug = Debug('feathers-service-manager:core-services:base-service:tests')
 
 describe('feathers-service-manager:certificate-service', () => {
 	const options = {
 		events: ['testing']
 	}
 	describe('Requiring', () => {
+		debug('starting certificate-service require test')
 		it('exposes the Service Constructor', () => {
 			expect(typeof CertificateService).to.equal('function')
 		})
@@ -24,7 +21,7 @@ describe('feathers-service-manager:certificate-service', () => {
 			const commonApp = feathers()
 			commonApp.use('certificates', CertificateService(options))
 			const certificates = commonApp.service('certificates')
-			it(`creates and returns pem certificate with provided attributes and settings`, () => {
+			it(`creates and returns pem certificate with provided attributes and settings`, async () => {
 				return certificates.create({
 					attributes: {
 						name: 'test'
@@ -42,7 +39,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			describe('missing attributes', () => {
-				it('creates a certificate with null attributes', () => {
+				it('creates a certificate with null attributes', async () => {
 					return certificates.create({
 						settings: {
 							days: 364
@@ -58,7 +55,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			describe('missing settings', () => {
-				it('creates a certificate with null settings', () => {
+				it('creates a certificate with null settings', async () => {
 					return certificates.create({
 						attributes: {
 							name: 'test'
@@ -74,7 +71,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			describe('invalid attributes', () => {
-				it('throws an error', () => {
+				it('throws an error', async () => {
 					return certificates.create({
 						attributes: {
 							test: 'test'
@@ -103,7 +100,7 @@ describe('feathers-service-manager:certificate-service', () => {
 					done()
 				})
 			})
-			it('returns a certificate by id', () => {
+			it('returns a certificate by id', async () => {
 				return certificates.get(getId).then((result: any) => {
 					expect(result).to.have.property('id', getId)
 					expect(result).to.have.property('private')
@@ -113,7 +110,7 @@ describe('feathers-service-manager:certificate-service', () => {
 					expect(result).to.have.property('settings')
 				})
 			})
-			it('supports $select', () => {
+			it('supports $select', async () => {
 				return certificates.get(getId, { query: {$select: ['cert'] }}).then((result: any) => {
 					expect(result).to.have.property('id')
 					expect(result).to.have.property('cert')
@@ -141,7 +138,7 @@ describe('feathers-service-manager:certificate-service', () => {
 					done()
 				})
 			})
-			it('regenerates pems from current settings', () => {
+			it('regenerates pems from current settings', async () => {
 				return certificates.patch(patchId, {
 					regenerate: true
 				}).then((result: any) => {
@@ -153,7 +150,7 @@ describe('feathers-service-manager:certificate-service', () => {
 					expect(result.cert).to.not.equal(current.cert)
 				})
 			})
-			it('regenerates pem by id, using new attributes and settings', () => {
+			it('regenerates pem by id, using new attributes and settings', async () => {
 				return certificates.patch(patchId, {
 					attributes: {
 						name: 'test_two'
@@ -166,7 +163,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			describe('id not found in store', () => {
-				it('throws an error', () => {
+				it('throws an error', async () => {
 					const errorId = uuid()
 					return certificates.patch(errorId, {
 						attribuutes: {
@@ -178,7 +175,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			describe('patch data contains public, private, cert properties', () => {
-				it('throws an error', () => {
+				it('throws an error', async () => {
 					return certificates.patch(patchId, {
 						attributes: {
 							name: 'test_three'
@@ -186,7 +183,8 @@ describe('feathers-service-manager:certificate-service', () => {
 						private: 'private'
 					})
 					.catch((error: any) => {
-						expect(error.message).to.equal(`certificate-service update error: certificate ${patchId} pem cannot be changed directly.`)
+						expect(error.message)
+						.to.equal(`certificate-service update error: certificate ${patchId} pem cannot be changed directly.`)
 					})
 				})
 			})
@@ -208,7 +206,7 @@ describe('feathers-service-manager:certificate-service', () => {
 					done()
 				})
 			})
-			it('regenerates pem by id, using new attributes and settings', () => {
+			it('regenerates pem by id, using new attributes and settings', async () => {
 				return certificates.update(updateId, {
 					attributes: {
 						name: 'test_two'
@@ -221,7 +219,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			describe('id not found in store', () => {
-				it('throws an error', () => {
+				it('throws an error', async () => {
 					const errorId = uuid()
 					return certificates.update(errorId, {
 						attribuutes: {
@@ -233,7 +231,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			describe('update data contains public, private, cert properties', () => {
-				it('throws an error', () => {
+				it('throws an error', async () => {
 					return certificates.update(updateId, {
 						attributes: {
 							name: 'test_three'
@@ -241,7 +239,8 @@ describe('feathers-service-manager:certificate-service', () => {
 						private: 'private'
 					})
 					.catch((error: any) => {
-						expect(error.message).to.equal(`certificate-service update error: certificate ${updateId} pem cannot be changed directly.`)
+						expect(error.message)
+						.to.equal(`certificate-service update error: certificate ${updateId} pem cannot be changed directly.`)
 					})
 				})
 			})
