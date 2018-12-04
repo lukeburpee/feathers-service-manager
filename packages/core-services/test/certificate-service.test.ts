@@ -177,7 +177,7 @@ describe('feathers-service-manager:certificate-service', () => {
 						private: 'private'
 					})
 					.catch((error: any) => {
-						expect(error.message).to.equal(`certificate-service update error: certificate ${patchId} pem cannot be changed directly.`)
+						expect(error.message).to.equal(`certificate-service update error: certificate ${updateId} pem cannot be changed directly.`)
 					})
 				})
 			})
