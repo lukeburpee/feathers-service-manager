@@ -1,5 +1,3 @@
-import { Id } from '@feathersjs/feathers'
-import { NotFound } from '@feathersjs/errors'
 import { ServiceClass as BaseServiceClass } from './base-service'
 
 export default function init (options: ServiceOptions) {

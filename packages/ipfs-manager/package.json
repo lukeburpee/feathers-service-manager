@@ -26,7 +26,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "tslint": "tslint -p tsconfig.json -c tslint.json",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "prepare": "yarn lint && yarn build",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "prebuild": "rimraf dist",
     "build": "tsc",

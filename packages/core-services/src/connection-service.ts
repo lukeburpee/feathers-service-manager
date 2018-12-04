@@ -1,10 +1,12 @@
 import { Id, Params } from '@feathersjs/feathers'
-import { NotFound } from '@feathersjs/errors'
 import { _select } from '@feathers-service-manager/utils'
 import BaseService, { ServiceClass as BaseServiceClass } from './base-service'
+import * as Debug from 'debug'
+
+const debug = Debug('feathers-service-manager:core-services:connection-service')
 
 export default function init (options: ServiceOptions) {
-  return new ServiceClass(options)
+	return new ServiceClass(options)
 }
 
 export class ServiceClass extends BaseServiceClass {
@@ -30,19 +32,6 @@ export class ServiceClass extends BaseServiceClass {
 		this.connectionServiceCheck(app)
 	}
 
-	private connectionServiceCheck (app: any): any {
-		if (typeof app.service('connection') === 'undefined') {
-			console.log(`no connection service found on provided application.
-				${this.getConnectionType()} service will create connection service.`
-			)
-			app.use('connections', BaseService({id:'id'}))
-			this.connections = app.service('connections')
-			return this.connections
-		}
-		this.connections = app.service('connections')
-		return this.connections
-	}
-
 	public connect (options: any): any {
 		return this.createConnection(
 			this.connectionId,
@@ -50,20 +39,20 @@ export class ServiceClass extends BaseServiceClass {
 		)
 	}
 
-	public createConnection (id: any, client: any): any {
+	public createConnection (id: Id, client: any): any {
 		return this.getInfo().then(((info: any) => {
 			const connection = {
-				id: id,
+				id,
+				client,
+				info,
 				connectionType: this.getConnectionType(),
 				serviceTypes: [this.getServiceType()],
-				status: 'pending',
-				client,
-				info: info
+				status: 'pending'
 			}
 			return this.connections.create(connection)
 		}))
 		.then((result: any) => {
-			console.log(`${this.getConnectionType()} connection created: ${this.connectionId}`)
+			debug(`${this.getConnectionType()} connection created: ${this.connectionId}`)
 			return result
 		})
 		.catch((error: any) => {
@@ -111,5 +100,17 @@ export class ServiceClass extends BaseServiceClass {
 		}).then((results: any) => {
 			return results
 		})
+	}
+	private connectionServiceCheck (app: any): any {
+		if (typeof app.service('connection') === 'undefined') {
+			debug(`no connection service found on provided application.
+				${this.getConnectionType()} service will create connection service.`
+			)
+			app.use('connections', BaseService({id: 'id'}))
+			this.connections = app.service('connections')
+			return this.connections
+		}
+		this.connections = app.service('connections')
+		return this.connections
 	}
 }

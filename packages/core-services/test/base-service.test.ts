@@ -7,8 +7,9 @@ import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 import BaseService, { ServiceClass } from '../src/base-service'
 import * as assert from 'assert'
+import * as Debug from 'debug'
 
-const debug = require('debug')('feathers-service-manager:base-service:test')
+const debug = Debug('feathers-service-manager:core-services:base-service:tests')
 
 describe('feathers-service-manager:base-service', () => {
 	const app = feathers()
@@ -39,7 +40,7 @@ describe('feathers-service-manager:base-service', () => {
 			expect(attachService).to.have.property('path')
 		})
 		it('sets default paginate', () => {
-			const defaultPaginate = new ServiceClass({events:['testing'], paginate:{ default:5, max:10 }})
+			const defaultPaginate = new ServiceClass({events: ['testing'], paginate:{ default:5, max:10 }})
 			expect(defaultPaginate.paginate).to.have.property('default', 5)
 			expect(defaultPaginate.paginate).to.have.property('max', 10)
 		})
@@ -61,7 +62,7 @@ describe('feathers-service-manager:base-service', () => {
 		const service = app.service('base')
 		it('throws an error if updating multiple items', () => {
 			return service.create([
-				{id: idOne, name: 'name-one'}, 
+				{id: idOne, name: 'name-one'},
 				{id: idTwo, name: 'name-two'}
 			]).then((result: any) => {
 				service.update(null, [
