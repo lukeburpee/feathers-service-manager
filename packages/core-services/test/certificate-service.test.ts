@@ -124,5 +124,73 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 		})
+		describe('patch', () => {
+			const commonApp = feathers()
+			commonApp.use('certificates', CertificateService(options))
+			const certificates = commonApp.service('certificates')
+			const patchId = uuid()
+			before((done: any) => {
+				certificates.create({
+					id: patchId,
+					attributes: {
+						name: 'test'
+					}
+				}).then(() => {
+					done()
+				})
+			})
+			describe('patch data contains public, private, cert properties', () => {
+				it('throws an error', () => {
+					return certificates.update(patchId, {
+						attributes: {
+							name: 'test_two'
+						},
+						private: 'private'
+					})
+					.catch((error: any) => {
+						expect(error.message).to.equal(
+						`certificate-service update error: certificate ${patchId} pem cannot be changed directly.
+						To regenerate pems with new attributes and settings, use [service].update(id, { attributes, settings }).
+						To regenerate pems with patched attributes or settings use [service].patch(id, { attributes, settings }).
+						To regenerate using current attributes and settings, use [service].patch(id, { regenerate: true}).`
+						)
+					})
+				})
+			})
+		})
+		describe('update', () => {
+			const commonApp = feathers()
+			commonApp.use('certificates', CertificateService(options))
+			const certificates = commonApp.service('certificates')
+			const updateId = uuid()
+			before((done: any) => {
+				certificates.create({
+					id: updateId,
+					attributes: {
+						name: 'test'
+					}
+				}).then(() => {
+					done()
+				})
+			})
+			describe('update data contains public, private, cert properties', () => {
+				it('throws an error', () => {
+					return certificates.update(updateId, {
+						attributes: {
+							name: 'test_two'
+						},
+						private: 'private'
+					})
+					.catch((error: any) => {
+						expect(error.message).to.equal(
+						`certificate-service update error: certificate ${updateId} pem cannot be changed directly.
+						To regenerate pems with new attributes and settings, use [service].update(id, { attributes, settings }).
+						To regenerate pems with patched attributes or settings use [service].patch(id, { attributes, settings }).
+						To regenerate using current attributes and settings, use [service].patch(id, { regenerate: true}).`
+						)
+					})
+				})
+			})
+		})
 	})
 })
