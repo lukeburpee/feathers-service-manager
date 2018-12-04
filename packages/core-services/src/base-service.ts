@@ -4,7 +4,7 @@ import { filterQuery, sorter, _ } from '@feathersjs/commons'
 import { _select } from '@feathers-service-manager/utils'
 import sift from 'sift'
 import { v4 as uuid } from 'uuid'
-import * as Debug from 'debug'
+import { default as Debug } from 'debug'
 
 const debug = Debug('feathers-service-manager:core-services:base-service')
 
@@ -35,6 +35,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		this.events = options.events || []
 		this._matcher = options.matcher;
 		this._sorter = options.sorter ? options.sorter : sorter;
+		debug('base-service initialized')
 	}
 	public setup (app: Application, path: string) {
 		this.app = app

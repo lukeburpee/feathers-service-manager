@@ -1,8 +1,11 @@
 import { Id, Params } from '@feathersjs/feathers'
 import { _ } from '@feathersjs/commons'
 import { _select } from '@feathers-service-manager/utils'
-import { ServiceClass as BaseServiceClass } from './base-service'
 import { generate } from 'selfsigned'
+import { default as Debug } from 'debug'
+import { ServiceClass as BaseServiceClass } from './base-service'
+
+const debug = Debug('feathers-service-manager:core-services:certificate-service')
 
 export default function init (options: ServiceOptions) {
   return new ServiceClass(options)
@@ -15,7 +18,7 @@ export class ServiceClass extends BaseServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 		this.defaultSettings = { days: 365 }
-
+		debug('certificate-service initialized')
 	}
 
 	public validateCertAttributes (attr?: any): any {
@@ -61,7 +64,7 @@ export class ServiceClass extends BaseServiceClass {
 		throw new Error(`certificate-service update error: certificate ${id} pem cannot be changed directly.`)
 	}
 
-	public createImplementation (store: any, data: any, params?: Params): Promise<any> {
+	public async createImplementation (store: any, data: any, params?: Params): Promise<any> {
 		let id = data[this.id] || this.generateId();
 		return this.generateCertificate(data)
 			.then((pems: any) => {
@@ -91,6 +94,7 @@ export class ServiceClass extends BaseServiceClass {
 				this.throwPemChangeError(id)
 			}
 			if (data.regenerate) {
+				debug(`regenerating pem for ${id}`)
 				return this.createImplementation(store, store[id], params)
 			}
 			const patchData = _.extend({}, store[id], _.omit(data, this.id))
