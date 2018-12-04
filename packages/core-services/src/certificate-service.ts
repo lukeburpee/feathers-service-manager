@@ -1,6 +1,4 @@
 import { Id, Params } from '@feathersjs/feathers'
-import { NotFound } from '@feathersjs/errors'
-import { filterQuery, sorter, _ } from '@feathersjs/commons'
 import { _select } from '@feathers-service-manager/utils'
 import { ServiceClass as BaseServiceClass } from './base-service'
 import { generate } from 'selfsigned'
@@ -32,7 +30,7 @@ export class ServiceClass extends BaseServiceClass {
 			const formatterKeys = Object.keys(attributes)
 			const validationKeys = Object.keys(attr)
 			const output = validationKeys.map((key: any) => {
-				if(formatterKeys.includes(key)) {
+				if (formatterKeys.includes(key)) {
 					return {
 						name: attributes[key],
 						value: attr[key]
@@ -47,12 +45,14 @@ export class ServiceClass extends BaseServiceClass {
 
 	public async generateCertificate (data?: any): Promise<any> {
 		return new Promise((resolve, reject) => {
-			return generate (this.validateCertAttributes(data.attributes), data.settings || this.defaultSettings, (err: any, pems: any) => {
-				if (err) {
-					return reject(err)
+			return generate (
+				this.validateCertAttributes(data.attributes), data.settings || this.defaultSettings, (err: any, pems: any) => {
+					if (err) {
+						return reject(err)
+					}
+					return resolve(pems)
 				}
-				return resolve(pems)
-			})
+			)
 		})
 	}
 
@@ -64,7 +64,7 @@ export class ServiceClass extends BaseServiceClass {
 		let id = data[this.id] || this.generateId();
 		return this.generateCertificate(data)
 			.then((pems: any) => {
-				const current = _.extend({}, 
+				const current = _.extend({},
 					{ attributes: data.attributes || null },
 					{ settings: data.settings || null },
 					pems, { [this.id]: id });
@@ -78,7 +78,7 @@ export class ServiceClass extends BaseServiceClass {
 			if (data.private || data.public || data.cert) {
 				this.throwPemChangeError(id)
 			}
-			const updateData = _.extend({}, data, { [this.id]: id });
+			const updateData = _.extend({}, data, { [this.id]: id })
 			return this.createImplementation(store, updateData, params)
 		}
 		return this.throwNotFound(id)
