@@ -165,6 +165,18 @@ describe('feathers-service-manager:certificate-service', () => {
 					expect(result.cert).to.not.equal(current.cert)
 				})
 			})
+			describe('id not found in store', () => {
+				it('throws an error', () => {
+					const errorId = uuid()
+					return certificates.update(errorId, {
+						attribuutes: {
+							name: 'name'
+						}
+					}).catch((error: any) => {
+						expect(error.message).to.equal(`No record found for id '${errorId}'`)
+					})
+				})
+			})
 			describe('patch data contains public, private, cert properties', () => {
 				it('throws an error', () => {
 					return certificates.patch(patchId, {
@@ -206,6 +218,18 @@ describe('feathers-service-manager:certificate-service', () => {
 					expect(result.private).to.not.equal(current.private)
 					expect(result.public).to.not.equal(current.public)
 					expect(result.cert).to.not.equal(current.cert)
+				})
+			})
+			describe('id not found in store', () => {
+				it('throws an error', () => {
+					const errorId = uuid()
+					return certificates.update(errorId, {
+						attribuutes: {
+							name: 'name'
+						}
+					}).catch((error: any) => {
+						expect(error.message).to.equal(`No record found for id '${errorId}'`)
+					})
 				})
 			})
 			describe('update data contains public, private, cert properties', () => {
