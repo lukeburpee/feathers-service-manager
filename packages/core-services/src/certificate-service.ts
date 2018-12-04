@@ -1,4 +1,5 @@
 import { Id, Params } from '@feathersjs/feathers'
+import { _ } from '@feathersjs/commons'
 import { _select } from '@feathers-service-manager/utils'
 import { ServiceClass as BaseServiceClass } from './base-service'
 import { generate } from 'selfsigned'
