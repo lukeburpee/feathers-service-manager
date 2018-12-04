@@ -1,24 +1,23 @@
 import { expect } from 'chai';
 import feathers from '@feathersjs/feathers';
-import * as errors from '@feathersjs/errors';
-import configuration from '@feathersjs/configuration';
-import { base } from 'feathers-service-tests';
-import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid';
 import { Client } from 'elasticsearch';
+import * as Debug from 'debug'
 
-import Service, { ServiceClass } from '../src/elasticsearch-base-service'
+import { ServiceClass } from '../src/elasticsearch-base-service'
 
-const debug = require('debug')('@feathers-service-manager/elasticsearch-manager:test')
+const debug = Debug('@feathers-service-manager/elasticsearch-manager:test')
 
 describe('@feathers-service-manager/elasticsearch-manager', () => {
+	debug('elasticsearch-manager tests starting')
 	const app = feathers()
+	const connectionId = uuid()
 	const client = new Client({
 		host: 'localhost:9200'
 	})
 	const options = {
-		connectionId: uuid(),
-		client: client,
+		client,
+		connectionId,
 		events: ['testing']
 	}
 	describe('Base Service', () => {
@@ -30,7 +29,6 @@ describe('@feathers-service-manager/elasticsearch-manager', () => {
 				expect(typeof ServiceClass).to.equal('function')
 			})
 		})
-		
 		describe('Connection Methods', () => {
 			describe('getConnectionType', () => {
 				it(`returns the 'elasticsearch' connection type`, () => {
@@ -64,10 +62,10 @@ describe('@feathers-service-manager/elasticsearch-manager', () => {
 				})
 			})
 		})
-		//app.use('d-service', DockerService(options))
-		//const dService = app.service('d-service')
-		//describe('Common Service Tests', () => {
-		//	base(app, errors, 'd-service', 'id')
-		//})
+		// app.use('d-service', DockerService(options))
+		// const dService = app.service('d-service')
+		// describe('Common Service Tests', () => {
+		// base(app, errors, 'd-service', 'id')
+		// })
 	})
 })

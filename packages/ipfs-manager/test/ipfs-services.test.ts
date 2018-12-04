@@ -1,16 +1,13 @@
 import { expect } from 'chai';
 import feathers from '@feathersjs/feathers';
-import * as errors from '@feathersjs/errors';
-import configuration from '@feathersjs/configuration';
-import { base } from 'feathers-service-tests';
-import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
+import * as Debug from 'debug'
+import { ServiceClass } from '../src/ipfs-base-service'
 
-import IpfsService, { ServiceClass } from '../src/ipfs-base-service'
-
-const debug = require('debug')('feathers-ipfs-manager:test')
+const debug = Debug('feathers-ipfs-manager:test')
 
 describe('feathers-ipfs-manager', () => {
+	debug('ipfs-manager tests starting')
 	const app = feathers()
 	const serviceOptions = {
 		connectionId: uuid(),
@@ -53,10 +50,10 @@ describe('feathers-ipfs-manager', () => {
 				})
 			})
 		})
-		//app.use('d-service', DockerService(serviceOptions))
-		//const dService = app.service('d-service')
-		//describe('Common Service Tests', () => {
-		//	base(app, errors, 'd-service', 'id')
-		//})
+		// app.use('d-service', DockerService(serviceOptions))
+		// const dService = app.service('d-service')
+		// describe('Common Service Tests', () => {
+		// base(app, errors, 'd-service', 'id')
+		// })
 	})
 })

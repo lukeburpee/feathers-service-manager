@@ -1,5 +1,4 @@
-import { Application, Id, NullableId, Paginated, Params, ServiceMethods, SetupMethod } from '@feathersjs/feathers'
-import errors from '@feathersjs/errors'
+import { Id } from '@feathersjs/feathers'
 import { _ } from '@feathersjs/commons'
 import { _select } from '@feathers-service-manager/utils'
 
@@ -10,41 +9,41 @@ export default function (options: ServiceOptions) {
 }
 
 const actions: any = {
-  INSPECT: 'inspect',
-  REMOVE: 'remove',
-  CONNECT: 'connect',
-  DISCONNECT: 'disconnect'
+	INSPECT: 'inspect',
+	REMOVE: 'remove',
+	CONNECT: 'connect',
+	DISCONNECT: 'disconnect'
 }
 
 export class ServiceClass extends DockerBaseService {
-  constructor (private options: ServiceOptions) {
-    super(options)
-  }
-  public getServiceType (): any {
-  	return 'network-service'
-  }
-  public createNetwork (options: any): any {
-    return this.client.createNetwork(options)
-  }
-  public getNetwork (id: Id): any {
-    return this.client.getNetwork(id)
-  }
-  public listNetworks (options: any): any {
-    return this.client.listNetworks(options)
-  }
-  public pruneNetworks (options: any): any {
-    return this.client.pruneNetworks(options)
-  }
-  public executeAction (network: any, type: any, options: any): any {
-    switch (type) {
-      case actions.REMOVE:
-        return network.remove(options)
-      case actions.CONNECT:
-        return network.connect(options)
-      case actions.DISCONNECT:
-        return network.disconnect(options)
-      default:
-        return network.inspect()
-    }
-  }
+	constructor (options: ServiceOptions) {
+		super(options)
+	}
+	public getServiceType (): any {
+		return 'network-service'
+	}
+	public createNetwork (options: any): any {
+		return this.client.createNetwork(options)
+	}
+	public getNetwork (id: Id): any {
+		return this.client.getNetwork(id)
+	}
+	public listNetworks (options: any): any {
+		return this.client.listNetworks(options)
+	}
+	public pruneNetworks (options: any): any {
+		return this.client.pruneNetworks(options)
+	}
+	public executeAction (network: any, type: any, options: any): any {
+		switch (type) {
+			case actions.REMOVE:
+				return network.remove(options)
+			case actions.CONNECT:
+				return network.connect(options)
+			case actions.DISCONNECT:
+				return network.disconnect(options)
+			default:
+				return network.inspect()
+		}
+	}
 }

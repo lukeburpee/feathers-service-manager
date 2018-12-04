@@ -3,9 +3,10 @@ import feathers from '@feathersjs/feathers';
 import * as errors from '@feathersjs/errors';
 import configuration from '@feathersjs/configuration';
 import { base } from 'feathers-service-tests';
-import  Docker from 'dockerode/lib/docker'
+import Docker from 'dockerode/lib/docker'
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
+import * as Debug from 'debug'
 
 import DockerService, { ServiceClass } from '../src/docker-base-service'
 import DockerSwarmService, { ServiceClass as SwarmService } from '../src/docker-swarm-service'
@@ -14,18 +15,13 @@ import DockerContainerService, { ServiceClass as ContainerService } from '../src
 import DockerImageService, { ServiceClass as ImageService } from '../src/docker-image-service'
 import DockerVolumeService, { ServiceClass as VolumeService } from '../src/docker-volume-service'
 
-const debug = require('debug')('feathers-docker-manager:test')
+const debug = Debug('feathers-docker-manager:test')
 
 describe('feathers-docker-manager', () => {
-	let testSwarm, testConfig, testContainer
 	const client = Docker()
 	const serviceOptions = {
+		client,
 		connectionId: uuid(),
-		client: client,
-		events: ['testing']
-	}
-	const serviceOptionsConnectionId = {
-		client: serviceOptions.connectionId,
 		events: ['testing']
 	}
 	const app = feathers()
@@ -38,7 +34,7 @@ describe('feathers-docker-manager', () => {
 				expect(typeof ServiceClass).to.equal('function')
 			})
 		})
-		
+
 		describe('Connection Methods', () => {
 			describe('getConnectionType', () => {
 				it(`returns the 'docker' connection type`, () => {
@@ -72,11 +68,11 @@ describe('feathers-docker-manager', () => {
 				})
 			})
 		})
-		//app.use('d-service', DockerService(serviceOptions))
-		//const dService = app.service('d-service')
-		//describe('Common Service Tests', () => {
-		//	base(app, errors, 'd-service', 'id')
-		//})
+		// app.use('d-service', DockerService(serviceOptions))
+		// const dService = app.service('d-service')
+		// describe('Common Service Tests', () => {
+		// base(app, errors, 'd-service', 'id')
+		// })
 	})
 	/**
 	describe('Swarm Service', () => {
