@@ -94,6 +94,26 @@ describe('feathers-service-manager:certificate-service', () => {
 			})
 		})
 	})
+	describe('Standard Service Methods', () => {
+		const commonApp = feathers()
+		commonApp.use('certificates', CertificateService(options))
+		const certificates = commonApp.service('certificates')
+
+		describe('create', () => {
+			it(`creates and returns pem certificate`, () => {
+				return certificates.create({
+					attributes: {
+						name: 'test'
+					}
+				}).then((result: any) => {
+					expect(result).to.have.property('id')
+					expect(result).to.have.property('private')
+					expect(result).to.have.property('public')
+					expect(result).to.have.property('cert')
+				})
+			})
+		})
+	})
 	//describe('Common Service Tests', () => {
 	//	base(app, errors, 'certificates')
 	//})
