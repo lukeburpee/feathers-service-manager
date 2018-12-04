@@ -57,12 +57,7 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public throwPemChangeError (id: any): any {
-		throw new Error(
-		`certificate-service update error: certificate ${id} pem cannot be changed directly.
-		To regenerate pems with new attributes and settings, use [service].update(id, { attributes, settings }).
-		To regenerate pems with patched attributes or settings use [service].patch(id, { attributes, settings }).
-		To regenerate using current attributes and settings, use [service].patch(id, { regenerate: true}).`
-		)
+		throw new Error(`certificate-service update error: certificate ${id} pem cannot be changed directly.`)
 	}
 
 	public createImplementation (store: any, data: any, params?: Params): Promise<any> {

@@ -148,12 +148,7 @@ describe('feathers-service-manager:certificate-service', () => {
 						private: 'private'
 					})
 					.catch((error: any) => {
-						expect(error.message).to.equal(
-						`certificate-service update error: certificate ${patchId} pem cannot be changed directly.
-						To regenerate pems with new attributes and settings, use [service].update(id, { attributes, settings }).
-						To regenerate pems with patched attributes or settings use [service].patch(id, { attributes, settings }).
-						To regenerate using current attributes and settings, use [service].patch(id, { regenerate: true}).`
-						)
+						expect(error.message).to.equal(`certificate-service update error: certificate ${patchId} pem cannot be changed directly.`)
 					})
 				})
 			})
@@ -182,12 +177,7 @@ describe('feathers-service-manager:certificate-service', () => {
 						private: 'private'
 					})
 					.catch((error: any) => {
-						expect(error.message).to.equal(
-						`certificate-service update error: certificate ${updateId} pem cannot be changed directly.
-						To regenerate pems with new attributes and settings, use [service].update(id, { attributes, settings }).
-						To regenerate pems with patched attributes or settings use [service].patch(id, { attributes, settings }).
-						To regenerate using current attributes and settings, use [service].patch(id, { regenerate: true}).`
-						)
+						expect(error.message).to.equal(`certificate-service update error: certificate ${patchId} pem cannot be changed directly.`)
 					})
 				})
 			})
