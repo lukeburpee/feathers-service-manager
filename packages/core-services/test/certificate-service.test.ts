@@ -142,7 +142,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			it('regenerates pems from current settings', () => {
-				return certificates.update(patchId, {
+				return certificates.patch(patchId, {
 					regenerate: true
 				}).then((result: any) => {
 					expect(result.id).to.equal(current.id)
@@ -154,7 +154,7 @@ describe('feathers-service-manager:certificate-service', () => {
 				})
 			})
 			it('regenerates pem by id, using new attributes and settings', () => {
-				return certificates.update(patchId, {
+				return certificates.patch(patchId, {
 					attributes: {
 						name: 'test_two'
 					}
@@ -167,7 +167,7 @@ describe('feathers-service-manager:certificate-service', () => {
 			})
 			describe('patch data contains public, private, cert properties', () => {
 				it('throws an error', () => {
-					return certificates.update(patchId, {
+					return certificates.patch(patchId, {
 						attributes: {
 							name: 'test_three'
 						},
