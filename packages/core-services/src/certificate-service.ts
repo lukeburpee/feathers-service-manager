@@ -59,7 +59,7 @@ export class ServiceClass extends BaseServiceClass {
 		let id = data[this.id] || this.generateId();
 		return this.generateCertificate(data)
 			.then((pems: any) => {
-				const current = _.extend({}, pems, { [this.id]: id });
+				const current = _.extend({}, data, pems, { [this.id]: id });
 				return Promise.resolve((store[id] = current))
 					.then(_select(params, this.id));
 			})
