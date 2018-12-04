@@ -86,11 +86,10 @@ describe('feathers-service-manager:certificate-service', () => {
 						name: 'test'
 					}
 				}).then((result: any) => {
-					expect(result).to.have.property('id')
-					expect(result).to.have.property('private')
-					expect(result).to.have.property('public')
-					expect(result).to.have.property('cert')
-					expect(result).to.equal(store[result.id])
+					expect(result).to.have.property('id', store[result.id].id)
+					expect(result).to.have.property('private', store[result.id].private)
+					expect(result).to.have.property('public', store[result.id].public)
+					expect(result).to.have.property('cert', store[result.id].cert)
 				})
 			})
 		})
