@@ -107,7 +107,7 @@ describe('feathers-service-manager:connection-service', () => {
 		describe('getConnection', () => {
 			it('returns a connection from the connection store', () => {
 				return rawService.getConnection(connId).then((result: any) => {
-					expect(result.connectionIdd).to.equal(connId)
+					expect(result.connectionId).to.equal(connId)
 					expect(result.client).to.equal('client')
 				})
 			})
