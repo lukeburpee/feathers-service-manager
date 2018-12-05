@@ -9,6 +9,7 @@ import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
 
+import { default as MemoryService } from '@feathers-service-manager/core-services'
 import BaseService, { ServiceClass } from '../src/base-service'
 
 const debug = Debug('feathers-mongodb-manager:base-service:test')
@@ -31,8 +32,14 @@ describe('feathers-mongodb-manager:base-service', () => {
 			debug(`error connecting to mongodb: ${error.message}`)
 		});
 	}
+	app.use('connections', MemoryService({
+		id: 'connectionId',
+		events: ['testing']
+	}))
 
-	const serviceOptions = {
+	const options = {
+		connectionId: uuid(),
+		connectionService: app.service('connections'),
 		events: ['testing'],
 		client: connection(),
 		defaultDb: 'test'
@@ -43,12 +50,9 @@ describe('feathers-mongodb-manager:base-service', () => {
 		})
 	})
 	describe('Connecting', () => {
-		const rawService = new ServiceClass(serviceOptions)
+		const rawService = new ServiceClass(options)
 		rawService.setup(app, '/connection-test')
 		describe('connectionId does not exist in connection store', () => {
-			it('creates and attaches a mongodb client connection', () => {
-				expect(rawService.client instanceof MongoClient).to.be.true
-			})
 			it(`creates and attaches a default database`, () => {
 				expect(rawService.default instanceof Db).to.be.true
 			})
@@ -56,14 +60,14 @@ describe('feathers-mongodb-manager:base-service', () => {
 				expect(rawService.admin).to.have.property('buildInfo')
 			})
 			it(`adds the connection to the connection store`, () => {
-				return app.service('connections').get(rawService.connectionId).then((connection: any) => {
+				return app.service('connections').get(options.connectionId).then((connection: any) => {
 					expect(rawService.memberId).to.equal(connection.members[0])
 				})
 			})
 		})
 	})
 	describe('Connection Methods', () => {
-		const rawBaseService = new ServiceClass(serviceOptions)
+		const rawBaseService = new ServiceClass(options)
 		rawBaseService.setup(app, '/base-service')
 		describe('getConnectionType', () => {
 			it(`returns the 'mongodb' connection type`, () => {
@@ -90,7 +94,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 			})
 		})
 	})
-	//app.use('m-service', MongoService(serviceOptions))
+	//app.use('m-service', MongoService(options))
 	//const service = app.service('m-service')
 	//describe('Common Service Tests', () => {
 	//	base(app, errors, 'm-service', 'id')
