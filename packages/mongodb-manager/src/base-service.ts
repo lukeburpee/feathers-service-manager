@@ -49,7 +49,7 @@ export class ServiceClass extends ConnectionServiceClass {
 	}
 	public close (): any {
 		return new Promise((resolve) => {
-			this.client.close().then(() => {
+			this.admin.close().then(() => {
 				this.connections.remove(this.connectionId)
 				.then((connection: any) => {
 					resolve(connection)
