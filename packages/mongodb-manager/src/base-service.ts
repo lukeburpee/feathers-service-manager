@@ -42,11 +42,6 @@ export class ServiceClass extends ConnectionServiceClass {
 			})
 		})
 	}
-	public getInstance (): any {
-		return new Promise((resolve) => {
-			resolve(this.admin)
-		})
-	}
 	public getInfo (): any {
 		return new Promise((resolve) => {
 			resolve(this.admin.serverInfo())
@@ -54,7 +49,12 @@ export class ServiceClass extends ConnectionServiceClass {
 	}
 	public close (): any {
 		return new Promise((resolve) => {
-			resolve(this.admin.close())
+			this.client.close().then(() => {
+				this.connections.remove(this.connectionId)
+				.then((connection: any) => {
+					resolve(connection)
+				})
+			})
 		})
 	}
 }

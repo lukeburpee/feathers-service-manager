@@ -91,6 +91,13 @@ describe('feathers-mongodb-manager:base-service', () => {
 				})
 			})
 		})
+		describe('close', () => {
+			it('removes the connection from the connection store', () => {
+				return rawBaseService.close().then((connection: any) => {
+					expect(app.service('connections').get(connection.connectionId)).to.throw()
+				})
+			})
+		})
 	})
 	//app.use('m-service', MongoService(options))
 	//const service = app.service('m-service')
