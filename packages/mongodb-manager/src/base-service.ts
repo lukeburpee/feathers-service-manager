@@ -1,10 +1,10 @@
 import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
 
 export default function (options: ServiceOptions) {
-	return new Service(options)
+	return new ServiceClass(options)
 }
 
-export class Service extends ConnectionServiceClass {
+export class ServiceClass extends ConnectionServiceClass {
 	public default!: any;
 	public admin!: any;
 

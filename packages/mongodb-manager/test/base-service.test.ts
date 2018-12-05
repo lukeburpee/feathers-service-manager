@@ -4,15 +4,16 @@ import * as errors from '@feathersjs/errors';
 import configuration from '@feathersjs/configuration';
 import { base } from 'feathers-service-tests';
 import { connect } from 'mongodb';
+import { connect as mongooseConnect } from 'mongoose'
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
-import MongoService, { Service } from '../src/mongodb-base-service'
-import MDBService, { Service as DatabaseService } from '../src/mongodb-database-service'
 
-const debug = Debug('feathers-mongodb-manager:mongodb:test')
+import BaseService, { ServiceClass } from '../src/base-service'
 
-describe('feathers-mongodb-manager:mongodb', () => {
+const debug = Debug('feathers-mongodb-manager:base-service:test')
+
+describe('feathers-mongodb-manager:base-service', () => {
 	let conn: any;
 	const app = feathers()
 	const db = {
@@ -36,9 +37,14 @@ describe('feathers-mongodb-manager:mongodb', () => {
 		client: connection(),
 		defaultDb: 'test'
 	}
+	describe('Requiring', () => {
+		it('exposes the Service Constructor', () => {
+			expect(typeof ServiceClass).to.equal('function')
+		})
+	})
 	describe('Base Service', () => {
-		const rawBaseService = new Service(serviceOptions)
-		rawBaseService.setup(app, '/mongoose-service')
+		const rawBaseService = new ServiceClass(serviceOptions)
+		rawBaseService.setup(app, '/base-service')
 		describe('Connection Methods', () => {
 			describe('getConnectionType', () => {
 				it(`returns the 'mongodb' connection type`, () => {
@@ -69,22 +75,6 @@ describe('feathers-mongodb-manager:mongodb', () => {
 		//const service = app.service('m-service')
 		//describe('Common Service Tests', () => {
 		//	base(app, errors, 'm-service', 'id')
-		//})
-	})
-	describe('Database Service', () => {
-		const rawDbService = new DatabaseService(serviceOptions)
-		rawDbService.setup(app, '/db-service')
-		describe('Connection Methods', () => {
-			describe('getServiceType', () => {
-				it(`returns the 'database-service' mongodb service type`, () => {
-					expect(rawDbService.getServiceType()).to.equal('database-service')
-				})
-			})
-		})
-		//app.use('database-service', MDBService(serviceOptions))
-		//const service = app.service('database-service')
-		//describe('Common Service Tests', () => {
-		//	base(app, errors, 'database-service', 'id')
 		//})
 	})
 	after(() => {
