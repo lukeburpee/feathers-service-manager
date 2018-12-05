@@ -38,7 +38,6 @@ describe('feathers-mongodb-manager:base-service', () => {
 	}))
 
 	const options = {
-		connectionId: uuid(),
 		connectionService: app.service('connections'),
 		events: ['testing'],
 		client: connection(),
@@ -60,7 +59,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 				expect(rawService.admin).to.have.property('buildInfo')
 			})
 			it(`adds the connection to the connection store`, () => {
-				return app.service('connections').get(options.connectionId).then((connection: any) => {
+				return app.service('connections').get(rawService.connectionId).then((connection: any) => {
 					expect(rawService.memberId).to.equal(connection.members[0])
 				})
 			})
