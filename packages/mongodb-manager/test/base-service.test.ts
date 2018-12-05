@@ -32,10 +32,14 @@ describe('feathers-mongodb-manager:base-service', () => {
 		});
 	}
 
-	const serviceOptions = {
+	const options = {
+		events: ['testing'],
+		client: connection()
+	}
+	const withDefaultDb = {
 		events: ['testing'],
 		client: connection(),
-		defaultDb: 'test'
+		defaultDb: 'defaultDb'
 	}
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
@@ -43,14 +47,31 @@ describe('feathers-mongodb-manager:base-service', () => {
 		})
 	})
 	describe('Connecting', () => {
-		const rawService = new ServiceClass(serviceOptions)
+
+		const rawService = new ServiceClass(options)
+		const rawServiceDefaultDb = new ServiceClass(withDefaultDb)
+
 		rawService.setup(app, '/connection-test')
+		rawServiceDefaultDb.setup(app, '/connection-test-w-default')
+
 		describe('connectionId does not exist in connection store', () => {
-			it('creates and attaches a mongodb client connection', () => {
-				expect(rawService.client instanceof MongoClient).to.be.true
-			})
-			it(`creates and attaches a default database`, () => {
-				expect(rawService.default instanceof Db).to.be.true
+			describe('default database', () => {
+				describe('defaultDb not provided in options', () => {
+					it(`uses the 'default' database as default`, () => {
+						expect(rawService.default instanceof Db).to.be.true
+						return rawService.default.stats().then((info: any) => {
+							expect(info.db).to.equal('default')
+						})
+					})
+				})
+				describe('defaultDb provided in options', () => {
+					it('uses the provided database as default', () => {
+						expect(rawServiceDefaultDb.default instanceof Db).to.be.true
+						return rawServiceDefaultDb.default.stats().then((info: any) => {
+							expect(info.db).to.equal('defaultDb')
+						})
+					})
+				})
 			})
 			it(`creates and attaches the admin database`, () => {
 				expect(rawService.admin).to.have.property('buildInfo')
@@ -63,7 +84,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 		})
 	})
 	describe('Connection Methods', () => {
-		const rawBaseService = new ServiceClass(serviceOptions)
+		const rawBaseService = new ServiceClass(options)
 		rawBaseService.setup(app, '/base-service')
 		describe('getConnectionType', () => {
 			it(`returns the 'mongodb' connection type`, () => {
@@ -90,7 +111,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 			})
 		})
 	})
-	//app.use('m-service', MongoService(serviceOptions))
+	//app.use('m-service', MongoService(options))
 	//const service = app.service('m-service')
 	//describe('Common Service Tests', () => {
 	//	base(app, errors, 'm-service', 'id')
