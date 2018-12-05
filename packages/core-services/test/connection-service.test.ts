@@ -137,6 +137,14 @@ describe('feathers-service-manager:connection-service', () => {
 			})
 		})
 
+		describe('removeConnection', () => {
+			it('removes a connection from the connection store and returns the removed connection', (() => {
+				return rawService.removeConnection(options.connectionId).then((result: any) => {
+					expect(result.connectionId).to.equal(options.connectionId)
+				})
+			}))
+		})
+
 		describe('getConnectionId', () => {
 			it(`returns the current service's connectionId`, () => {
 				expect(rawService.getConnectionId()).to.equal(options.connectionId)
@@ -177,14 +185,6 @@ describe('feathers-service-manager:connection-service', () => {
 					expect(result).to.equal('nan')
 				})
 			})
-		})
-
-		describe('removeConnection', () => {
-			it('removes a connection from the connection store and returns the removed connection', (() => {
-				return rawService.removeConnection(options.connectionId).then((result: any) => {
-					expect(result.id).to.equal(options.connectionId)
-				})
-			}))
 		})
 	})
 	// describe('Common Service Tests', () => {
