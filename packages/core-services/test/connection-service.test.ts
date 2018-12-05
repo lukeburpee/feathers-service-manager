@@ -3,6 +3,7 @@ import feathers from '@feathersjs/feathers';
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
 
+import { default as BaseService } from '../src/base-service'
 import { default as ConnectionService, ServiceClass } from '../src/connection-service'
 
 const debug = Debug('feathers-service-manager:core-services:base-service:tests')
@@ -26,6 +27,29 @@ describe('feathers-service-manager:connection-service', () => {
 		events: ['testing']
 	}
 
+	setupApp.use('internal', BaseService({
+		id: 'internalId',
+		events:['events']
+	}))
+	const optionsServiceProvided = {
+		connectionId: uuid(),
+		client: {},
+		connectionService: setupApp.service('internal'),
+		events: ['testing']
+	}
+	const optionsServiceStringProvided = {
+		connectionId: uuid(),
+		client: {},
+		connectionService: 'stringService',
+		events: ['testing']
+	}
+	const optionsServiceStringProvidedExists = {
+		connectionId: uuid(),
+		client: {},
+		connectionService: 'internal',
+		events: ['testing']
+	}
+
 	app.use('conns', ConnectionService(options))
 	app.use('conns-missing-connectionId', ConnectionService(missingConnectionId))
 
@@ -38,11 +62,37 @@ describe('feathers-service-manager:connection-service', () => {
 	describe('Initialization', () => {
 		describe('setup', () => {
 			describe('internal connection service', () => {
-				describe('connection service does not exist on app at initialization', () => {
-					it('creates internal connection service', () => {
-						setupApp.use('conns', ConnectionService(options))
-						const createdService = setupApp.service('connections')
-						expect(createdService).to.not.equal('undefined')
+				describe('connectionService option not provided', () => {
+					const rawService = new ServiceClass(options)
+					rawService.setup(setupApp, '/internal-service-test')
+					describe('connection service does not exist on app at setup', () => {
+						it('adds connection service to application', () => {
+							expect(setupApp.service('connections')).to.not.equal(undefined)
+						})
+					})
+					it(`uses the 'connections' service as internal connection service`, () => {
+						expect(rawService.connections._id).to.equal('connectionId')
+					})
+				})
+				describe('connectionService option provided', () => {
+					describe('string provided as connectionService option', () => {
+						const rawService = new ServiceClass(optionsServiceStringProvided)
+						rawService.setup(setupApp, '/internal-service-string-provided-test')
+						describe('provided service does not exist on app at setup', () => {
+							it('adds connection service to application', () => {
+								expect(setupApp.service('stringService')).to.not.equal(undefined)
+							})
+						})
+						it('uses the provided service as internal connection service', () => {
+							expect(rawService.connections._id).to.equal('stringServiceId')
+						})
+					})
+					describe('service instance provided as connectionService option', () => {
+						const rawService = new ServiceClass(optionsServiceProvided)
+						rawService.setup(setupApp, '/internal-service-provided-test')
+						it('uses the provided service as the internal connection service', () => {
+							expect(rawService.connections._id).to.equal('internalId')
+						})
 					})
 				})
 			})
@@ -76,7 +126,7 @@ describe('feathers-service-manager:connection-service', () => {
 		describe('createConnection', () => {
 			it('adds a connection to the connection store and returns the original connection data', () => {
 				return rawService.createConnection(connId, 'client').then((result: any) => {
-					expect(result.id).to.equal(connId)
+					expect(result.connectionId).to.equal(connId)
 					expect(result.client).to.equal('client')
 				})
 			})
@@ -85,7 +135,7 @@ describe('feathers-service-manager:connection-service', () => {
 		describe('getConnection', () => {
 			it('returns a connection from the connection store', () => {
 				return rawService.getConnection(connId).then((result: any) => {
-					expect(result.id).to.equal(connId)
+					expect(result.connectionId).to.equal(connId)
 					expect(result.client).to.equal('client')
 				})
 			})
@@ -93,11 +143,11 @@ describe('feathers-service-manager:connection-service', () => {
 
 		describe('updateConnection', () => {
 			it('updates an existing connection with provided data', () => {
-				return rawService.getConnection(connId).then((results: any) => {
-					return rawService.updateConnection(connId, {...results, status: 'ok'})
-					.then((final: any) => {
-						expect(final.id).to.equal(connId)
-						expect(final.status).to.equal('ok')
+				return rawService.getConnection(connId).then((toUpdate: any) => {
+					return rawService.updateConnection(connId, {...toUpdate, status: 'ok'})
+					.then((result: any) => {
+						expect(result.connectionId).to.equal(connId)
+						expect(result.status).to.equal('ok')
 					})
 				})
 			})
@@ -105,14 +155,22 @@ describe('feathers-service-manager:connection-service', () => {
 
 		describe('patchConnection', () => {
 			it('patches an existing connection with provided data', () => {
-				return rawService.getConnection(connId).then((results: any) => {
-					return rawService.patchConnection(connId, {...results, status: 'ok'})
-					.then((final: any) => {
-						expect(final.id).to.equal(connId)
-						expect(final.status).to.equal('ok')
+				return rawService.getConnection(connId).then((toPatch: any) => {
+					return rawService.patchConnection(connId, {...toPatch, status: 'ok'})
+					.then((result: any) => {
+						expect(result.connectionId).to.equal(connId)
+						expect(result.status).to.equal('ok')
 					})
 				})
 			})
+		})
+
+		describe('removeConnection', () => {
+			it('removes a connection from the connection store and returns the removed connection', (() => {
+				return rawService.removeConnection(options.connectionId).then((result: any) => {
+					expect(result.connectionId).to.equal(options.connectionId)
+				})
+			}))
 		})
 
 		describe('getConnectionId', () => {
@@ -155,14 +213,6 @@ describe('feathers-service-manager:connection-service', () => {
 					expect(result).to.equal('nan')
 				})
 			})
-		})
-
-		describe('removeConnection', () => {
-			it('removes a connection from the connection store and returns the removed connection', (() => {
-				return rawService.removeConnection(options.connectionId).then((result: any) => {
-					expect(result.id).to.equal(options.connectionId)
-				})
-			}))
 		})
 	})
 	// describe('Common Service Tests', () => {
