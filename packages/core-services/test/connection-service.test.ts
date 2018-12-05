@@ -27,11 +27,14 @@ describe('feathers-service-manager:connection-service', () => {
 		events: ['testing']
 	}
 
-	app.use('internal', BaseService({ events:['events'] }))
+	setupApp.use('internal', BaseService({
+		id: 'internalId',
+		events:['events']
+	}))
 	const optionsProvidedService = {
 		connectionId: uuid(),
 		client: {},
-		connectionService: app.service('provided-service'),
+		connectionService: setupApp.service('internal'),
 		events: ['testing']
 	}
 
@@ -54,15 +57,14 @@ describe('feathers-service-manager:connection-service', () => {
 						expect(setupApp.service('connections')).to.not.equal(undefined)
 					})
 					it('uses the created service as internal connection service', () => {
-						expect(rawService.connections instanceof BaseService).to.be.true
-						expect(rawService.connections.id).to.equal('connectionId')
+						expect(rawService.connections._id).to.equal('connectionId')
 					})
 				})
 				describe('connection service provided in service options', () => {
 					const rawService = new ServiceClass(optionsProvidedService)
 					rawService.setup(setupApp, '/internal-service-provided-test')
 					it('uses the provided service as the internal connection service', () => {
-						expect(rawService.connections.id).to.not.equal('connectionId')
+						expect(rawService.connections._id).to.equal('internalId')
 					})
 				})
 			})
