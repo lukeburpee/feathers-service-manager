@@ -25,26 +25,29 @@ export class ServiceClass extends BaseServiceClass {
 		this.connectionId = options.connectionId || this.generateId()
 		this.memberId = this.generateId()
 		this.defaultOptions = options.defaultOptions || {}
-		this.connectionServiceCheck().then(() => {
-			this.connect(options)
-		})
+		this.options = options
 		debug('connection-service initialized')
 	}
 
 	public setup (app: any, path: string): any {
 		this.app = app
 		this.path = path
+		this.connectionServiceCheck(app).then((connections: any) => {
+			this.connect(this.options, connections)
+		})
 	}
 
-	public connect (options?: any): any {
+	public connect (options?: any, connections?: any): any {
 		this.options = options
 		return this.createConnection(
 			this.connectionId,
-			this.client
+			this.client,
+			connections
 		)
 	}
 
-	public createConnection (id: Id, client: any): any {
+	public createConnection (id: Id, client: any, connections?: any): any {
+		const service = connections || this.connections
 		return this.getInfo().then(((info: any) => {
 			const connection = {
 				id,
@@ -55,7 +58,7 @@ export class ServiceClass extends BaseServiceClass {
 				status: 'pending',
 				members: [this.memberId]
 			}
-			return this.connections.create(connection)
+			return service.create(connection)
 		}))
 		.then((result: any) => {
 			debug(`${this.getConnectionType()} connection created: ${this.connectionId}`)
@@ -107,18 +110,18 @@ export class ServiceClass extends BaseServiceClass {
 			return results
 		})
 	}
-	private connectionServiceCheck (): any {
+	private connectionServiceCheck (app: any): any {
 		return new Promise(resolve => {
-			if (typeof this.app.service('connection') === 'undefined') {
+			if (typeof app.service('connection') === 'undefined') {
 				debug(`no connection service found on provided application.
 					${this.getConnectionType()} service will create connection service.`
 				)
-				this.app.use('connections', BaseService({id: 'id'}))
-				this.connections = this.app.service('connections')
-				return resolve()
+				app.use('connections', BaseService({id: 'id'}))
+				this.connections = app.service('connections')
+				return resolve(this.connections)
 			}
-			this.connections = this.app.service('connections')
-			return resolve()
+			this.connections = app.service('connections')
+			return resolve(this.connections)
 		})
 	}
 }
