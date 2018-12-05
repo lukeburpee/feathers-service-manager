@@ -12,6 +12,7 @@ export default function init (options: ServiceOptions) {
 export class ServiceClass extends BaseServiceClass {
 	public connections!: any;
 	public connectionId!: any;
+	public memberId!: any;
 	public client!: any;
 	public defaultOptions!: any;
 	public options!: any;
@@ -22,37 +23,42 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		this.client = options.client
 		this.connectionId = options.connectionId || this.generateId()
+		this.memberId = this.generateId()
 		this.defaultOptions = options.defaultOptions || {}
-		this.connectionServiceCheck().then(() => {
-			this.connect(options)
-		})
+		this.options = options
 		debug('connection-service initialized')
 	}
 
 	public setup (app: any, path: string): any {
 		this.app = app
 		this.path = path
+		this.connectionServiceCheck(app).then((connections: any) => {
+			this.connect(this.options, connections)
+		})
 	}
 
-	public connect (options?: any): any {
+	public connect (options?: any, connections?: any): any {
 		this.options = options
 		return this.createConnection(
 			this.connectionId,
-			this.client
+			this.client,
+			connections
 		)
 	}
 
-	public createConnection (id: Id, client: any): any {
+	public createConnection (id: Id, client: any, connections?: any): any {
+		const service = connections || this.connections
 		return this.getInfo().then(((info: any) => {
 			const connection = {
-				id,
+				[service._id]: id,
 				info,
 				client,
 				connectionType: this.getConnectionType(),
 				serviceTypes: [this.getServiceType()],
-				status: 'pending'
+				status: 'pending',
+				members: [this.memberId]
 			}
-			return this.connections.create(connection)
+			return service.create(connection)
 		}))
 		.then((result: any) => {
 			debug(`${this.getConnectionType()} connection created: ${this.connectionId}`)
@@ -104,18 +110,32 @@ export class ServiceClass extends BaseServiceClass {
 			return results
 		})
 	}
-	private connectionServiceCheck (): any {
+	private connectionServiceCheck (app: any): any {
 		return new Promise(resolve => {
-			if (typeof this.app.service('connection') === 'undefined') {
-				debug(`no connection service found on provided application.
-					${this.getConnectionType()} service will create connection service.`
-				)
-				this.app.use('connections', BaseService({id: 'id'}))
-				this.connections = this.app.service('connections')
-				return resolve()
+			if (this.options.connectionService) {
+				if (typeof this.options.connectionService === 'string') {
+					if (typeof app.service(this.options.connectionService) === 'undefined') {
+						debug(
+							`no service ${this.options.connectionService} found on application setup. 
+							${this.getConnectionType()} service will create ${this.options.connectionService} service.`
+						)
+						app.use(this.options.connectionService, BaseService({id: `${this.options.connectionService}Id`}))
+					}
+					this.connections = app.service(this.options.connectionService)
+					return resolve(this.connections)
+				}
+				debug(`using provided connection service as internal service`)
+				this.connections = this.options.connectionService
+				return resolve(this.connections)
 			}
-			this.connections = this.app.service('connections')
-			return resolve()
+			if (typeof app.service('connection') === 'undefined') {
+				debug(
+					`no connection service found on application setup. ${this.getConnectionType()} service will create connection service.`
+				)
+				app.use('connections', BaseService({id: 'connectionId'}))
+			}
+			this.connections = app.service('connections')
+			return resolve(this.connections)
 		})
 	}
 }
