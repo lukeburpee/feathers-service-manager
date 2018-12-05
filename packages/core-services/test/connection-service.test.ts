@@ -31,10 +31,22 @@ describe('feathers-service-manager:connection-service', () => {
 		id: 'internalId',
 		events:['events']
 	}))
-	const optionsProvidedService = {
+	const optionsServiceProvided = {
 		connectionId: uuid(),
 		client: {},
 		connectionService: setupApp.service('internal'),
+		events: ['testing']
+	}
+	const optionsServiceStringProvided = {
+		connectionId: uuid(),
+		client: {},
+		connectionService: 'stringService',
+		events: ['testing']
+	}
+	const optionsServiceStringProvidedExists = {
+		connectionId: uuid(),
+		client: {},
+		connectionService: 'internal',
 		events: ['testing']
 	}
 
@@ -50,21 +62,37 @@ describe('feathers-service-manager:connection-service', () => {
 	describe('Initialization', () => {
 		describe('setup', () => {
 			describe('internal connection service', () => {
-				describe('connection service does not exist on app at setup', () => {
+				describe('connectionService option not provided', () => {
 					const rawService = new ServiceClass(options)
 					rawService.setup(setupApp, '/internal-service-test')
-					it('adds connection service to application', () => {
-						expect(setupApp.service('connections')).to.not.equal(undefined)
+					describe('connection service does not exist on app at setup', () => {
+						it('adds connection service to application', () => {
+							expect(setupApp.service('connections')).to.not.equal(undefined)
+						})
 					})
-					it('uses the created service as internal connection service', () => {
+					it('uses the service as internal connection service', () => {
 						expect(rawService.connections._id).to.equal('connectionId')
 					})
 				})
-				describe('connection service provided in service options', () => {
-					const rawService = new ServiceClass(optionsProvidedService)
-					rawService.setup(setupApp, '/internal-service-provided-test')
-					it('uses the provided service as the internal connection service', () => {
-						expect(rawService.connections._id).to.equal('internalId')
+				describe('connectionService option provided', () => {
+					describe('string provided as connectionService option', () => {
+						const rawService = new ServiceClass(optionsServiceStringProvided)
+						rawService.setup(setupApp, '/internal-service-string-provided-test')
+						describe('provided service does not exist on app at setup', () => {
+							it('adds connection service to application', () => {
+								expect(setupApp.service('stringService')).to.not.equal(undefined)
+							})
+						})
+						it('uses the service as internal connection service', () => {
+							expect(rawService.connections._id).to.equal('stringServiceId')
+						})
+					})
+					describe('service instance provided as connectionService option', () => {
+						const rawService = new ServiceClass(optionsServiceProvided)
+						rawService.setup(setupApp, '/internal-service-provided-test')
+						it('uses the provided service as the internal connection service', () => {
+							expect(rawService.connections._id).to.equal('internalId')
+						})
 					})
 				})
 			})
