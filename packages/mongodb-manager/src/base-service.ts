@@ -47,11 +47,8 @@ export class ServiceClass extends ConnectionServiceClass {
 		})
 	}
 	public getInfo (): any {
-		let output: any = {}
 		return new Promise((resolve) => {
-			this.default.stats().then((info: any) => {
-				resolve(info)
-			})
+			resolve(this.admin.serverInfo())
 		})
 	}
 	public close (): any {

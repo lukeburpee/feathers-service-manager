@@ -51,16 +51,16 @@ describe('feathers-mongodb-manager:base-service', () => {
 				describe('defaultDb not provided in options', () => {
 					it(`uses the 'default' database as default`, () => {
 						expect(rawService.default instanceof Db).to.be.true
-						return app.service('connections').get(rawService.connectionId).then((connection: any) => {
-							expect(connection.info.db).to.equal('default')
+						return rawService.default.stats().then((info: any) => {
+							expect(info.db).to.equal('default')
 						})
 					})
 				})
 				describe('defaultDb provided in options', () => {
 					it('uses the provided database as default', () => {
 						expect(rawServiceDefaultDb.default instanceof Db).to.be.true
-						return app.service('connections').get(rawServiceDefaultDb.connectionId).then((connection: any) => {
-							expect(connection.info.db).to.equal('defaultDb')
+						return rawServiceDefaultDb.default.stats().then((info: any) => {
+							expect(info.db).to.equal('defaultDb')
 						})
 					})
 				})
@@ -105,7 +105,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 		describe('getInfo', () => {
 			it(`returns the results of the mongodb info check`, () => {
 				return rawBaseService.getInfo().then((info: any) => {
-					expect(info).to.have.property('db')
+					expect(info).to.have.property('version')
 				})
 			})
 		})
