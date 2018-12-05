@@ -107,7 +107,7 @@ describe('feathers-service-manager:connection-service', () => {
 		describe('getConnection', () => {
 			it('returns a connection from the connection store', () => {
 				return rawService.getConnection(connId).then((result: any) => {
-					expect(result.id).to.equal(connId)
+					expect(result.connectionIdd).to.equal(connId)
 					expect(result.client).to.equal('client')
 				})
 			})
@@ -115,11 +115,11 @@ describe('feathers-service-manager:connection-service', () => {
 
 		describe('updateConnection', () => {
 			it('updates an existing connection with provided data', () => {
-				return rawService.getConnection(connId).then((results: any) => {
-					return rawService.updateConnection(connId, {...results, status: 'ok'})
-					.then((final: any) => {
-						expect(final.id).to.equal(connId)
-						expect(final.status).to.equal('ok')
+				return rawService.getConnection(connId).then((toUpdate: any) => {
+					return rawService.updateConnection(connId, {...toUpdate, status: 'ok'})
+					.then((result: any) => {
+						expect(result.connectionId).to.equal(connId)
+						expect(result.status).to.equal('ok')
 					})
 				})
 			})
@@ -127,11 +127,11 @@ describe('feathers-service-manager:connection-service', () => {
 
 		describe('patchConnection', () => {
 			it('patches an existing connection with provided data', () => {
-				return rawService.getConnection(connId).then((results: any) => {
-					return rawService.patchConnection(connId, {...results, status: 'ok'})
-					.then((final: any) => {
-						expect(final.id).to.equal(connId)
-						expect(final.status).to.equal('ok')
+				return rawService.getConnection(connId).then((toPatch: any) => {
+					return rawService.patchConnection(connId, {...toPatch, status: 'ok'})
+					.then((result: any) => {
+						expect(result.connectionId).to.equal(connId)
+						expect(result.status).to.equal('ok')
 					})
 				})
 			})
