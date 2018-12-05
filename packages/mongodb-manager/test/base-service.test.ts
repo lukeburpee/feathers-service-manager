@@ -40,8 +40,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 	const options = {
 		connectionService: app.service('connections'),
 		events: ['testing'],
-		client: connection(),
-		defaultDb: 'test'
+		client: connection()
 	}
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
