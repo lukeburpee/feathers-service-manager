@@ -121,7 +121,7 @@ export class ServiceClass extends BaseServiceClass {
 				debug(
 					`no connection service found on application setup. ${this.getConnectionType()} service will create connection service.`
 				)
-				app.use('connections', BaseService({id: 'id'}))
+				app.use('connections', BaseService({id: 'connectionId'}))
 			}
 			this.connections = app.service('connections')
 			return resolve(this.connections)

@@ -50,16 +50,19 @@ describe('feathers-service-manager:connection-service', () => {
 				describe('connection service does not exist on app at setup', () => {
 					const rawService = new ServiceClass(options)
 					rawService.setup(setupApp, '/internal-service-test')
-					it('creates internal connection service', () => {
+					it('adds connection service to application', () => {
 						expect(setupApp.service('connections')).to.not.equal(undefined)
-						expect(rawService.connections).to.equal('connections')
+					})
+					it('uses the created service as internal connection service', () => {
+						expect(rawService.connections instanceof BaseService).to.be.true
+						expect(rawService.connections.id).to.equal('connectionId')
 					})
 				})
 				describe('connection service provided in service options', () => {
 					const rawService = new ServiceClass(optionsProvidedService)
 					rawService.setup(setupApp, '/internal-service-provided-test')
 					it('uses the provided service as the internal connection service', () => {
-						expect(rawService.connections).to.not.equal(undefined)
+						expect(rawService.connections.id).to.not.equal('connectionId')
 					})
 				})
 			})
