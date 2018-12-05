@@ -21,9 +21,10 @@ export class ServiceClass extends ConnectionServiceClass {
 					this.default = client.db('default')
 				}
 				this.admin = this.default.admin()
+			}).then(() => {
 				return this.createConnection(
 					this.connectionId,
-					client
+					this.client
 				)
 			})
 		})
