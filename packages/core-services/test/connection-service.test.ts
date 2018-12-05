@@ -70,7 +70,7 @@ describe('feathers-service-manager:connection-service', () => {
 							expect(setupApp.service('connections')).to.not.equal(undefined)
 						})
 					})
-					it('uses the service as internal connection service', () => {
+					it(`uses the 'connections' service as internal connection service`, () => {
 						expect(rawService.connections._id).to.equal('connectionId')
 					})
 				})
@@ -83,7 +83,7 @@ describe('feathers-service-manager:connection-service', () => {
 								expect(setupApp.service('stringService')).to.not.equal(undefined)
 							})
 						})
-						it('uses the service as internal connection service', () => {
+						it('uses the provided service as internal connection service', () => {
 							expect(rawService.connections._id).to.equal('stringServiceId')
 						})
 					})
