@@ -46,31 +46,11 @@ describe('feathers-mongodb-manager:base-service', () => {
 		const rawService = new ServiceClass(serviceOptions)
 		rawService.setup(app, '/connection-test')
 		describe('connectionId does not exist in connection store', () => {
-<<<<<<< HEAD
-			describe('default database', () => {
-				describe('defaultDb not provided in options', () => {
-					it(`uses the 'default' database as default`, () => {
-						expect(rawService.default instanceof Db).to.be.true
-						return rawService.default.stats().then((info: any) => {
-							expect(info.db).to.equal('default')
-						})
-					})
-				})
-				describe('defaultDb provided in options', () => {
-					it('uses the provided database as default', () => {
-						expect(rawServiceDefaultDb.default instanceof Db).to.be.true
-						return rawServiceDefaultDb.default.stats().then((info: any) => {
-							expect(info.db).to.equal('defaultDb')
-						})
-					})
-				})
-=======
 			it('creates and attaches a mongodb client connection', () => {
 				expect(rawService.client instanceof MongoClient).to.be.true
 			})
 			it(`creates and attaches a default database`, () => {
 				expect(rawService.default instanceof Db).to.be.true
->>>>>>> parent of d755f2a... add defaultDb tests and update createConnection test in mongodb-manager base service
 			})
 			it(`creates and attaches the admin database`, () => {
 				expect(rawService.admin).to.have.property('buildInfo')
