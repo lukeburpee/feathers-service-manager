@@ -36,12 +36,8 @@ describe('feathers-mongodb-manager:base-service', () => {
 		id: 'connectionId',
 		events: ['testing']
 	}))
+
 	const options = {
-		connectionService: app.service('connections'),
-		events: ['testing'],
-		client: connection()
-	}
-	const optionsDefaultDb = {
 		connectionService: app.service('connections'),
 		events: ['testing'],
 		client: connection(),
@@ -55,20 +51,9 @@ describe('feathers-mongodb-manager:base-service', () => {
 	describe('Connecting', () => {
 		const rawService = new ServiceClass(options)
 		rawService.setup(app, '/connection-test')
-		const rawDefaultDb = new ServiceClass(optionsDefaultDb)
-		rawDefaultDb.setup(app, 'connection-defaultdb-test')
 		describe('connectionId does not exist in connection store', () => {
-			describe('defaultDb option', () => {
-				describe('provided', () => {
-					it(`uses the provided database as default`, () => {
-						expect(rawDefaultDb.default instanceof Db).to.be.true
-					})
-				})
-				describe('missing', () => {
-					it(`uses 'default' database as default`, () => {
-						expect(rawService.default instanceof Db).to.be.true
-					})
-				})
+			it(`creates and attaches a default database`, () => {
+				expect(rawService.default instanceof Db).to.be.true
 			})
 			it(`creates and attaches the admin database`, () => {
 				expect(rawService.admin).to.have.property('buildInfo')
