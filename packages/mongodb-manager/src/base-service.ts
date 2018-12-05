@@ -11,7 +11,7 @@ export class ServiceClass extends ConnectionServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 	}
-	public connect (options: any): any {
+	public connect (options: any, connections?: any): any {
 		return this.getConnection(this.connectionId)
 		.catch((error: any) => {
 			return this.client.then((client: any) => {
@@ -21,9 +21,10 @@ export class ServiceClass extends ConnectionServiceClass {
 					this.default = client.db('default')
 				}
 				this.admin = this.default.admin()
-				this.createConnection(
+				return this.createConnection(
 					this.connectionId,
-					client
+					client,
+					connections
 				)
 			})
 		})
