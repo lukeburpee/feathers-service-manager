@@ -98,7 +98,7 @@ describe('feathers-service-manager:connection-service', () => {
 		describe('createConnection', () => {
 			it('adds a connection to the connection store and returns the original connection data', () => {
 				return rawService.createConnection(connId, 'client').then((result: any) => {
-					expect(result.id).to.equal(connId)
+					expect(result.connectionId).to.equal(connId)
 					expect(result.client).to.equal('client')
 				})
 			})

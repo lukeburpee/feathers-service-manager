@@ -50,7 +50,7 @@ export class ServiceClass extends BaseServiceClass {
 		const service = connections || this.connections
 		return this.getInfo().then(((info: any) => {
 			const connection = {
-				id,
+				[service._id]: id,
 				info,
 				client,
 				connectionType: this.getConnectionType(),
