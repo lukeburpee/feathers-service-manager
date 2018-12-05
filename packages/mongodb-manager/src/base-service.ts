@@ -12,17 +12,20 @@ export class ServiceClass extends ConnectionServiceClass {
 		super(options)
 	}
 	public connect (options: any): any {
-		return this.client.then((client: any) => {
-			if (options.defaultDb) {
-				this.default = client.db(options.defaultDb)
-			} else {
-				this.default = client.db('default')
-			}
-			this.admin = this.default.admin()
-			this.createConnection(
-				options.connectionId || this.generateId(),
-				client
-			)
+		return this.getConnection(this.connectionId)
+		.catch((error: any) => {
+			return this.client.then((client: any) => {
+				if (options.defaultDb) {
+					this.default = client.db(options.defaultDb)
+				} else {
+					this.default = client.db('default')
+				}
+				this.admin = this.default.admin()
+				this.createConnection(
+					this.connectionId,
+					client
+				)
+			})
 		})
 	}
 	public getConnectionType (): string {

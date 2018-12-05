@@ -38,25 +38,23 @@ describe('feathers-mongodb-manager:collections-service', () => {
 	}
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
-			expect(typeof ServiceClass).to.equal('function')
+			expect(typeof CollectionsService).to.equal('function')
 		})
 	})
-	describe('Base Service', () => {
+	describe('Connection Methods', () => {
 		const rawBaseService = new ServiceClass(serviceOptions)
 		rawBaseService.setup(app, '/base-service')
-		describe('Connection Methods', () => {
-			describe('getServiceType', () => {
-				it(`returns the 'collections-service' mongodb service type`, () => {
-					expect(rawBaseService.getServiceType()).to.equal('collections-service')
-				})
+		describe('getServiceType', () => {
+			it(`returns the 'collections-service' mongodb service type`, () => {
+				expect(rawBaseService.getServiceType()).to.equal('collections-service')
 			})
 		})
-		//app.use('m-service', MongoService(serviceOptions))
-		//const service = app.service('m-service')
-		//describe('Common Service Tests', () => {
-		//	base(app, errors, 'm-service', 'id')
-		//})
 	})
+	//app.use('m-service', MongoService(serviceOptions))
+	//const service = app.service('m-service')
+	//describe('Common Service Tests', () => {
+	//	base(app, errors, 'm-service', 'id')
+	//})
 	after(() => {
 		setTimeout(() => {
 			conn.close()

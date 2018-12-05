@@ -38,25 +38,23 @@ describe('feathers-mongodb-manager:roles-service', () => {
 	}
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
-			expect(typeof ServiceClass).to.equal('function')
+			expect(typeof RolesService).to.equal('function')
 		})
 	})
-	describe('Roles Service', () => {
+	describe('Connection Methods', () => {
 		const rawBaseService = new ServiceClass(serviceOptions)
 		rawBaseService.setup(app, '/roles-service')
-		describe('Connection Methods', () => {
-			describe('getServiceType', () => {
-				it(`returns the 'roles-service' mongodb service type`, () => {
-					expect(rawBaseService.getServiceType()).to.equal('roles-service')
-				})
+		describe('getServiceType', () => {
+			it(`returns the 'roles-service' mongodb service type`, () => {
+				expect(rawBaseService.getServiceType()).to.equal('roles-service')
 			})
 		})
+	})
 		//app.use('m-service', MongoService(serviceOptions))
 		//const service = app.service('m-service')
 		//describe('Common Service Tests', () => {
 		//	base(app, errors, 'm-service', 'id')
 		//})
-	})
 	after(() => {
 		setTimeout(() => {
 			conn.close()
