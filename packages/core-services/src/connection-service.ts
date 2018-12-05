@@ -12,6 +12,7 @@ export default function init (options: ServiceOptions) {
 export class ServiceClass extends BaseServiceClass {
 	public connections!: any;
 	public connectionId!: any;
+	public memberId!: any;
 	public client!: any;
 	public defaultOptions!: any;
 	public options!: any;
@@ -22,6 +23,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		this.client = options.client
 		this.connectionId = options.connectionId || this.generateId()
+		this.memberId = this.generateId()
 		this.defaultOptions = options.defaultOptions || {}
 		this.connectionServiceCheck().then(() => {
 			this.connect(options)
@@ -50,7 +52,8 @@ export class ServiceClass extends BaseServiceClass {
 				client,
 				connectionType: this.getConnectionType(),
 				serviceTypes: [this.getServiceType()],
-				status: 'pending'
+				status: 'pending',
+				members: [this.memberId]
 			}
 			return this.connections.create(connection)
 		}))
