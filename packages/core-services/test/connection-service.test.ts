@@ -3,6 +3,7 @@ import feathers from '@feathersjs/feathers';
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
 
+import { default as BaseService } from '../src/base-service'
 import { default as ConnectionService, ServiceClass } from '../src/connection-service'
 
 const debug = Debug('feathers-service-manager:core-services:base-service:tests')
@@ -26,9 +27,11 @@ describe('feathers-service-manager:connection-service', () => {
 		events: ['testing']
 	}
 
-	const optionsCustom = {
+	app.use('internal', BaseService({ events:['events'] }))
+	const optionsProvidedService = {
 		connectionId: uuid(),
 		client: {},
+		connectionService: app.service('provided-service'),
 		events: ['testing']
 	}
 
@@ -44,11 +47,19 @@ describe('feathers-service-manager:connection-service', () => {
 	describe('Initialization', () => {
 		describe('setup', () => {
 			describe('internal connection service', () => {
-				describe('connection service does not exist on app at initialization', () => {
+				describe('connection service does not exist on app at setup', () => {
 					it('creates internal connection service', () => {
-						setupApp.use('conns', ConnectionService(options))
-						const createdService = setupApp.service('connections')
-						expect(createdService).to.not.equal(undefined)
+						const rawService = new ServiceClass(options)
+						rawService.setup(app, '/internal-service-test')
+						expect(app.service('connections')).to.not.equal(undefined)
+						expect(rawService.connections.path).to.equal('connections')
+					})
+				})
+				describe('connection service provided in service options', () => {
+					it('uses the provided service as the internal connection service', () => {
+						const rawService = new ServiceClass(optionsProvidedService)
+						rawService.setup(app, '/internal-provided-test')
+						expect(rawService.connections.path).to.equal('internal')
 					})
 				})
 			})

@@ -112,13 +112,16 @@ export class ServiceClass extends BaseServiceClass {
 	}
 	private connectionServiceCheck (app: any): any {
 		return new Promise(resolve => {
+			if (this.options.connectionService) {
+				debug(`using provided connection service as internal service`)
+				this.connections = this.options.connectionService
+				return resolve(this.connections)
+			}
 			if (typeof app.service('connection') === 'undefined') {
-				debug(`no connection service found on provided application.
-					${this.getConnectionType()} service will create connection service.`
+				debug(
+					`no connection service found on application setup. ${this.getConnectionType()} service will create connection service.`
 				)
 				app.use('connections', BaseService({id: 'id'}))
-				this.connections = app.service('connections')
-				return resolve(this.connections)
 			}
 			this.connections = app.service('connections')
 			return resolve(this.connections)
