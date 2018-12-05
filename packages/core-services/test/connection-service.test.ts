@@ -26,6 +26,12 @@ describe('feathers-service-manager:connection-service', () => {
 		events: ['testing']
 	}
 
+	const optionsCustom = {
+		connectionId: uuid(),
+		client: {},
+		events: ['testing']
+	}
+
 	app.use('conns', ConnectionService(options))
 	app.use('conns-missing-connectionId', ConnectionService(missingConnectionId))
 
@@ -42,7 +48,7 @@ describe('feathers-service-manager:connection-service', () => {
 					it('creates internal connection service', () => {
 						setupApp.use('conns', ConnectionService(options))
 						const createdService = setupApp.service('connections')
-						expect(createdService).to.not.equal('undefined')
+						expect(createdService).to.not.equal(undefined)
 					})
 				})
 			})
