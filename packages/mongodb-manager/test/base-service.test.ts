@@ -32,14 +32,10 @@ describe('feathers-mongodb-manager:base-service', () => {
 		});
 	}
 
-	const options = {
-		events: ['testing'],
-		client: connection()
-	}
-	const withDefaultDb = {
+	const serviceOptions = {
 		events: ['testing'],
 		client: connection(),
-		defaultDb: 'defaultDb'
+		defaultDb: 'test'
 	}
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
@@ -47,14 +43,10 @@ describe('feathers-mongodb-manager:base-service', () => {
 		})
 	})
 	describe('Connecting', () => {
-
-		const rawService = new ServiceClass(options)
-		const rawServiceDefaultDb = new ServiceClass(withDefaultDb)
-
+		const rawService = new ServiceClass(serviceOptions)
 		rawService.setup(app, '/connection-test')
-		rawServiceDefaultDb.setup(app, '/connection-test-w-default')
-
 		describe('connectionId does not exist in connection store', () => {
+<<<<<<< HEAD
 			describe('default database', () => {
 				describe('defaultDb not provided in options', () => {
 					it(`uses the 'default' database as default`, () => {
@@ -72,6 +64,13 @@ describe('feathers-mongodb-manager:base-service', () => {
 						})
 					})
 				})
+=======
+			it('creates and attaches a mongodb client connection', () => {
+				expect(rawService.client instanceof MongoClient).to.be.true
+			})
+			it(`creates and attaches a default database`, () => {
+				expect(rawService.default instanceof Db).to.be.true
+>>>>>>> parent of d755f2a... add defaultDb tests and update createConnection test in mongodb-manager base service
 			})
 			it(`creates and attaches the admin database`, () => {
 				expect(rawService.admin).to.have.property('buildInfo')
@@ -84,7 +83,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 		})
 	})
 	describe('Connection Methods', () => {
-		const rawBaseService = new ServiceClass(options)
+		const rawBaseService = new ServiceClass(serviceOptions)
 		rawBaseService.setup(app, '/base-service')
 		describe('getConnectionType', () => {
 			it(`returns the 'mongodb' connection type`, () => {
@@ -111,7 +110,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 			})
 		})
 	})
-	//app.use('m-service', MongoService(options))
+	//app.use('m-service', MongoService(serviceOptions))
 	//const service = app.service('m-service')
 	//describe('Common Service Tests', () => {
 	//	base(app, errors, 'm-service', 'id')

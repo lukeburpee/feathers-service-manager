@@ -1,7 +1,4 @@
 import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
-import { default as Debug } from 'debug'
-
-const debug = Debug('mongodb-manager:base-service')
 
 export default function (options: ServiceOptions) {
 	return new ServiceClass(options)
@@ -14,12 +11,9 @@ export class ServiceClass extends ConnectionServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 	}
-	public connect (options: any, connections?: any): any {
+	public connect (options: any): any {
 		return this.getConnection(this.connectionId)
 		.catch((error: any) => {
-			debug(
-				`${this.connectionId} not found in connection store. creating new mongodb connection.`
-			)
 			return this.client.then((client: any) => {
 				if (options.defaultDb) {
 					this.default = client.db(options.defaultDb)
@@ -27,10 +21,9 @@ export class ServiceClass extends ConnectionServiceClass {
 					this.default = client.db('default')
 				}
 				this.admin = this.default.admin()
-				return this.createConnection(
+				this.createConnection(
 					this.connectionId,
-					client,
-					connections
+					client
 				)
 			})
 		})
