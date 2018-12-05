@@ -1,10 +1,10 @@
 import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
 
 export default function (options: ServiceOptions) {
-	return new Service(options)
+	return new ServiceClass(options)
 }
 
-export class Service extends ConnectionServiceClass {
+export class ServiceClass extends ConnectionServiceClass {
 	public default!: any;
 	public admin!: any;
 
@@ -12,17 +12,21 @@ export class Service extends ConnectionServiceClass {
 		super(options)
 	}
 	public connect (options: any): any {
-		return this.client.then((client: any) => {
-			if (options.defaultDb) {
-				this.default = client.db(options.defaultDb)
-			} else {
-				this.default = client.db('default')
-			}
-			this.admin = this.default.admin()
-			this.createConnection(
-				options.connectionId || this.generateId(),
-				client
-			)
+		return this.getConnection(this.connectionId)
+		.catch((error: any) => {
+			return this.client.then((client: any) => {
+				if (options.defaultDb) {
+					this.default = client.db(options.defaultDb)
+				} else {
+					this.default = client.db('default')
+				}
+				this.admin = this.default.admin()
+			}).then(() => {
+				return this.createConnection(
+					this.connectionId,
+					this.client
+				)
+			})
 		})
 	}
 	public getConnectionType (): string {
