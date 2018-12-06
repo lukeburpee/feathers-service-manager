@@ -1,5 +1,4 @@
 import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
-
 export default function (options: ServiceOptions) {
 	return new ServiceClass(options)
 }
@@ -7,21 +6,23 @@ export default function (options: ServiceOptions) {
 export class ServiceClass extends ConnectionServiceClass {
 	public default!: any;
 	public admin!: any;
-
+	public connection!: any;
 	constructor (options: ServiceOptions) {
 		super(options)
 	}
 	public connect (options: any): any {
 		return this.getConnection(this.connectionId)
 		.catch((error: any) => {
-			return this.client.then((client: any) => {
+			return this.client.then((conn: any) => {
 				if (options.defaultDb) {
-					this.default = client.db(options.defaultDb)
+					this.default = conn.db(options.defaultDb)
 				} else {
-					this.default = client.db('default')
+					this.default = conn.db('default')
 				}
 				this.admin = this.default.admin()
-			}).then(() => {
+				return conn
+			}).then((conn: any) => {
+				this.connection = conn
 				return this.createConnection(
 					this.connectionId,
 					this.client
@@ -42,11 +43,6 @@ export class ServiceClass extends ConnectionServiceClass {
 			})
 		})
 	}
-	public getInstance (): any {
-		return new Promise((resolve) => {
-			resolve(this.admin)
-		})
-	}
 	public getInfo (): any {
 		return new Promise((resolve) => {
 			resolve(this.admin.serverInfo())
@@ -54,7 +50,12 @@ export class ServiceClass extends ConnectionServiceClass {
 	}
 	public close (): any {
 		return new Promise((resolve) => {
-			resolve(this.admin.close())
+			this.connection.close().then(() => {
+				this.connections.remove(this.connectionId)
+				.then((conn: any) => {
+					resolve(conn)
+				})
+			})
 		})
 	}
 }
