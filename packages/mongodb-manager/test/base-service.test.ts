@@ -92,9 +92,10 @@ describe('feathers-mongodb-manager:base-service', () => {
 			})
 		})
 		describe('close', () => {
-			it('removes the connection from the connection store', () => {
+			it('removes the connection from the connection store', (done) => {
 				return rawBaseService.close().then((connection: any) => {
-					expect(app.service('connections').get(connection.connectionId)).to.throw()
+					expect(() => app.service('connections').get(connection.connectionId)).to.throw()
+					done()
 				})
 			})
 		})
