@@ -92,10 +92,12 @@ describe('feathers-mongodb-manager:base-service', () => {
 			})
 		})
 		describe('close', () => {
-			it('removes the connection from the connection store', (done) => {
+			it('removes the connection from the connection store', () => {
 				return rawBaseService.close().then((connection: any) => {
-					expect(() => app.service('connections').get(connection.connectionId)).to.throw()
-					done()
+					app.service('connections').get(connection.connectionId)
+					.catch((error: any) => {
+						expect(error.message).to.equal(`No record found for id '${connection.connectionId}'`)
+					})
 				})
 			})
 		})
