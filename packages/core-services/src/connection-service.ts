@@ -64,9 +64,6 @@ export class ServiceClass extends BaseServiceClass {
 			debug(`${this.getConnectionType()} connection created: ${this.connectionId}`)
 			return result
 		})
-		.catch((error: any) => {
-			throw new Error(`${this.getConnectionType()} failed to connect ${this.getConnectionType()}: ${error.message}`)
-		})
 	}
 	public getConnection (connectionId: any): any {
 		return this.connections.get(connectionId)
