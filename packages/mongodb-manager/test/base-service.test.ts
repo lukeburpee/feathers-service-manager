@@ -91,6 +91,16 @@ describe('feathers-mongodb-manager:base-service', () => {
 				})
 			})
 		})
+		describe('close', () => {
+			it('removes the connection from the connection store', () => {
+				return rawBaseService.close().then((connection: any) => {
+					app.service('connections').get(connection.connectionId)
+					.catch((error: any) => {
+						expect(error.message).to.equal(`No record found for id '${connection.connectionId}'`)
+					})
+				})
+			})
+		})
 	})
 	//app.use('m-service', MongoService(options))
 	//const service = app.service('m-service')
