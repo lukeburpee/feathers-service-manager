@@ -11,22 +11,21 @@ export class ServiceClass extends ConnectionServiceClass {
 		super(options)
 	}
 	public connect (options: any): any {
-		let connection: any;
 		return this.getConnection(this.connectionId)
 		.catch((error: any) => {
 			return this.client.then((conn: any) => {
-				connection = conn
 				if (options.defaultDb) {
 					this.default = conn.db(options.defaultDb)
 				} else {
 					this.default = conn.db('default')
 				}
 				this.admin = this.default.admin()
-			}).then(() => {
-				this.connection = connection
+				return conn
+			}).then((conn: any) => {
+				this.connection = conn
 				return this.createConnection(
 					this.connectionId,
-					connection
+					this.connection
 				)
 			})
 		})
