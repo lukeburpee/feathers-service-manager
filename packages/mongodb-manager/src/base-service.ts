@@ -1,4 +1,9 @@
+import { default as Debug } from 'debug'
+
 import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
+
+const debug = Debug('feathers-service-manager:mongodb-manager:base-service')
+
 export default function (options: ServiceOptions) {
 	return new ServiceClass(options)
 }
@@ -15,7 +20,7 @@ export class ServiceClass extends ConnectionServiceClass {
 		.then((connection: any) => {
 			this.client = connection.client
 			return this.client.then((conn: any) => {
-				console.log(conn)
+				debug(conn)
 				this.connection = conn
 				if (options.defaultDb) {
 					this.default = this.connection.db(options.defaultDb)
@@ -28,7 +33,7 @@ export class ServiceClass extends ConnectionServiceClass {
 					this.connectionId,
 					{ members: members }
 				).then((serviceConnection: any) => {
-					console.log(
+					debug(
 						`mongo-base service connection patched:
 						connectionId: ${this.connectionId}
 						members: ${JSON.stringify(serviceConnection.members)}`
@@ -68,7 +73,7 @@ export class ServiceClass extends ConnectionServiceClass {
 			})
 		})
 		.then((serviceConnection: any) => {
-			console.log(
+			debug(
 			`mongodb-manager connected: 
 				connectionId: ${serviceConnection.connectionId}
 				members: ${JSON.stringify(serviceConnection.members)}`
