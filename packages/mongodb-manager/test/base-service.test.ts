@@ -24,24 +24,24 @@ describe('feathers-mongodb-manager:base-service', () => {
 		keepAlive: true
 	}
 
-	const connection = () => {
-		return connect('mongodb://127.0.0.1:27017', db).then((connection: any) => {
-			conn = connection
-			return connection
-		}).catch(error => {
-			debug(`error connecting to mongodb: ${error.message}`)
-		});
-	}
 	app.use('connections', MemoryService({
 		id: 'connectionId',
-		events: ['testing']
+		events: ['testing'],
+		disableStringify: true
 	}))
+
+	const client = MongoClient.connect('mongodb://127.0.0.1:27017', db)
 
 	const options = {
 		connectionService: app.service('connections'),
 		events: ['testing'],
-		client: connection()
+		client
 	}
+
+	client.then((connection: any) => {
+		conn = connection
+	})
+
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
 			expect(typeof BaseService).to.equal('function')
@@ -107,9 +107,9 @@ describe('feathers-mongodb-manager:base-service', () => {
 	//describe('Common Service Tests', () => {
 	//	base(app, errors, 'm-service', 'id')
 	//})
-	after(() => {
-		setTimeout(() => {
-			conn.close()
-		}, 3000)
+	after(() => {	
+		setTimeout(() => {	
+			conn.close()	
+		}, 3000)	
 	})
 })
