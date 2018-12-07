@@ -41,6 +41,7 @@
     "@feathersjs/errors": "^3.3.4",
     "@feathersjs/feathers": "^3.2.3",
     "debug": "^4.1.0",
+    "rxjs": "^6.3.3",
     "selfsigned": "^1.10.4",
     "sift": "^7.0.1",
     "uuid": "^3.3.2"

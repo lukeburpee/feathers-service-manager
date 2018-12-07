@@ -16,7 +16,9 @@
     "clean:lock-files": "rimraf yarn.lock && rimraf packages/**/yarn.lock",
     "test": "nyc lerna run test",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "yarn coverage:coveralls && yarn coverage:codecov",
+    "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "coverage:codecov": "nyc report --reporter=test-lcov > coverage.lcov && codecov"
   },
   "devDependencies": {
     "@feathersjs/client": "^3.7.5",
@@ -48,6 +50,7 @@
     "@types/node": "^10.12.5",
     "@types/uuid": "^3.4.4",
     "chai": "^4.2.0",
+    "codecov": "^3.1.0",
     "coveralls": "^3.0.2",
     "feathers-service-tests": "^0.10.2",
     "lerna": "^3.4.3",
