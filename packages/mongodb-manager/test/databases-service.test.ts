@@ -14,6 +14,7 @@ import { default as DatabasesService, ServiceClass } from '../src/databases-serv
 const debug = Debug('feathers-mongodb-manager:databases-service:test')
 
 describe('feathers-mongodb-manager:databases-service', () => {
+	let conn: any;
 	const app = feathers()
 	const db = {
 		useNewUrlParser: true,
@@ -28,10 +29,12 @@ describe('feathers-mongodb-manager:databases-service', () => {
 		disableStringify: true
 	}))
 
+	const client = MongoClient.connect('mongodb://127.0.0.1:27017', db)
+
 	const options = {
 		connectionService: app.service('connections'),
 		events: ['testing'],
-		client: MongoClient.connect('mongodb://127.0.0.1:27017', db)
+		client
 	}
 
 	describe('Requiring', () => {
@@ -53,4 +56,9 @@ describe('feathers-mongodb-manager:databases-service', () => {
 	//describe('Common Service Tests', () => {
 	//	base(app, errors, 'm-service', 'id')
 	//})
+	after(() => {	
+		setTimeout(() => {	
+			conn.close()	
+		}, 3000)	
+	})
 })
