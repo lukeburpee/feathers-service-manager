@@ -3,17 +3,17 @@ import feathers from '@feathersjs/feathers';
 import * as errors from '@feathersjs/errors';
 import configuration from '@feathersjs/configuration';
 import { base } from 'feathers-service-tests';
-import { connect } from 'mongodb';
+import { MongoClient } from 'mongodb';
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
 
+import { default as MemoryService } from '@feathers-service-manager/core-services'
 import { default as DatabasesService, ServiceClass } from '../src/databases-service'
 
 const debug = Debug('feathers-mongodb-manager:databases-service:test')
 
 describe('feathers-mongodb-manager:databases-service', () => {
-	let conn: any;
 	const app = feathers()
 	const db = {
 		useNewUrlParser: true,
@@ -22,27 +22,25 @@ describe('feathers-mongodb-manager:databases-service', () => {
 		keepAlive: true
 	}
 
-	const connection = () => {
-		return connect('mongodb://127.0.0.1:27017', db).then((connection: any) => {
-			conn = connection
-			return connection
-		}).catch(error => {
-			debug(`error connecting to mongodb: ${error.message}`)
-		});
+	app.use('connections', MemoryService({
+		id: 'connectionId',
+		events: ['testing'],
+		disableStringify: true
+	}))
+
+	const options = {
+		connectionService: app.service('connections'),
+		events: ['testing'],
+		client: MongoClient.connect('mongodb://127.0.0.1:27017', db)
 	}
 
-	const serviceOptions = {
-		events: ['testing'],
-		client: connection(),
-		defaultDb: 'test'
-	}
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
 			expect(typeof DatabasesService).to.equal('function')
 		})
 	})
 	describe('Connection Methods', () => {
-		const rawBaseService = new ServiceClass(serviceOptions)
+		const rawBaseService = new ServiceClass(options)
 		rawBaseService.setup(app, '/databases-service')
 		describe('getServiceType', () => {
 			it(`returns the 'databases-service' mongodb service type`, () => {
@@ -50,14 +48,9 @@ describe('feathers-mongodb-manager:databases-service', () => {
 			})
 		})
 	})
-	//app.use('m-service', MongoService(serviceOptions))
+	//app.use('m-service', MongoService(options))
 	//const service = app.service('m-service')
 	//describe('Common Service Tests', () => {
 	//	base(app, errors, 'm-service', 'id')
 	//})
-	after(() => {
-		setTimeout(() => {
-			conn.close()
-		}, 3000)
-	})
 })
