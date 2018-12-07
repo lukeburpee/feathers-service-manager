@@ -36,15 +36,22 @@
     "test": "ts-mocha test/**/*.ts"
   },
   "dependencies": {
+    "@feathers-plus/batch-loader": "^0.3.4",
+    "@feathers-plus/cache": "^1.4.0",
+    "@feathers-plus/cli": "^0.7.72",
     "@feathers-service-manager/utils": "^0.0.1-alpha",
     "@feathersjs/commons": "^3.0.1",
     "@feathersjs/errors": "^3.3.4",
     "@feathersjs/feathers": "^3.2.3",
+    "@zeit/ncc": "^0.5.0",
     "debug": "^4.1.0",
+    "execa": "^1.0.0",
+    "feathers-hooks-common": "^4.19.4",
     "rxjs": "^6.3.3",
     "selfsigned": "^1.10.4",
     "sift": "^7.0.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "worker-farm": "^1.6.0"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
