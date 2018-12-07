@@ -3,7 +3,7 @@ import feathers from '@feathersjs/feathers';
 import * as errors from '@feathersjs/errors';
 import configuration from '@feathersjs/configuration';
 import { base } from 'feathers-service-tests';
-import { MongoClient } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
@@ -41,17 +41,36 @@ describe('feathers-mongodb-manager:databases-service', () => {
 		conn = connection
 	})
 
+	const rawBaseService = new ServiceClass(options)
+	rawBaseService.setup(app, '/databases-service')
+
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
 			expect(typeof DatabasesService).to.equal('function')
 		})
 	})
 	describe('Connection Methods', () => {
-		const rawBaseService = new ServiceClass(options)
-		rawBaseService.setup(app, '/databases-service')
 		describe('getServiceType', () => {
 			it(`returns the 'databases-service' mongodb service type`, () => {
 				expect(rawBaseService.getServiceType()).to.equal('databases-service')
+			})
+		})
+	})
+	describe('Standard Service Methods', () => {
+		describe('create', () => {
+			it(`creates a database and returns a mongodb database`, () => {
+				return rawBaseService.create({ name: 'test' }).then((test: any) => {
+					expect(test.name).to.equal('test')
+					expect(test.db instanceof Db).to.be.true
+					expect(test.stats).to.have.property('db')
+				})
+			})
+			describe('missing database name', () => {
+				it('throws an error', () => {
+					return rawBaseService.create({}).catch((error: any) => {
+						expect(error.message).to.equal('name required to create new mongodb database')
+					})
+				})
 			})
 		})
 	})
