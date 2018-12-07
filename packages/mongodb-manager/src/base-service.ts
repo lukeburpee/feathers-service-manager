@@ -13,9 +13,9 @@ export class ServiceClass extends ConnectionServiceClass {
 	public connect (options: any): any {
 		return this.getConnection(this.connectionId)
 		.then((connection: any) => {
-			console.log(connection)
 			this.client = connection.client
 			return this.client.then((conn: any) => {
+				console.log(conn)
 				this.connection = conn
 				if (options.defaultDb) {
 					this.default = this.connection.db(options.defaultDb)
@@ -23,9 +23,18 @@ export class ServiceClass extends ConnectionServiceClass {
 					this.default = this.connection.db('default')
 				}
 				this.admin = this.default.admin()
+				const members = [...connection.members, this.memberId]
 				return this.patchConnection(
 					this.connectionId,
-					{ members: connection.members.concat([this.memberId]) }
+					{ members: members }
+				)
+			})
+			.catch((error: any) => {
+				throw new Error(
+					`Error patching mongodb-base service:
+					connectionId: ${this.connectionId}
+					memberId: ${this.memberId}
+					message: ${error.message}`
 				)
 			})
 		})
@@ -42,6 +51,14 @@ export class ServiceClass extends ConnectionServiceClass {
 					this.connectionId,
 					this.client
 				)
+				.catch((error: any) => {
+					throw new Error(
+						`Error creating mongodb-base service:
+						connectionId: ${this.connectionId}
+						memberId: ${this.memberId}
+						messaage: ${error.message}`
+					)
+				})
 			})
 		})
 		.then((serviceConnection: any) => {
