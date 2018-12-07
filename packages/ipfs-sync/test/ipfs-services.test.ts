@@ -4,10 +4,9 @@ import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
 import { ServiceClass } from '../src/ipfs-base-service'
 
-const debug = Debug('feathers-ipfs-manager:test')
+const debug = Debug('@feathers-service-manager:ipfs-sync:test')
 
-describe('feathers-ipfs-manager', () => {
-	debug('ipfs-manager tests starting')
+describe('@feathers-service-manager:ipfs-sync', () => {
 	const app = feathers()
 	const serviceOptions = {
 		connectionId: uuid(),
