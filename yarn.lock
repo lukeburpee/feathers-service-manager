@@ -1482,6 +1482,11 @@
     "@shellscape/koa-send" "^4.1.0"
     debug "^2.6.8"
 
+"@types/bluebird@*":
+  version "3.5.24"
+  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.24.tgz#11f76812531c14f793b8ecbf1de96f672905de8a"
+  integrity sha512-YeQoDpq4Lm8ppSBqAnAeF/xy1cYp/dMTif2JFcvmAbETMRlvKHT2iLcWu+WyYiJO3b3Ivokwo7EQca/xfLVJmg==
+
 "@types/body-parser@*":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.0.tgz#9f5c9d9bd04bb54be32d5eb9fc0d8c974e6cf58c"
@@ -1530,6 +1535,13 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
   integrity sha512-KEIlhXnIutzKwRbQkGWb/I4HFqBuUykAdHgDED6xqwXJfONCjF5VoE0cXEiurh3XauygxzeDzgtXUqvLkxFzzA==
+
+"@types/execa@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@types/execa/-/execa-0.9.0.tgz#9b025d2755f17e80beaf9368c3f4f319d8b0fb93"
+  integrity sha512-mgfd93RhzjYBUHHV532turHC2j4l/qxsF/PbfDmprHDEUHmNZGlDn1CEsulGK3AfsPdhkWzZQT/S/k0UGhLGsA==
+  dependencies:
+    "@types/node" "*"
 
 "@types/express-serve-static-core@*":
   version "4.16.0"
@@ -1636,6 +1648,43 @@
     "@types/feathersjs__socket-commons" "*"
     "@types/socket.io" "*"
 
+"@types/fs-extra-promise@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra-promise/-/fs-extra-promise-1.0.7.tgz#0028a11e2f26a5a2391954bf199bfbb0c9806a1f"
+  integrity sha512-HEyt6v64my1B6fBvMPzS1mc/mxbDikqSzJ7Qw9kHowMKPSPLFSKzaiJo9bsE7xUQa9OwCpEDlX+QEBxPiXnRPg==
+  dependencies:
+    "@types/bluebird" "*"
+    "@types/fs-extra" "^4"
+    "@types/node" "*"
+
+"@types/fs-extra@^4":
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-4.0.8.tgz#6957ddaf9173195199cb96da3db44c74700463d2"
+  integrity sha512-Z5nu9Pbxj9yNeXIK3UwGlRdJth4cZ5sCq05nI7FaI6B0oz28nxkOtp6Lsz0ZnmLHJGvOJfB/VHxSTbVq/i6ujA==
+  dependencies:
+    "@types/node" "*"
+
+"@types/fs-extra@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-5.0.4.tgz#b971134d162cc0497d221adde3dbb67502225599"
+  integrity sha512-DsknoBvD8s+RFfSGjmERJ7ZOP1HI0UZRA3FSI+Zakhrc/Gy26YQsLI+m5V5DHxroHRJqCDLKJp7Hixn8zyaF7g==
+  dependencies:
+    "@types/node" "*"
+
+"@types/into-stream@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/into-stream/-/into-stream-3.1.0.tgz#ec92ce1572ac67ba016a61b3b4ef0c44318a41b9"
+  integrity sha512-DUj1RSbOJQtCx7CNmHA6c8dA/xJuPtN/A45SCrWiYW7511Rd/zn0nRNyud5KH+9alREQraVJ4uQ0niwfeEAr0Q==
+  dependencies:
+    "@types/node" "*"
+
+"@types/jsonfile@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/jsonfile/-/jsonfile-4.0.1.tgz#be43f5096f1b3c97180e7ae419d747287d24d494"
+  integrity sha512-XlVk21nYr7/EnG3q3RUo8OTsSTBGcGo0Ts6//pJzGORwv2SxP2CLsvPdIXBYwF9ajFnW/gIGA2nhAJgGHh3vNQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/mime@*":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
@@ -1686,9 +1735,9 @@
   integrity sha512-Vs55Kq8F+OWvy1RLA31rT+cAyemzgm0EWNeax6BWF8H7QiiOYMJIdcwSDdm5LVgfEkoepsWkS+40+WNb7BUMbg==
 
 "@types/socket.io@*":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-2.1.0.tgz#9f374ce81e9ffc03de3596e5fd5ea34c80f6c35a"
-  integrity sha512-G91c236+S/+Xg2vR53/7ypFvbJ7l8m4GcKZ/at0zp9HpOIwiStpgwq3xSW4aRsSrejPjot0EOavispbSnIaUmg==
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-2.1.2.tgz#7165c2587cc3b86b44aa78e2a0060140551de211"
+  integrity sha512-Ind+4qMNfQ62llyB4IMs1D8znMEBsMKohZBPqfBUIXqLQ9bdtWIbNTBWwtdcBWJKnokMZGcmWOOKslatni5vtA==
   dependencies:
     "@types/node" "*"
 
