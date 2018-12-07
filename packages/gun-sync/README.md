@@ -1,4 +1,4 @@
-# @feathers-service-manager/ipfs-manager
+# @feathers-service-manager/gun-sync
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/lukeburpee/feathers-service-manager.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/lukeburpee/feathers-service-manager.png?branch=master)](https://travis-ci.org/lukeburpee/feathers-service-manager)

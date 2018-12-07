@@ -1,5 +1,5 @@
 {
-  "name": "@feathers-service-manager/ipfs-manager",
+  "name": "@feathers-service-manager/ipfs-sync",
   "version": "0.0.1-alpha",
   "description": "",
   "main": "dist/",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lukeburpee/feathers-service-manager/ipfs-manager.git"
+    "url": "git+https://github.com/lukeburpee/feathers-service-manager/ipfs-sync.git"
   },
   "keywords": [
     "feathers",
