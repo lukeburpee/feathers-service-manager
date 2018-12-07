@@ -54,31 +54,43 @@ describe('feathers-mongodb-manager:base-service', () => {
 		})
 	})
 	describe('Connecting', () => {
-		const rawService = new ServiceClass({ ...options, connectionId })
-		rawService.setup(app, '/connection-test')
-		const rawServiceTwo = new ServiceClass({ ...noClient, connectionId })
-		rawServiceTwo.setup(app, '/connection-test-two')
+		const connectService = new ServiceClass(options)
+		connectService.setup(app, '/connection-test')
 		describe('connectionId does not exist in connection store', () => {
 			it(`creates and attaches a default database`, () => {
-				expect(rawService.default instanceof Db).to.be.true
+				expect(connectService.default instanceof Db).to.be.true
 			})
 			it(`creates and attaches the admin database`, () => {
-				expect(rawService.admin).to.have.property('buildInfo')
+				expect(connectService.admin).to.have.property('buildInfo')
 			})
 			it(`adds the connection to the connection store`, () => {
-				return app.service('connections').get(rawService.connectionId).then((connection: any) => {
-					expect(rawService.memberId).to.equal(connection.members[0])
+				return app.service('connections').get(connectService.connectionId).then((connection: any) => {
+					expect(connectService.memberId).to.equal(connection.members[0])
 				})
 			})
 		})
 		describe('connectionId exists in store', () => {
-			it('attaches existing connection to service', () => {
-				expect(rawService.client).to.equal(rawServiceTwo.client)
+			let connection: any;
+			let connectionService: any;
+			before(() => {
+				app.service('connections').create({
+					connectionId,
+					client
+				})
+				.then((connection: any) => {
+					connectionService = new ServiceClass({
+						connectionId,
+						...noClient
+					})
+					connectionService.setup(app, '/existing-connection-test')
+				})
 			})
-			it('patches the existing connection with service memberId', () => {
-				return app.service('connections').get(rawService.connectionId).then((connection: any) => {
-					console.log(connection)
-					expect(rawServiceTwo.memberId).to.equal(connection.members[1])
+			return app.service('connections').get(connectionId).then((conn: any) => {
+				it('attaches existing client connection to service', () => {
+					expect(connectionService.client).to.equal(conn.client)
+				})
+				it('patches the existing connection with service memberId', () => {
+					expect(connectionService.memberId).to.equal(conn.members[0])
 				})
 			})
 		})

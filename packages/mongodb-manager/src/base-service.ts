@@ -27,7 +27,13 @@ export class ServiceClass extends ConnectionServiceClass {
 				return this.patchConnection(
 					this.connectionId,
 					{ members: members }
-				)
+				).then((serviceConnection: any) => {
+					console.log(
+						`mongo-base service connection patched:
+						connectionId: ${this.connectionId}
+						members: ${JSON.stringify(serviceConnection.members)}`
+					)
+				})
 			})
 			.catch((error: any) => {
 				throw new Error(
