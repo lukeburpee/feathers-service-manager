@@ -4,8 +4,11 @@ export const _select = (...args: any[]) => {
     const base = select(...args);
 
     return function (result: any) {
-      const stringResults = JSON.stringify(result)
+    	if (args.includes('disableStringify')) {
+    		return base(result)
+    	}
+    	const stringResults = JSON.stringify(result)
 
-      return base(JSON.parse(JSON.stringify(result)));
+    	return base(JSON.parse(JSON.stringify(result)));
     }
- }
+}

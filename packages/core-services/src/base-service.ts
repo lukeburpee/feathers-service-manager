@@ -23,6 +23,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	public events!: any;
 	public _matcher!: any;
 	public _sorter!: any;
+	public disableStringify!: any;
 
 	constructor (options: ServiceOptions) {
 		if (!options) {
@@ -35,6 +36,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		this.events = options.events || []
 		this._matcher = options.matcher;
 		this._sorter = options.sorter ? options.sorter : sorter;
+		this.disableStringify = options.disableStringify ? 'disableStringify' : null
 		debug('base-service initialized')
 	}
 	public setup (app: Application, path: string) {
@@ -54,13 +56,13 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		let id = data[this.id] || this.generateId();
 		let current = _.extend({}, data, { [this.id]: id });
 		return Promise.resolve((store[id] = current))
-			.then(_select(params, this.id));
+			.then(_select(params, this.id, this.disableStringify));
 		}
 
 	public getImplementation (store: any, id: Id, params?: Params): any {
 		if (id in store) {
 			return Promise.resolve(store[id])
-				.then(_select(params, this.id));
+				.then(_select(params, this.id, this.disableStringify));
 		}
 		return false
 	}
@@ -75,7 +77,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 			data = _.extend({}, data, { [this.id]: id });
 			store[id] = data;
 			return Promise.resolve(store[id])
-				.then(_select(params, this.id));
+				.then(_select(params, this.id, this.disableStringify));
 		}
 		return this.throwNotFound(id)
 	}
@@ -84,7 +86,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		if (id in store) {
 			_.extend(store[id], _.omit(data, this.id));
 			return Promise.resolve(store[id])
-				.then(_select(params, this.id));
+				.then(_select(params, this.id, this.disableStringify));
 		}
 		return this.throwNotFound(id)
 	}
@@ -100,7 +102,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		const deleted = store[id]
 		delete store[id]
 		return Promise.resolve(deleted)
-			.then(_select(params, this.id))
+			.then(_select(params, this.id, this.disableStringify))
 	}
 
 	public processParams (params?: any, getFilter = filterQuery): any {
@@ -132,7 +134,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	// a pagination object
 	public async _find (params: Params | any, getFilter = filterQuery) {
 		const { query, filters } = this.processParams(params.query || {}, getFilter)
-		const map = _select(params);
+		const map = _select(params, this.disableStringify);
 		return this.listImplementation(this.store)
 			.then((items: any) => {
 				const values = this.formatListValues(items)

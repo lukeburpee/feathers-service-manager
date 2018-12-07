@@ -18,6 +18,7 @@ interface ServiceOptions {
 	sorter?: any;
 	store?: any;
 	Model?: any;
+	disableStringify?: any;
 }
 
 declare module '@feathersjs/commons' {
