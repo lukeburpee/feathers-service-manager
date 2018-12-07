@@ -25,7 +25,7 @@ export class ServiceClass extends ConnectionServiceClass {
 				this.connection = conn
 				return this.createConnection(
 					this.connectionId,
-					this.client
+					this.connection
 				)
 			})
 		})
