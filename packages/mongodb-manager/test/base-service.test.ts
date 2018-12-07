@@ -76,10 +76,10 @@ describe('feathers-mongodb-manager:base-service', () => {
 			before(() => {
 				return app.service('connections').create({
 					connectionId,
-					client
+					client,
+					members: []
 				})
 				.then((connection: any) => {
-					console.log(`created connection: ${connection}`)
 					connectionService = new ServiceClass({
 						connectionId,
 						...noClient
@@ -87,14 +87,12 @@ describe('feathers-mongodb-manager:base-service', () => {
 					connectionService.setup(app, '/existing-connection-test')
 					return app.service('connections').get(connectionId)
 					.then((testConnection: any) => {
-						console.log(`test connection: ${testConnection}`)
 						test = testConnection
 						return test
 					})
 				})
 			})
 			it('attaches existing client connection to service', () => {
-				console.log(`connection client: ${connectionService.client}`)
 				expect(connectionService.client).to.equal(test.client)
 			})
 			it('creates and attaches a default database', () => {
