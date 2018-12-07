@@ -9,7 +9,7 @@ export default function init (options: ServiceOptions) {
 }
 
 export class ServiceClass extends BaseServiceClass {
-	constructor(props) {
-		super(props)
+	constructor(options: ServiceOptions) {
+		super(options)
 	}
 }
