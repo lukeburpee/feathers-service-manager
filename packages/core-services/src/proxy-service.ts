@@ -10,6 +10,8 @@ export default function init (options: ServiceOptions) {
 export class ServiceClass extends BaseServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
-		debug('proxy-service initialized')
+	}
+	public setup(app: any, path: any): any {
+		super.setup(app, path)
 	}
 }
