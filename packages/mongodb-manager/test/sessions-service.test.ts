@@ -37,6 +37,10 @@ describe('feathers-mongodb-manager:sessions-service', () => {
 		client
 	}
 
+	client.then((connection: any) => {
+		conn = connection
+	})
+
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
 			expect(typeof SessionsService).to.equal('function')

@@ -37,6 +37,10 @@ describe('feathers-mongodb-manager:users-service', () => {
 		client
 	}
 
+	client.then((connection: any) => {
+		conn = connection
+	})
+
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
 			expect(typeof UsersService).to.equal('function')

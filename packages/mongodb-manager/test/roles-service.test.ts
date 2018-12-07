@@ -37,6 +37,10 @@ describe('feathers-mongodb-manager:roles-service', () => {
 		client
 	}
 
+	client.then((connection: any) => {
+		conn = connection
+	})
+
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
 			expect(typeof RolesService).to.equal('function')

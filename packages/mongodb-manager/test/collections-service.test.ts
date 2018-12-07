@@ -37,6 +37,10 @@ describe('feathers-mongodb-manager:collections-service', () => {
 		client
 	}
 
+	client.then((connection: any) => {
+		conn = connection
+	})
+
 	describe('Requiring', () => {
 		it('exposes the Service Constructor', () => {
 			expect(typeof CollectionsService).to.equal('function')
