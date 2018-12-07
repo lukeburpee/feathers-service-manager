@@ -13,17 +13,21 @@ export class ServiceClass extends ConnectionServiceClass {
 	public connect (options: any): any {
 		return this.getConnection(this.connectionId)
 		.then((connection: any) => {
-			this.connection = connection.client
-			if (options.defaultDb) {
-				this.default = this.connection.db(options.defaultDb)
-			} else {
-				this.default = this.connection.db('default')
-			}
-			this.admin = this.default.admin()
-			return this.patchConnection(
-				this.connectionId,
-				{ members: connection.members.concat([this.memberId]) }
-			)
+			console.log(connection)
+			this.client = connection.client
+			return this.client.then((conn: any) => {
+				this.connection = conn
+				if (options.defaultDb) {
+					this.default = this.connection.db(options.defaultDb)
+				} else {
+					this.default = this.connection.db('default')
+				}
+				this.admin = this.default.admin()
+				return this.patchConnection(
+					this.connectionId,
+					{ members: connection.members.concat([this.memberId]) }
+				)
+			})
 		})
 		.catch((error: any) => {
 			return this.client.then((conn: any) => {
@@ -36,9 +40,16 @@ export class ServiceClass extends ConnectionServiceClass {
 				this.admin = this.default.admin()
 				return this.createConnection(
 					this.connectionId,
-					this.connection
+					this.client
 				)
 			})
+		})
+		.then((serviceConnection: any) => {
+			console.log(
+			`mongodb-manager connected: 
+				connectionId: ${serviceConnection.connectionId}
+				members: ${JSON.stringify(serviceConnection.members)}`
+			)
 		})
 	}
 	public getConnectionType (): string {
