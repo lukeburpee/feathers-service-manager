@@ -14,15 +14,13 @@ export class ServiceClass extends ConnectionServiceClass {
 		return this.getConnection(this.connectionId)
 		.catch((error: any) => {
 			return this.client.then((conn: any) => {
+				this.connection = conn
 				if (options.defaultDb) {
 					this.default = conn.db(options.defaultDb)
 				} else {
 					this.default = conn.db('default')
 				}
 				this.admin = this.default.admin()
-				return conn
-			}).then((conn: any) => {
-				this.connection = conn
 				return this.createConnection(
 					this.connectionId,
 					this.connection
