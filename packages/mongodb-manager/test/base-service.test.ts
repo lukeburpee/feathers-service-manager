@@ -72,8 +72,9 @@ describe('feathers-mongodb-manager:base-service', () => {
 		describe('connectionId exists in store', () => {
 			let connection: any;
 			let connectionService: any;
+			let test: any;
 			before(() => {
-				app.service('connections').create({
+				return app.service('connections').create({
 					connectionId,
 					client
 				})
@@ -83,15 +84,18 @@ describe('feathers-mongodb-manager:base-service', () => {
 						...noClient
 					})
 					connectionService.setup(app, '/existing-connection-test')
+					return app.service('connections').get(connectionId)
+					.then((testConnection: any) => {
+						test = testConnection
+						return test
+					})
 				})
 			})
-			return app.service('connections').get(connectionId).then((conn: any) => {
-				it('attaches existing client connection to service', () => {
-					expect(connectionService.client).to.equal(conn.client)
-				})
-				it('patches the existing connection with service memberId', () => {
-					expect(connectionService.memberId).to.equal(conn.members[0])
-				})
+			it('attaches existing client connection to service', () => {
+				expect(connectionService.client).to.equal(test.client)
+			})
+			it('patches the existing connection with service memberId', () => {
+				expect(connectionService.memberId).to.equal(test.members[0])
 			})
 		})
 	})
