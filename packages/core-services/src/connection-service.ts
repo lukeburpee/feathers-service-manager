@@ -30,8 +30,7 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public setup (app: any, path: string): any {
-		this.app = app
-		this.path = path
+		super.setup(app, path)
 		this.connectionServiceCheck(app).then((connections: any) => {
 			this.connect(this.options, connections)
 		})
