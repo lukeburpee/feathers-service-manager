@@ -30,12 +30,18 @@ describe('feathers-mongodb-manager:base-service', () => {
 		disableStringify: true
 	}))
 
+	const connectionId = uuid()
 	const client = MongoClient.connect('mongodb://127.0.0.1:27017', db)
 
 	const options = {
 		connectionService: app.service('connections'),
 		events: ['testing'],
 		client
+	}
+
+	const noClient = {
+		connectionService: app.service('connections'),
+		events: ['testing']
 	}
 
 	client.then((connection: any) => {
@@ -48,19 +54,55 @@ describe('feathers-mongodb-manager:base-service', () => {
 		})
 	})
 	describe('Connecting', () => {
-		const rawService = new ServiceClass(options)
-		rawService.setup(app, '/connection-test')
+		const connectService = new ServiceClass(options)
+		connectService.setup(app, '/connection-test')
 		describe('connectionId does not exist in connection store', () => {
 			it(`creates and attaches a default database`, () => {
-				expect(rawService.default instanceof Db).to.be.true
+				expect(connectService.default instanceof Db).to.be.true
 			})
 			it(`creates and attaches the admin database`, () => {
-				expect(rawService.admin).to.have.property('buildInfo')
+				expect(connectService.admin).to.have.property('buildInfo')
 			})
 			it(`adds the connection to the connection store`, () => {
-				return app.service('connections').get(rawService.connectionId).then((connection: any) => {
-					expect(rawService.memberId).to.equal(connection.members[0])
+				return app.service('connections').get(connectService.connectionId).then((connection: any) => {
+					expect(connectService.memberId).to.equal(connection.members[0])
 				})
+			})
+		})
+		describe('connectionId exists in store', () => {
+			let connection: any;
+			let connectionService: any;
+			let test: any;
+			before(() => {
+				return app.service('connections').create({
+					connectionId,
+					client,
+					members: []
+				})
+				.then((connection: any) => {
+					connectionService = new ServiceClass({
+						connectionId,
+						...noClient
+					})
+					connectionService.setup(app, '/existing-connection-test')
+					return app.service('connections').get(connectionId)
+					.then((testConnection: any) => {
+						test = testConnection
+						return test
+					})
+				})
+			})
+			it('attaches existing client connection to service', () => {
+				expect(connectionService.client).to.equal(test.client)
+			})
+			it('creates and attaches a default database', () => {
+				expect(connectionService.default instanceof Db).to.be.true
+			})
+			it('creates and attaches admin database', () => {
+				expect(connectionService.admin).to.have.property('buildInfo')
+			})
+			it('patches the existing connection with service memberId', () => {
+				expect(connectionService.memberId).to.equal(test.members[0])
 			})
 		})
 	})
