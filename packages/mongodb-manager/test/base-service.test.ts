@@ -77,6 +77,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 			})
 			it('patches the existing connection with service memberId', () => {
 				return app.service('connections').get(rawService.connectionId).then((connection: any) => {
+					console.log(connection)
 					expect(connection.members[1]).to.equal(rawServiceTwo.memberId)
 				})
 			})
