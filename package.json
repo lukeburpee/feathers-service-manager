@@ -18,7 +18,7 @@
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "coverage": "yarn coverage:coveralls && yarn coverage:codecov",
     "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "coverage:codecov": "nyc report --reporter=test-lcov > coverage.lcov && codecov"
+    "coverage:codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "devDependencies": {
     "@feathersjs/client": "^3.7.5",
