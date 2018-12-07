@@ -30,12 +30,18 @@ describe('feathers-mongodb-manager:base-service', () => {
 		disableStringify: true
 	}))
 
+	const connectionId = uuid()
 	const client = MongoClient.connect('mongodb://127.0.0.1:27017', db)
 
 	const options = {
 		connectionService: app.service('connections'),
 		events: ['testing'],
 		client
+	}
+
+	const noClient = {
+		connectionService: app.service('connections'),
+		events: ['testing']
 	}
 
 	client.then((connection: any) => {
@@ -48,7 +54,7 @@ describe('feathers-mongodb-manager:base-service', () => {
 		})
 	})
 	describe('Connecting', () => {
-		const rawService = new ServiceClass(options)
+		const rawService = new ServiceClass({ ...options, connectionId })
 		rawService.setup(app, '/connection-test')
 		describe('connectionId does not exist in connection store', () => {
 			it(`creates and attaches a default database`, () => {
@@ -60,6 +66,18 @@ describe('feathers-mongodb-manager:base-service', () => {
 			it(`adds the connection to the connection store`, () => {
 				return app.service('connections').get(rawService.connectionId).then((connection: any) => {
 					expect(rawService.memberId).to.equal(connection.members[0])
+				})
+			})
+		})
+		describe('connectionId exists in store', () => {
+			const rawServiceTwo = new ServiceClass({ ...noClient, connectionId })
+			rawServiceTwo.setup(app, '/connection-test-two')
+			it('attaches existing connection to service', () => {
+				expect(rawService.connection).to.equal(rawServiceTwo.connection)
+			})
+			it('patches the existing connection with service memberId', () => {
+				return app.service('connections').get(rawService.connectionId).then((connection: any) => {
+					expect(connection.members[1]).to.equal(rawServiceTwo.memberId)
 				})
 			})
 		})
