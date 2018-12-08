@@ -24,18 +24,19 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	public _matcher!: any;
 	public _sorter!: any;
 	public disableStringify!: any;
-
+	public options!: any;
 	constructor (options: ServiceOptions) {
 		if (!options) {
 			throw new Error('service requires options')
 		}
-		this.paginate = options.paginate ? options.paginate : {};
+		this.options = options
+		this.paginate = options.paginate ? options.paginate : {}
 		this._id = this.id = options.idField || options.id || 'id'
 		this.store = options.store || {}
 		this.Model = options.Model || {}
 		this.events = options.events || []
-		this._matcher = options.matcher;
-		this._sorter = options.sorter ? options.sorter : sorter;
+		this._matcher = options.matcher
+		this._sorter = options.sorter ? options.sorter : sorter
 		this.disableStringify = options.disableStringify ? 'disableStringify' : null
 		debug('base-service initialized')
 	}

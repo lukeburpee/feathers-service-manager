@@ -15,7 +15,6 @@ export class ServiceClass extends BaseServiceClass {
 	public memberId!: any;
 	public client!: any;
 	public defaultOptions!: any;
-	public options!: any;
 	constructor (options: ServiceOptions) {
 		super(options)
 		if (!options.client && !options.connectionId) {
@@ -25,7 +24,6 @@ export class ServiceClass extends BaseServiceClass {
 		this.connectionId = options.connectionId || this.generateId()
 		this.memberId = this.generateId()
 		this.defaultOptions = options.defaultOptions || {}
-		this.options = options
 		debug('connection-service initialized')
 	}
 
