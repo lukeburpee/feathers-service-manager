@@ -1,5 +1,5 @@
 {
-  "name": "@feathers-service-manager/ipfs-sync",
+  "name": "@feathers-service-manager/orbit-sync",
   "version": "0.0.1-alpha",
   "description": "",
   "main": "dist/",
@@ -16,11 +16,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lukeburpee/feathers-service-manager/ipfs-sync.git"
+    "url": "git+https://github.com/lukeburpee/feathers-service-manager/orbit-sync.git"
   },
   "keywords": [
     "feathers",
-    "ipfs",
+    "gun",
     "service-discovery",
     "service-management"
   ],
@@ -42,7 +42,7 @@
     "@feathersjs/feathers": "^3.2.3",
     "@types/uuid": "^3.4.4",
     "ipfs": "^0.33.1",
-    "ipfs-log": "^4.2.0",
+    "orbit-db": "^0.19.9",
     "rxjs": "^6.3.3",
     "sift": "^7.0.1",
     "uberproto": "^2.0.4",
