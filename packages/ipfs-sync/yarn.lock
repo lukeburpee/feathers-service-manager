@@ -2101,6 +2101,14 @@ ipfs-http-response@~0.2.0:
     promisify-es6 "^1.0.3"
     stream-to-blob "^1.0.1"
 
+ipfs-log@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/ipfs-log/-/ipfs-log-4.2.0.tgz#f94a6c66a388613b5ec511a312b146fbad86ef44"
+  integrity sha512-PshbsD/N7TDXayY25pZld/kiQMIdjjD03J0VNWi+DtZYcyzibEh0KC9e8C/HAv9CkGRoFdGppSZNoPJvFql7NA==
+  dependencies:
+    p-map "^1.1.1"
+    p-whilst "^1.0.0"
+
 ipfs-mfs@~0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/ipfs-mfs/-/ipfs-mfs-0.4.2.tgz#1c9908fd7e2d379746bb349b889f273a272ea4a8"
@@ -4189,6 +4197,11 @@ p-locate@^3.0.0:
   dependencies:
     p-limit "^2.0.0"
 
+p-map@^1.1.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/p-map/-/p-map-1.2.0.tgz#e4e94f311eabbc8633a1e79908165fca26241b6b"
+  integrity sha512-r6zKACMNhjPJMTl8KcFH4li//gkrXWfbD6feV8l6doRHlzljFWGJ2AP6iKaCJXyZmAUMOPtvbW7EXkbWO/pLEA==
+
 p-queue@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/p-queue/-/p-queue-2.4.2.tgz#03609826682b743be9a22dba25051bd46724fc34"
@@ -4203,6 +4216,11 @@ p-try@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.0.0.tgz#85080bb87c64688fa47996fe8f7dfbe8211760b1"
   integrity sha512-hMp0onDKIajHfIkdRk3P4CdCmErkYAxxDtP3Wx/4nZ3aGlau2VKh3mZpcuFkH27WQkL/3WBCPOktzA9ZOAnMQQ==
+
+p-whilst@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/p-whilst/-/p-whilst-1.0.0.tgz#54668ead7f934799fc00f1e5230fd6addeb8e7e6"
+  integrity sha1-VGaOrX+TR5n8APHlIw/Wrd645+Y=
 
 package-hash@^2.0.0:
   version "2.0.0"
