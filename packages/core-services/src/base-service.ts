@@ -26,9 +26,21 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	public disableStringify!: any;
 	public options!: any;
 	constructor (options: ServiceOptions) {
+		this.validateOptions(options)
+		this.setOptions(options)
+		debug('base-service initialized')
+	}
+	public setup (app: Application, path: string) {
+		this.app = app
+		this.path = path
+	}
+	public validateOptions (options: any): boolean {
 		if (!options) {
 			throw new Error('service requires options')
 		}
+		return true
+	}
+	public setOptions (options: any): boolean {
 		this.options = options
 		this.paginate = options.paginate ? options.paginate : {}
 		this._id = this.id = options.idField || options.id || 'id'
@@ -38,13 +50,8 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		this._matcher = options.matcher
 		this._sorter = options.sorter ? options.sorter : sorter
 		this.disableStringify = options.disableStringify ? 'disableStringify' : null
-		debug('base-service initialized')
+		return true
 	}
-	public setup (app: Application, path: string) {
-		this.app = app
-		this.path = path
-	}
-
 	public generateId(): any {
 		return uuid()
 	}
