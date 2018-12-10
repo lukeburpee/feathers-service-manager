@@ -5662,9 +5662,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 typeforce@^1.11.3, typeforce@^1.11.5:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.17.0.tgz#13886917228a22fcf1e5dc2f2babcf88a5a06fd6"
-  integrity sha512-juby+ePzggryLPetNhEuQT5s0Wtj8hw1UvQVpwuosS1JQ2DBo8OXntxVIfxgwSvqjIrYOZE6TVoppcb9OfYiiQ==
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.18.0.tgz#d7416a2c5845e085034d70fcc5b6cc4a90edbfdc"
+  integrity sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==
 
 typescript@^3.1.6:
   version "3.2.2"

@@ -787,9 +787,9 @@ mem@^1.1.0:
     mimic-fn "^1.0.0"
 
 memory-pager@^1.0.2:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/memory-pager/-/memory-pager-1.1.0.tgz#9308915e0e972849fefbae6f8bc95d6b350e7344"
-  integrity sha512-Mf9OHV/Y7h6YWDxTzX/b4ZZ4oh9NSXblQL8dtPCOomOtZciEHxePR78+uHFLLlsk01A6jVHhHsQZZ/WcIPpnzg==
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/memory-pager/-/memory-pager-1.3.0.tgz#1e231e454c784c3bdfbcc45d076a0f9edb950e51"
+  integrity sha512-cupNZIJCFYJc0mzmhrjmMoudbu9lcJSAZBZsGIjduo/x2IMDgB88hjo8FbG96xLiqs1qsVFKHPfRTi98KXwQSQ==
 
 merge-source-map@^1.1.0:
   version "1.1.0"
