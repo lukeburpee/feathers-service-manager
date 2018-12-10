@@ -65,13 +65,14 @@ export class ServiceClass extends BaseServiceClass {
 	}
 	public createImplementation (store: any, data: any, params: any): any {
 		let id = data[this.id] || this.generateId()
-		const proxy = this.generateProxy(data)
-		const current = {
-			[this.id]: id,
-			proxy
-		}
-		return Promise.resolve((store[id] = current))
-			.then(_select(params, this.id))
+		return this.generateProxy(data).then((proxy: any) => {
+			const current = {
+				[this.id]: id,
+				proxy
+			}
+			return Promise.resolve((store[id] = current))
+				.then(_select(params, this.id, this.disableStringify))
+		})
 	}
 	public patchImplementation (store: any, id: any, data: any, params: any): any {
 		if (id in store) {

@@ -26,15 +26,19 @@ describe('feathers-service-manager:proxy-service', () => {
 		app.use('proxy', ProxyService(options))
 		proxy = app.service('proxy')
 	})
+	after(() => {
+		return proxy.find({}).then((results: any) => {
+			const ids = results.map((item: any) => item.id)
+			return proxy.remove(ids)
+		})
+	})
 	describe('Standard Service Methods', () => {
 		describe('create', () => {
-			const port = 3001
-			const register = [{src: 'localhost:5000', target: 'localhost:4000'}]
+			const port = 3000
 			it('creates and returns a proxy', () => {
 				return proxy.create({
 					id,
-					port,
-					register
+					port
 				}).then((test: any) => {
 					expect(test).to.have.property('proxy')
 				})
