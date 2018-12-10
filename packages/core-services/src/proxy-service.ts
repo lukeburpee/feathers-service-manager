@@ -88,7 +88,7 @@ export class ServiceClass extends BaseServiceClass {
 										proxy: unregisteredProxy
 									}
 									return Promise.resolve((store[id] = patchedData))
-										.then(_select(params, this.id))
+										.then(_select(params, this.id, this.disableStringify))
 								})
 						}
 						const patchedData = {
@@ -96,7 +96,7 @@ export class ServiceClass extends BaseServiceClass {
 							proxy: registeredProxy
 						}
 						return Promise.resolve((store[id] = patchedData))
-							.then(_select(params, this.id))
+							.then(_select(params, this.id, this.disableStringify))
 					})
 			}
 			if (data.unregister) {
@@ -107,7 +107,7 @@ export class ServiceClass extends BaseServiceClass {
 							proxy: unregisteredProxy
 						}
 						return Promise.resolve((store[id] = patchedData))
-							.then(_select(params, this.id))
+							.then(_select(params, this.id, this.disableStringify))
 					})
 			}
 		}
