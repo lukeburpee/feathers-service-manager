@@ -17,6 +17,11 @@ describe('feathers-service-manager:proxy-service', () => {
 	let id, app, service, proxy, test;
 	const options = {
 		events: ['testing'],
+		ssl: {
+			port: 3100,
+			key: './certs/dev-key.pem',
+			cert: './certs/dev-cert.pem'
+		},
 		disableStringify: true
 	}
 	describe('Standard Service Methods', () => {

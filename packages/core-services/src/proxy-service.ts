@@ -19,8 +19,10 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		const port = data.port
 		const cluster = data.cluster ? data.cluster : null
+		const ssl = data.ssl ? data.ssl : null
 		const proxy = redbird({
 			port,
+			ssl,
 			cluster
 		})
 		if (data.register) {
