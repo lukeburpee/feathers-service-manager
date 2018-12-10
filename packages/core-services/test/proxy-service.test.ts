@@ -40,6 +40,15 @@ describe('feathers-service-manager:proxy-service', () => {
 					expect(test.proxy).to.have.property('register')
 				})
 			})
+			describe('missing port option', () => {
+				it('throws an error', () => {
+					return proxy.create({
+						register: [{src: 'localhost:4000', target: 'localhost:5000'}]
+					}).catch((error: any) => {
+						expect(error.message).to.equal('proxy service requires port')
+					})
+				})
+			})
 		})
 		describe('get', () => {
 			it('returns a proxy by id', () => {
@@ -49,27 +58,51 @@ describe('feathers-service-manager:proxy-service', () => {
 			})
 		})
 		describe('patch', () => {
-			it('adds new routes to the proxy through register option', () => {
-				return proxy.patch(id, {
-					register: [
-						{src: 'localhost:5000', target: 'localhost:6000'},
-						{src: 'localhost:6000', target: 'localhost:7000'}
-					]
-				}).then((test: any) => {
-					expect(test.proxy).to.have.property('register')
+			describe('register option', () => {
+				it('adds new routes to the proxy', () => {
+					return proxy.patch(id, {
+						register: [
+							{src: 'localhost:5000', target: 'localhost:6000'},
+							{src: 'localhost:6000', target: 'localhost:7000'},
+							{src: 'localhost:6000', target: 'localhost:8000'},
+							{src: 'localhost:7000', target: 'localhost:9000'}
+						]
+					}).then((test: any) => {
+						expect(test.proxy).to.have.property('register')
+					})
+				})
+				describe('in-route options', () => {
+					it('uses options to register route', () => {
+						return proxy.patch(id, {
+							register: [{src: 'localhost:8000', target: 'localhost:8500', options: {ssl: true}}]
+						}).then((test: any) => {
+							expect(test.proxy).to.have.property('register')
+						})
+					})
 				})
 			})
-			it('removes routes from the proxy through unregister option', () => {
-				return proxy.patch(id, {
-					unregister: [{src: 'localhost:5000', target: 'localhost:6000'}]
-				}).then((test: any) => {
-					expect(test.proxy).to.have.property('register')
+			describe('unregister option', () => {
+				it('removes routes from the proxy through unregister option', () => {
+					return proxy.patch(id, {
+						unregister: [{src: 'localhost:5000', target: 'localhost:6000'}]
+					}).then((test: any) => {
+						expect(test.proxy).to.have.property('register')
+					})
+				})
+				describe(`target set to 'all' in route`, () => {
+					it('removes all target routes for provided source', () => {
+						return proxy.patch(id, {
+							unregister: [{src: 'localhost:6000', target: 'all'}]
+						}).then((test: any) => {
+							expect(test.proxy).to.have.property('register')
+						})
+					})
 				})
 			})
 			it('allows simultaneous register and unregister options', () => {
 				return proxy.patch(id, {
 					register: [{src: 'localhost:5000', target: 'localhost:6000'}],
-					unregister: [{src: 'localhost:6000', target: 'localhost:7000'}]
+					unregister: [{src: 'localhost:7000', target: 'localhost:9000'}]
 				}).then((test: any) => {
 					expect(test.proxy).to.have.property('register')
 				})

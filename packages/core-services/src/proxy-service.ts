@@ -13,9 +13,6 @@ export class ServiceClass extends BaseServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 	}
-	public setup(app: any, path: any): any {
-		super.setup(app, path)
-	}
 	public generateProxy (data: any): any {
 		if (!data.port) {
 			throw new Error(`proxy service requires port`)
