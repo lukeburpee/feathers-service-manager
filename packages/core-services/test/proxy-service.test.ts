@@ -24,19 +24,6 @@ describe('feathers-service-manager:proxy-service', () => {
 	// base(app, errors, 'proxy')
 	// })
 	describe('Standard Service Methods', () => {
-		before((done) => {
-			server = express()
-			server.get('/', (req, res) => {
-				res.send('test')
-			})
-			server.get('/:id', (req, res) => {
-				res.send(req.params.id)
-			})
-			server.listen(3000)
-		})
-		after(() => {
-			server.close()
-		})
 		describe('create', () => {
 			const port = 4000
 			const register = [{src: 'localhost:5000', target: 'localhost:3000'}]
