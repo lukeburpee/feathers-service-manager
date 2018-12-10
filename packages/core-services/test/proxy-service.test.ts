@@ -87,13 +87,14 @@ describe('feathers-service-manager:proxy-service', () => {
 		})
 		describe('remove', () => {
 			it('closes and removes proxy by id', () => {
-				return proxy.create(uuid(), { port: 9000 })
-					.then((result: any) => {
-						return proxy.remove(result.id)
-							.then((test: any) => {
-								expect(test.proxy).to.have.property('register')
-							})
-					})
+				return proxy.create({
+					port: 9000 
+				}).then((result: any) => {
+					return proxy.remove(result.id)
+						.then((test: any) => {
+							expect(test.proxy).to.have.property('register')
+						})
+				})
 			})
 			describe('id not in storage', () => {
 				it ('throws an error', () => {
