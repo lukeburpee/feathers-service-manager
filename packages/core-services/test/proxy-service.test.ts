@@ -1,9 +1,10 @@
 import { expect } from 'chai'
-import * as express from 'express'
 import got from 'got'
 import feathers from '@feathersjs/feathers'
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
+
+import express = require('express')
 
 import ProxyService from '../src/proxy-service'
 
