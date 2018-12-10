@@ -32,9 +32,7 @@ describe('feathers-service-manager:proxy-service', () => {
 			server.get('/:id', (req, res) => {
 				res.send(req.params.id)
 			})
-			server.listen(3000, () => {
-				done()
-			})
+			server.listen(3000)
 		})
 		after(() => {
 			server.close()
@@ -64,6 +62,25 @@ describe('feathers-service-manager:proxy-service', () => {
 							expect(error.message).to.equal('proxy service requires port')
 						})
 				})
+			})
+		})
+		describe('get', () => {
+			it('returns a proxy by id', () => {
+				return proxy.get(id)
+					.then((test: any) => {
+						expect(test.proxy).to.have.property('register')
+					})
+			})
+		})
+		describe('remove', () => {
+			it('closes and returns a proxy by id', () => {
+				return proxy.remove(id)
+					.then((test: any) => {
+						return got('localhost:5000').then((response: any) => {
+							expect(test.proxy).to.have.property('register')
+							expect(response).to.not.equal('test')
+						})
+					})
 			})
 		})
 	})
