@@ -35,10 +35,7 @@ describe('feathers-service-manager:proxy-service', () => {
 				return proxy.create({
 					id,
 					port: 3000,
-					register: [{
-						src: 'localhost:4000',
-						target: 'localhost:5000'
-					}]
+					register: [{src: 'localhost:4000', target: 'localhost:5000'}]
 				}).then((test: any) => {
 					expect(test.proxy).to.have.property('register')
 				})
@@ -54,7 +51,10 @@ describe('feathers-service-manager:proxy-service', () => {
 		describe('patch', () => {
 			it('adds new routes to the proxy through register option', () => {
 				return proxy.patch(id, {
-					register: [{src: 'localhost:5000', target: 'localhost:6000'}]
+					register: [
+						{src: 'localhost:5000', target: 'localhost:6000'},
+						{src: 'localhost:6000', target: 'localhost:7000'}
+					]
 				}).then((test: any) => {
 					expect(test.proxy).to.have.property('register')
 				})
@@ -64,6 +64,44 @@ describe('feathers-service-manager:proxy-service', () => {
 					unregister: [{src: 'localhost:5000', target: 'localhost:6000'}]
 				}).then((test: any) => {
 					expect(test.proxy).to.have.property('register')
+				})
+			})
+			it('allows simultaneous register and unregister options', () => {
+				return proxy.patch(id, {
+					register: [{src: 'localhost:5000', target: 'localhost:6000'}],
+					unregister: [{src: 'localhost:6000', target: 'localhost:7000'}]
+				}).then((test: any) => {
+					expect(test.proxy).to.have.property('register')
+				})
+			})
+			describe('id not in storage', () => {
+				it ('throws an error', () => {
+					const errorId = uuid()
+					return proxy.patch(errorId, {
+						register: [{src: 'localhost:5000', target: 'localhost:6000'}]
+					}).catch((error: any) => {
+						expect(error.message).to.equal(`No record found for id '${errorId}'`)
+					})
+				})
+			})
+		})
+		describe('remove', () => {
+			it('closes and removes proxy by id', () => {
+				return proxy.create(uuid(), { port: 9000 })
+					.then((result: any) => {
+						return proxy.remove(result.id)
+							.then((test: any) => {
+								expect(test.proxy).to.have.property('register')
+							})
+					})
+			})
+			describe('id not in storage', () => {
+				it ('throws an error', () => {
+					const errorId = uuid()
+					return proxy.remove(errorId)
+						.catch((error: any) => {
+							expect(error.message).to.equal(`No record found for id '${errorId}'`)
+						})
 				})
 			})
 		})
