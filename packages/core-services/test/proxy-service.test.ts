@@ -1,73 +1,43 @@
-import { expect } from 'chai'
+import { expect, use } from 'chai'
+import chaiHttp, { request } from 'chai-http'
 import got from 'got'
 import feathers from '@feathersjs/feathers'
+import express from '@feathersjs/express'
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
 
-import express = require('express')
-
+import MemoryService from '../src/base-service'
 import ProxyService from '../src/proxy-service'
 
 const debug = Debug('feathers-service-manager:proxy-service:test')
 
+use(chaiHttp)
+
 describe('feathers-service-manager:proxy-service', () => {
 	debug('proxy-service tests starting')
-	let server;
+	let id, app, proxy;
 	const options = {
-		events: ['testing']
+		events: ['testing'],
+		disableStringify: true
 	}
-	const id = uuid()
-	const app = feathers()
-	app.use('proxy', ProxyService(options))
-	const proxy = app.service('proxy')
-	// describe('Common Service Tests', () => {
-	// base(app, errors, 'proxy')
-	// })
+	before(() => {
+		id = uuid()
+		app = feathers()
+		app.use('proxy', ProxyService(options))
+		proxy = app.service('proxy')
+	})
 	describe('Standard Service Methods', () => {
 		describe('create', () => {
-			const port = 4000
-			const register = [{src: 'localhost:5000', target: 'localhost:3000'}]
+			const port = 3001
+			const register = [{src: 'localhost:5000', target: 'localhost:4000'}]
 			it('creates and returns a proxy', () => {
 				return proxy.create({
 					id,
 					port,
 					register
 				}).then((test: any) => {
-					expect(test.id).to.equal(id)
-					expect(test.port).to.have.property('register')
+					expect(test).to.have.property('proxy')
 				})
-			})
-			it('registers proxy urls', () => {
-				return got('localhost:5000').then((response: any) => {
-					expect(response).to.equal('test')
-				})
-			})
-			describe('missing port', () => {
-				it('throws an error', () => {
-					return proxy.create({id: uuid()})
-						.catch((error: any) => {
-							expect(error.message).to.equal('proxy service requires port')
-						})
-				})
-			})
-		})
-		describe('get', () => {
-			it('returns a proxy by id', () => {
-				return proxy.get(id)
-					.then((test: any) => {
-						expect(test.proxy).to.have.property('register')
-					})
-			})
-		})
-		describe('remove', () => {
-			it('closes and returns a proxy by id', () => {
-				return proxy.remove(id)
-					.then((test: any) => {
-						return got('localhost:5000').then((response: any) => {
-							expect(test.proxy).to.have.property('register')
-							expect(response).to.not.equal('test')
-						})
-					})
 			})
 		})
 	})
