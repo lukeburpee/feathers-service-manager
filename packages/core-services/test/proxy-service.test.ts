@@ -36,6 +36,9 @@ describe('feathers-service-manager:proxy-service', () => {
 				done()
 			})
 		})
+		after(() => {
+			server.close()
+		})
 		describe('create', () => {
 			const port = 4000
 			const register = [{src: 'localhost:5000', target: 'localhost:3000'}]
