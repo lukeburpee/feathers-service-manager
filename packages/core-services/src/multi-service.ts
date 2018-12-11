@@ -55,7 +55,7 @@ export class ServiceClass extends BaseServiceClass {
 		})
 	}
 
-	protected multiCheck (app: any): any {
+	private multiCheck (app: any): any {
 		return new Promise(resolve => {
 			if (this.options.multi) {
 				return this.serviceCheck(app, this.options.multi, this.options.multiOptions || null)
