@@ -1,6 +1,7 @@
 declare module 'feathers-memory'
 declare module 'feathers-service-tests'
 declare module 'assert'
+declare module 'redbird'
 declare module 'selfsigned'
 
 interface ServiceOptions {
@@ -19,6 +20,7 @@ interface ServiceOptions {
 	store?: any;
 	Model?: any;
 	disableStringify?: any;
+	proxy?: any;
 }
 
 declare module '@feathersjs/commons' {
