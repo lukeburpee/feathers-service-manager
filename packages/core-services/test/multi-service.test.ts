@@ -18,6 +18,8 @@ describe('feathers-service-manager:multi-service', () => {
 	externalApp.use('setup-test', BaseService({ id: 'setupTest', events: ['testing'], disableStringify: true }))
 	externalApp.use('method-test', BaseService({ id: 'methodTest', events: ['testing'], disableStringify: true }))
 
+	app.use('existing-service', BaseService({ id: 'existingService', events: ['testing'], disableStringify: true }))
+
 	const options = {
 		events: ['testing']
 	}
@@ -98,6 +100,7 @@ describe('feathers-service-manager:multi-service', () => {
 		const serviceId = uuid()
 		const externalServiceId = uuid()
 		const externalAppId = uuid()
+		const existingServiceId = uuid()
 		const rawService = new ServiceClass(multiService)
 		rawService.setup(app, '/multi')
 		describe('addService', () => {
@@ -108,6 +111,14 @@ describe('feathers-service-manager:multi-service', () => {
 						expect(result.service._id).to.equal('testId')
 					})
 			})
+			describe('existing service provided with service string', () => {
+				it ('adds a service to the service store and returns added service', async () => {
+					return rawService.addService({test: existingServiceId, service: 'existing-service' })
+						.then((result: any) => {
+							expect(result.service._id).to.equal('existingService')
+						})
+				})
+			})
 			describe('service added is external service', () => {
 				it('adds a service to the service store and returns added service', async () => {
 					return rawService.addService({test: externalServiceId, service: externalApp.service('method-test') })
@@ -116,7 +127,7 @@ describe('feathers-service-manager:multi-service', () => {
 						})
 				})
 				describe('external app provided with string service', () => {
-					it ('adds a service to the service store and resturns added service', async () => {
+					it ('adds a service to the service store and returns added service', async () => {
 						return rawService.addService({
 							test: externalAppId, 
 							app: externalApp, 
@@ -146,7 +157,7 @@ describe('feathers-service-manager:multi-service', () => {
 				return rawService.addService({ test: uuid(), service: 'testingTwo', serviceOptions: { id: 'testTwoId', disableStringify: true }})
 					.then((service: any) => {
 						return rawService.findService({}).then((result: any) => {
-							expect(result.length).to.equal(4)
+							expect(result.length).to.equal(5)
 						})
 					})
 			})
