@@ -19,8 +19,9 @@ export class ServiceClass extends BaseServiceClass {
 		return this.multiCheck(app)
 	}
 
-	public addService (data: any, app?: any): any {
-		let serviceApp = app || this.app
+	public addService (data: any): any {
+		let serviceApp = data.app || this.app
+		delete data.app
 		let id = data[this.services._id] || this.generateId()
 		return this.serviceCheck(serviceApp, data)
 			.then((service: any) => {
@@ -46,7 +47,7 @@ export class ServiceClass extends BaseServiceClass {
 		return new Promise(resolve => {
 			if (typeof data.service === 'string') {
 				if (typeof app.service(data.service) === 'undefined') {
-					console.log(`no service ${data.service} found on application setup. ${data.service} will be created`)
+					debug(`no service ${data.service} found on application setup. ${data.service} will be created`)
 					let provider = data.provider || BaseService
 					let serviceOptions = data.serviceOptions || { id: 'id', disableStringify: true }
 					app.use(data.service, provider(serviceOptions))

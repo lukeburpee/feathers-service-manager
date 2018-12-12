@@ -11,8 +11,12 @@ describe('feathers-service-manager:multi-service', () => {
 	debug('multi-service tests starting')
 	const app = feathers()
 	const setupApp = feathers()
+	const externalApp = feathers()
 
 	setupApp.use('test', BaseService({ id: 'test', events: ['testing'], disableStringify: true }))
+
+	externalApp.use('setup-test', BaseService({ id: 'setupTest', events: ['testing'], disableStringify: true }))
+	externalApp.use('method-test', BaseService({ id: 'methodTest', events: ['testing'], disableStringify: true }))
 
 	const options = {
 		events: ['testing']
@@ -33,6 +37,13 @@ describe('feathers-service-manager:multi-service', () => {
 		events: ['testing'],
 		multiOptions: {
 			service: setupApp.service('test')
+		}
+	}
+
+	const externalService = {
+		events: ['testing'],
+		multiOptions: {
+			service: externalApp.service('setup-test')
 		}
 	}
 
@@ -64,17 +75,29 @@ describe('feathers-service-manager:multi-service', () => {
 					})
 				})
 				describe('multiOptions service is service', () => {
-					const rawService = new ServiceClass(multiService)
-					rawService.setup(setupApp, '/multi-service-test')
-					it('uses the provided service as service storage', () => {
-						expect(rawService.services._id).to.equal('test')
+					describe('provided service uses internal app', () => {
+						const rawService = new ServiceClass(multiService)
+						rawService.setup(setupApp, '/multi-service-test')
+						it('uses the provided service as service storage', () => {
+							expect(rawService.services._id).to.equal('test')
+						})
 					})
+					describe('provided service uses external app', () => {
+						const rawService = new ServiceClass(externalService)
+						rawService.setup(setupApp, '/external-service-test')
+						it('uses the provided service as service storage', () => {
+							expect(rawService.services._id).to.equal('setupTest')
+						})
+					})
+
 				})
 			})
 		})
 	})
 	describe('custom methods', () => {
 		const serviceId = uuid()
+		const externalServiceId = uuid()
+		const externalAppId = uuid()
 		const rawService = new ServiceClass(multiService)
 		rawService.setup(app, '/multi')
 		describe('addService', () => {
@@ -84,6 +107,29 @@ describe('feathers-service-manager:multi-service', () => {
 						expect(result.test).to.equal(serviceId)
 						expect(result.service._id).to.equal('testId')
 					})
+			})
+			describe('service added is external service', () => {
+				it('adds a service to the service store and returns added service', async () => {
+					return rawService.addService({test: externalServiceId, service: externalApp.service('method-test') })
+						.then((result: any) => {
+							expect(result.service._id).to.equal('methodTest')
+						})
+				})
+				describe('external app provided with string service', () => {
+					it ('adds a service to the service store and resturns added service', async () => {
+						return rawService.addService({
+							test: externalAppId, 
+							app: externalApp, 
+							service: 'testing-app', 
+							serviceOptions: { 
+								id: 'externalAppId', 
+								disableStringify: true 
+							}})
+							.then((result: any) => {
+								expect(result.service._id).to.equal('externalAppId')
+							})
+					})
+				})
 			})
 		})
 		describe('getService', () => {
@@ -100,7 +146,7 @@ describe('feathers-service-manager:multi-service', () => {
 				return rawService.addService({ test: uuid(), service: 'testingTwo', serviceOptions: { id: 'testTwoId', disableStringify: true }})
 					.then((service: any) => {
 						return rawService.findService({}).then((result: any) => {
-							expect(result.length).to.equal(2)
+							expect(result.length).to.equal(4)
 						})
 					})
 			})
