@@ -19,19 +19,20 @@ describe('feathers-service-manager:multi-service', () => {
 	}
 
 	const multi = {
-		...options,
+		events: ['testing'],
 		multi: 'test-services'
 	}
 
 	const multiOptions = {
-		...multi,
+		events: ['testing'],
+		multi: 'test-services',
 		multiOptions: {
 			serviceOptions: { id: 'multiId' }
 		}
 	}
 
 	const multiService = {
-		...options,
+		events: ['testing'],
 		multi: testService
 	}
 
@@ -45,7 +46,7 @@ describe('feathers-service-manager:multi-service', () => {
 						expect(setupApp.service('multi-services')).to.not.equal(undefined)
 					})
 					it('uses created service as service storage', () => {
-						expect(rawService.services._id.to.equal('serviceId'))
+						expect(rawService.services._id).to.equal('serviceId'))
 					})
 				})
 			})
@@ -57,9 +58,9 @@ describe('feathers-service-manager:multi-service', () => {
 						it('adds provided service to application', () => {
 							expect(setupApp.service('test-services')).to.not.equal(undefined)
 						})
-					})
-					it('uses the provided service as service storage', () => {
-						expect(rawService.services._id).to.equal('id')
+						it('uses the provided service as service storage', () => {
+							expect(rawService.services._id).to.equal('id')
+						})
 					})
 				})
 				describe('service provided as multi option', () => {
@@ -110,7 +111,7 @@ describe('feathers-service-manager:multi-service', () => {
 					expect(result.serviceId).to.equal(serviceId)
 					return rawService.getService(serviceId)
 						.catch((error: any) => {
-							expect(error.message).to.equal(`No record found for id ${serviceId}`)
+							expect(error.message).to.equal(`No record found for id '${serviceId}'`)
 						})
 				})
 			})

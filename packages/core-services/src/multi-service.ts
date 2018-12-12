@@ -48,6 +48,7 @@ export class ServiceClass extends BaseServiceClass {
 					let provider = options.provider ? options.provider : BaseService
 					let serviceOptions = options.serviceOptions ? options.serviceOptions : { id: 'id', disableStringify: true }
 					app.use(service, provider(serviceOptions))
+					return resolve(app.service(service))
 				}
 				return resolve(app.service(service))
 			}
@@ -61,13 +62,13 @@ export class ServiceClass extends BaseServiceClass {
 				return this.serviceCheck(app, this.options.multi, this.options.multiOptions || null)
 					.then((service: any) => {
 						this.services = service
-						Promise.resolve(this.services)
+						return Promise.resolve(this.services)
 					})
 			}
 			return this.serviceCheck(app, 'multi-services', { serviceOptions: { id: 'serviceId', disableStringify: true }})
 				.then((service: any) => {
 					this.services = service
-					Promise.resolve(this.services)
+					return Promise.resolve(this.services)
 				})
 		})
 	}
