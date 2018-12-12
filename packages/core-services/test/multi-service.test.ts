@@ -82,9 +82,9 @@ describe('feathers-service-manager:multi-service', () => {
 		rawService.setup(app, '/multi')
 		describe('addService', () => {
 			it('adds a service to the service store and returns added service', async () => {
-				return rawService.addService(serviceId, { service: 'testing', serviceOptions: { id: 'testId' }})
+				return rawService.addService(serviceId, { service: 'testing', options: { serviceOptions: { id: 'testId', disableStringify: true }}})
 					.then((result: any) => {
-						expect(result.serviceId).to.equal(serviceId)
+						expect(result.test).to.equal(serviceId)
 						expect(result.service._id).to.equal('testId')
 					})
 			})
@@ -93,17 +93,17 @@ describe('feathers-service-manager:multi-service', () => {
 			it('returns a service from the service store', async () => {
 				return rawService.getService(serviceId)
 					.then((result: any) => {
-						expect(result.serviceId).to.equal(serviceId)
+						expect(result.test).to.equal(serviceId)
 						expect(result.service._id).to.equal('testId')
 					})
 			})
 		})
 		describe('findService', () => {
 			it('returns multiple services from the service store', async () => {
-				return rawService.addService(uuid(), { serviceOptions: { id: 'testTwoId' }})
+				return rawService.addService(uuid(), { options: { serviceOptions: {id: 'testTwoId', disableStringify: true }}})
 					.then((service: any) => {
 						return rawService.findService({}).then((result: any) => {
-							expect(result.total).to.equal(2)
+							expect(result.length).to.equal(2)
 						})
 					})
 			})
@@ -111,7 +111,7 @@ describe('feathers-service-manager:multi-service', () => {
 		describe('removeService', () => {
 			it('removes a service from the service store and returns removed service', async () => {
 				return rawService.removeService(serviceId).then((result: any) => {
-					expect(result.serviceId).to.equal(serviceId)
+					expect(result.test).to.equal(serviceId)
 					return rawService.getService(serviceId)
 						.catch((error: any) => {
 							expect(error.message).to.equal(`No record found for id '${serviceId}'`)
