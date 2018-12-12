@@ -1,5 +1,6 @@
-import feathers from '@feathersjs/feathers';
+import feathers from '@feathersjs/feathers'
 import { default as Debug } from 'debug'
+import { v4 as uuid } from 'uuid'
 import BaseService from '../src/base-service'
 import MultiService, { ServiceClass } from '../src/multi-service'
 
