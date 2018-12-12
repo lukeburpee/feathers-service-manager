@@ -12,23 +12,18 @@ describe('feathers-service-manager:multi-service', () => {
 	const app = feathers()
 	const setupApp = feathers()
 
-	setupApp.use('test', BaseService({ id: 'test', events: ['testing'] }))
+	setupApp.use('test', BaseService({ id: 'test', events: ['testing'], disableStringify: true }))
 
 	const options = {
 		events: ['testing']
 	}
 
-	const multi = {
-		events: ['testing'],
-		multi: 'test-services'
-	}
-
 	const multiOptions = {
 		events: ['testing'],
-		multi: 'test-services',
 		multiOptions: {
+			service: 'test-services',
 			serviceOptions: { 
-				id: 'multiId',
+				id: 'testId',
 				disableStringify: true
 			}
 		}
@@ -36,12 +31,14 @@ describe('feathers-service-manager:multi-service', () => {
 
 	const multiService = {
 		events: ['testing'],
-		multi: setupApp.service('test')
+		multiOptions: {
+			service: setupApp.service('test')
+		}
 	}
 
 	describe('initialization', () => {
 		describe('internal service storage', () => {
-			describe('multi option not provided', () => {
+			describe('multiOptions not provided', () => {
 				const rawService = new ServiceClass(options)
 				rawService.setup(setupApp, '/test')
 				describe('service storage does not exist at setup', () => {
@@ -53,20 +50,20 @@ describe('feathers-service-manager:multi-service', () => {
 					})
 				})
 			})
-			describe('multi option provided', () => {
-				describe('string provided as multi option', () => {
-					const rawService = new ServiceClass(multi)
+			describe('multiOptions provided', () => {
+				describe('multiOptions service is string', () => {
+					const rawService = new ServiceClass(multiOptions)
 					rawService.setup(setupApp, '/test-multi-string')
-					describe('provided multi service does not exist at setup', () => {
+					describe('multiOptions service does not exist at setup', () => {
 						it('adds provided service to application', () => {
 							expect(setupApp.service('test-services')).to.not.equal(undefined)
 						})
 						it('uses the provided service as service storage', () => {
-							expect(rawService.services._id).to.equal('id')
+							expect(rawService.services._id).to.equal('testId')
 						})
 					})
 				})
-				describe('service provided as multi option', () => {
+				describe('multiOptions service is service', () => {
 					const rawService = new ServiceClass(multiService)
 					rawService.setup(setupApp, '/multi-service-test')
 					it('uses the provided service as service storage', () => {
@@ -82,7 +79,7 @@ describe('feathers-service-manager:multi-service', () => {
 		rawService.setup(app, '/multi')
 		describe('addService', () => {
 			it('adds a service to the service store and returns added service', async () => {
-				return rawService.addService(serviceId, { service: 'testing', options: { serviceOptions: { id: 'testId', disableStringify: true }}})
+				return rawService.addService({test: serviceId, service: 'testing', serviceOptions: { id: 'testId', disableStringify: true }})
 					.then((result: any) => {
 						expect(result.test).to.equal(serviceId)
 						expect(result.service._id).to.equal('testId')
@@ -100,7 +97,7 @@ describe('feathers-service-manager:multi-service', () => {
 		})
 		describe('findService', () => {
 			it('returns multiple services from the service store', async () => {
-				return rawService.addService(uuid(), { options: { serviceOptions: {id: 'testTwoId', disableStringify: true }}})
+				return rawService.addService({ test: uuid(), service: 'testingTwo', serviceOptions: { id: 'testTwoId', disableStringify: true }})
 					.then((service: any) => {
 						return rawService.findService({}).then((result: any) => {
 							expect(result.length).to.equal(2)

@@ -19,9 +19,10 @@ export class ServiceClass extends BaseServiceClass {
 		return this.multiCheck(app)
 	}
 
-	public addService (id: any, data: any, app?: any): any {
+	public addService (data: any, app?: any): any {
 		let serviceApp = app || this.app
-		return this.serviceCheck(serviceApp, data.service, data.options)
+		let id = data[this.services._id] || this.generateId()
+		return this.serviceCheck(serviceApp, data)
 			.then((service: any) => {
 				return this.services.create({
 					[this.services._id]: id,
@@ -41,43 +42,32 @@ export class ServiceClass extends BaseServiceClass {
 		return this.services.remove(id, params)
 	}
 
-	public serviceCheck (app: any, service: any, options?: any): any {
+	public serviceCheck (app: any, data: any): any {
 		return new Promise(resolve => {
-			if (typeof service === 'string') {
-				if (typeof app.service(service) === 'undefined') {
-					debug(`no service ${service} found on application setup. ${service} will be created`)
-					if (options) {
-						let provider = options.provider || BaseService
-						let serviceOptions = options.serviceOptions || { id: 'id', disableStringify: true }
-						app.use(service, provider(serviceOptions))
-						return resolve(app.service(service))
-					}
-					app.use(service, BaseService({ id: 'id', disableStringify: true }))
-					return resolve(app.service(service))
+			if (typeof data.service === 'string') {
+				if (typeof app.service(data.service) === 'undefined') {
+					console.log(`no service ${data.service} found on application setup. ${data.service} will be created`)
+					let provider = data.provider || BaseService
+					let serviceOptions = data.serviceOptions || { id: 'id', disableStringify: true }
+					app.use(data.service, provider(serviceOptions))
+					return resolve(app.service(data.service))
 				}
-				return resolve(app.service(service))
+				return resolve(app.service(data.service))
 			}
-			return resolve(service)
+			return resolve(data.service)
 		})
 	}
 
 	private multiCheck (app: any): any {
 		return new Promise(resolve => {
-			if (this.options.multi) {
-				if (this.options.multiOptions) {
-					return this.serviceCheck(app, this.options.multi, this.options.multiOptions)
-						.then((service: any) => {
-							this.services = service
-							return Promise.resolve(this.services)
-						})
-				}
-				return this.serviceCheck(app, this.options.multi)
+			if (this.options.multiOptions) {
+				return this.serviceCheck(app, this.options.multiOptions)
 					.then((service: any) => {
 						this.services = service
 						return Promise.resolve(this.services)
 					})
 			}
-			return this.serviceCheck(app, 'multi-services', { serviceOptions: { id: 'serviceId', disableStringify: true }})
+			return this.serviceCheck(app, { service: 'multi-services', serviceOptions: { id: 'serviceId', disableStringify: true }})
 				.then((service: any) => {
 					this.services = service
 					return Promise.resolve(this.services)
