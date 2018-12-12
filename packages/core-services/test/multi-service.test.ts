@@ -1,3 +1,4 @@
+import { expect } from 'chai'
 import feathers from '@feathersjs/feathers'
 import { default as Debug } from 'debug'
 import { v4 as uuid } from 'uuid'
