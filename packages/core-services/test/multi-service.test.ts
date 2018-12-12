@@ -78,11 +78,11 @@ describe('feathers-service-manager:multi-service', () => {
 	})
 	describe('custom methods', () => {
 		const serviceId = uuid()
-		const rawService = new ServiceClass(options)
+		const rawService = new ServiceClass(multiService)
 		rawService.setup(app, '/multi')
 		describe('addService', () => {
 			it('adds a service to the service store and returns added service', async () => {
-				return rawService.addService(serviceId, { serviceOptions: { id: 'testId' }})
+				return rawService.addService(serviceId, { service: 'testing', serviceOptions: { id: 'testId' }})
 					.then((result: any) => {
 						expect(result.serviceId).to.equal(serviceId)
 						expect(result.service._id).to.equal('testId')
