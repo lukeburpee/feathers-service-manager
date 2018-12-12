@@ -12,7 +12,7 @@ describe('feathers-service-manager:multi-service', () => {
 	const app = feathers()
 	const setupApp = feathers()
 
-	setupApp.use('test', BaseService({id: 'test', events:['testing']}))
+	setupApp.use('test', BaseService({ id: 'test', events: ['testing'] }))
 
 	const options = {
 		events: ['testing']
@@ -27,7 +27,10 @@ describe('feathers-service-manager:multi-service', () => {
 		events: ['testing'],
 		multi: 'test-services',
 		multiOptions: {
-			serviceOptions: { id: 'multiId' }
+			serviceOptions: { 
+				id: 'multiId',
+				disableStringify: true
+			}
 		}
 	}
 

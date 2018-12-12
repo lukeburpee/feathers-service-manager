@@ -59,7 +59,14 @@ export class ServiceClass extends BaseServiceClass {
 	private multiCheck (app: any): any {
 		return new Promise(resolve => {
 			if (this.options.multi) {
-				return this.serviceCheck(app, this.options.multi, this.options.multiOptions)
+				if (this.options.multiOptions) {
+					return this.serviceCheck(app, this.options.multi, this.options.multiOptions)
+						.then((service: any) => {
+							this.services = service
+							return Promise.resolve(this.services)
+						})
+				}
+				return this.serviceCheck(app, this.options.multi)
 					.then((service: any) => {
 						this.services = service
 						return Promise.resolve(this.services)
