@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import feathers from '@feathersjs/feathers';
 import { default as Debug } from 'debug'
+import { v4 as uuid } from 'uuid'
 import ProcessService, { ServiceClass } from '../src/process-service'
 
 const debug = Debug('feathers-service-manager:process-service:test')
@@ -24,15 +25,16 @@ describe('feathers-service-manager:process-service', () => {
 		})
 	})
 	describe('custom methods', () => {
+		const processId = uuid()
 		const rawService = new ServiceClass(options)
 		rawService.setup(app, '/methods')
 		describe('execute', () => {
 			it('creates a child process promise and adds child process to process store', () => {
-				return rawService.execute({command: 'echo', args: ['test']}).then((result: any) => {
-					expect(result).to.have.property('processId')
-					expect(result.process).to.have.property('pid')
-					expect(result.process).to.have.property('stdout')
-					expect(result.process).to.have.property('stderr')
+				return rawService.execute({processId, command: 'echo', args: ['test']}).then((result: any) => {
+					expect(result.processId).to.equal(processId)
+					expect(result.cp).to.have.property('pid')
+					expect(result.cp).to.have.property('stdout')
+					expect(result.cp).to.have.property('stderr')
 				})
 			})
 			describe('missing command', () => {
@@ -44,7 +46,21 @@ describe('feathers-service-manager:process-service', () => {
 				})
 			})
 		})
-		describe('kill', () => {})
+		describe('kill', () => {
+			before(() => {
+				return rawService.execute({processId, command: 'echo', args: ['test']})
+			})
+			it('kills a child process and removes it from process store', () => {
+				return rawService.kill(processId).then((result: any) => {
+					expect(result.processId).to.equal(processId)
+					expect(result.cp).to.have.property('pid')
+					return rawService.processes.get(processId)
+						.catch(error => {
+							expect(error.message).to.equal(`No record found for id '${processId}'`)
+						})
+				})
+			})
+		})
 	})
 	// describe('Common Service Tests', () => {
 	// base(app, errors, 'json')

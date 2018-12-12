@@ -36,15 +36,15 @@ export class ServiceClass extends MultiServiceClass {
 		}
 		let p = execa(data.command, data.args || [], data.options || [])
 		let stored = await this.processes.create({
-			[this.processId]: data.id || p.pid,
-			process: p
+			[this.processId]: data[this.processId] || p.pid,
+			cp: p
 		})
 		return stored
 	}
 
 	public async kill (id: any): Promise<any> {
-		let { process } = await this.processes.get(id)
-		process.kill(process.pid, 'SIGTERM')
+		let { cp } = await this.processes.get(id)
+		process.kill(cp.pid)
 		let removed = await this.processes.remove(id)
 		return removed
 	}
