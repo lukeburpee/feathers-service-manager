@@ -154,12 +154,9 @@ describe('feathers-service-manager:multi-service', () => {
 		})
 		describe('findService', () => {
 			it('returns multiple services from the service store', async () => {
-				return rawService.addService({ test: uuid(), service: 'testingTwo', serviceOptions: { id: 'testTwoId', disableStringify: true }})
-					.then((service: any) => {
-						return rawService.findService({}).then((result: any) => {
-							expect(result.length).to.equal(5)
-						})
-					})
+				return rawService.findService({}).then((result: any) => {
+					expect(result.length).to.equal(4)
+				})
 			})
 		})
 		describe('removeService', () => {
