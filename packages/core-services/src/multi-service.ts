@@ -45,8 +45,8 @@ export class ServiceClass extends BaseServiceClass {
 			if (typeof service === 'string') {
 				if (typeof app.service(service) === 'undefined') {
 					debug(`no service ${service} found on application setup. ${service} will be created`)
-					let provider = options.provider ? options.provider : BaseService
-					let serviceOptions = options.serviceOptions ? options.serviceOptions : { id: 'id', disableStringify: true }
+					let provider = options.provider || BaseService
+					let serviceOptions = options.serviceOptions || { id: 'id', disableStringify: true }
 					app.use(service, provider(serviceOptions))
 					return resolve(app.service(service))
 				}
@@ -59,7 +59,7 @@ export class ServiceClass extends BaseServiceClass {
 	private multiCheck (app: any): any {
 		return new Promise(resolve => {
 			if (this.options.multi) {
-				return this.serviceCheck(app, this.options.multi, this.options.multiOptions || null)
+				return this.serviceCheck(app, this.options.multi, this.options.multiOptions)
 					.then((service: any) => {
 						this.services = service
 						return Promise.resolve(this.services)
