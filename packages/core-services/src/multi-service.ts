@@ -16,7 +16,7 @@ export class ServiceClass extends BaseServiceClass {
 
 	public setup(app: any, path: any): any {
 		super.setup(app, path)
-		this.multiCheck(app)
+		return this.multiCheck(app)
 	}
 
 	public addService (id: any, data: any, app?: any): any {
@@ -46,7 +46,7 @@ export class ServiceClass extends BaseServiceClass {
 				if (typeof app.service(service) === 'undefined') {
 					debug(`no service ${service} found on application setup. ${service} will be created`)
 					let provider = options.provider ? options.provider : BaseService
-					let serviceOptions = options.serviceOptions ? options.serviceOptions : { id: 'id' }
+					let serviceOptions = options.serviceOptions ? options.serviceOptions : { id: 'id', disableStringify: true }
 					app.use(service, provider(serviceOptions))
 				}
 				return resolve(app.service(service))
@@ -64,7 +64,7 @@ export class ServiceClass extends BaseServiceClass {
 						Promise.resolve(this.services)
 					})
 			}
-			return this.serviceCheck(app, 'services', { serviceOptions: { id: 'serviceId' }})
+			return this.serviceCheck(app, 'multi-services', { serviceOptions: { id: 'serviceId', disableStringify: true }})
 				.then((service: any) => {
 					this.services = service
 					Promise.resolve(this.services)
