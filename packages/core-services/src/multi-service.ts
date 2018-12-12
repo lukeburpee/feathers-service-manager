@@ -20,7 +20,8 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public addService (id: any, data: any, app?: any): any {
-		return this.serviceCheck(app ? app : this.app, data.service, data.options)
+		let serviceApp = app || this.app
+		return this.serviceCheck(serviceApp, data.service, data.options)
 			.then((service: any) => {
 				return this.services.create({
 					[this.services._id]: id,
@@ -45,9 +46,13 @@ export class ServiceClass extends BaseServiceClass {
 			if (typeof service === 'string') {
 				if (typeof app.service(service) === 'undefined') {
 					debug(`no service ${service} found on application setup. ${service} will be created`)
-					let provider = options.provider || BaseService
-					let serviceOptions = options.serviceOptions || { id: 'id', disableStringify: true }
-					app.use(service, provider(serviceOptions))
+					if (options) {
+						let provider = options.provider || BaseService
+						let serviceOptions = options.serviceOptions || { id: 'id', disableStringify: true }
+						app.use(service, provider(serviceOptions))
+						return resolve(app.service(service))
+					}
+					app.use(service, BaseService({ id: 'id', disableStringify: true }))
 					return resolve(app.service(service))
 				}
 				return resolve(app.service(service))
