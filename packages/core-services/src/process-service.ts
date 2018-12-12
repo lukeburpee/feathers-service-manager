@@ -44,7 +44,7 @@ export class ServiceClass extends MultiServiceClass {
 
 	public async kill (id: any): Promise<any> {
 		let { cp } = await this.processes.get(id)
-		process.kill(cp.pid)
+		cp.kill()
 		let removed = await this.processes.remove(id)
 		return removed
 	}
