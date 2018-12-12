@@ -35,7 +35,7 @@ export class ServiceClass extends BaseServiceClass {
 		return this.services.get(id, params)
 	}
 	public findService (params?: any): any {
-		return this.services.find(params || {})
+		return this.services.find(params)
 	}
 
 	public removeService (id: any, params?: any): any {
