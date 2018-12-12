@@ -10,7 +10,7 @@ export default function init (options: ServiceOptions) {
 }
 
 export class ServiceClass extends MultiServiceClass {
-	public processId!: any;
+	public processId!: string;
 	public processes!: any;
 	constructor(options: ServiceOptions) {
 		super(options)
@@ -22,7 +22,8 @@ export class ServiceClass extends MultiServiceClass {
 			app,
 			service: 'processes',
 			serviceOptions: {
-				id: this.processId
+				id: this.processId,
+				disableStringify: true
 			}
 		}).then((processes: any) => {
 			this.processes = processes.service
@@ -34,15 +35,17 @@ export class ServiceClass extends MultiServiceClass {
 			throw new Error('execute process requires a command.')
 		}
 		let p = execa(data.command, data.args || [], data.options || [])
-		return Promise.resolve(await this.processes.create({
+		let stored = await this.processes.create({
 			[this.processId]: data.id || p.pid,
-			...p
-		}))
+			process: p
+		})
+		return stored
 	}
 
 	public async kill (id: any): Promise<any> {
-		let { pid } = await this.processes.get(id)
-		process.kill(pid, 'SIGINT')
-		return Promise.resolve(await this.processes.remove(id))
+		let { process } = await this.processes.get(id)
+		process.kill(process.pid, 'SIGTERM')
+		let removed = await this.processes.remove(id)
+		return removed
 	}
 }
