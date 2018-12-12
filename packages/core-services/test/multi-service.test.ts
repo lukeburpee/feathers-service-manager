@@ -46,7 +46,7 @@ describe('feathers-service-manager:multi-service', () => {
 						expect(setupApp.service('multi-services')).to.not.equal(undefined)
 					})
 					it('uses created service as service storage', () => {
-						expect(rawService.services._id).to.equal('serviceId'))
+						expect(rawService.services._id).to.equal('serviceId')
 					})
 				})
 			})
