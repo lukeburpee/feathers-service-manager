@@ -1,5 +1,4 @@
-import load from 'load-json-file'
-import write from 'write-json-file'
+import { _select } from '@feathers-service-manager/utils'
 
 import { ServiceClass as BaseServiceClass } from './base-service'
 
@@ -15,5 +14,12 @@ export class ServiceClass extends BaseServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 		debug('registry-service initialized')
+	}
+	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
+		if (!data.spec) {
+			throw new Error('registery service requires application spec.')
+		}
+		let spec = data.spec
+		return super.createImplementation(store, { spec }, params)
 	}
 }

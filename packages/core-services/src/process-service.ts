@@ -1,50 +1,32 @@
 import { default as Debug } from 'debug'
 import execa from 'execa'
 
-import { ServiceClass as MultiServiceClass } from './multi-service'
+import { ServiceClass as BaseServiceClass } from './base-service'
 
 const debug = Debug('feathers-service-manager:core-services:process-service')
 
 export default function init (options: ServiceOptions) {
-  return new ServiceClass(options)
+	return new ServiceClass(options)
 }
 
-export class ServiceClass extends MultiServiceClass {
-	public processId!: string;
-	public processes!: any;
+export class ServiceClass extends BaseServiceClass {
 	constructor(options: ServiceOptions) {
 		super(options)
-		this.processId = options.processId || 'processId'
 	}
-	public async setup (app: any, path: any): Promise<any> {
-		super.setup(app, path)
-		await this.addService({
-			app,
-			service: 'processes',
-			serviceOptions: {
-				id: this.processId,
-				disableStringify: true
-			}
-		}).then((processes: any) => {
-			this.processes = processes.service
-		})
-	}
-	public async execute (data: any): Promise<any> {
+	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
 		if (!data.command) {
 			throw new Error('execute process requires a command.')
 		}
-		let p = execa(data.command, data.args || [], data.options || [])
-		let stored = await this.processes.create({
-			[this.processId]: data[this.processId] || p.pid,
-			cp: p
-		})
-		return stored
+		let cp = execa(data.command, data.args || [], data.options || [])
+		return super.createImplementation(store, { cp }, params)
 	}
 
-	public async kill (id: any): Promise<any> {
-		let { cp } = await this.processes.get(id)
-		cp.kill()
-		let removed = await this.processes.remove(id)
-		return removed
+	public async removeImplementation (store: any, id: any, params?: any): Promise<any> {
+		if (id in store) {
+			let cp = store[id].cp
+			cp.kill()
+			return super.removeImplementation(store, id, params)
+		}
+		return this.throwNotFound(id)
 	}
 }

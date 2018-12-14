@@ -1,3 +1,4 @@
+import { suit, test, slow, timeout } from 'mocha-typescript'
 import feathers from '@feathersjs/feathers';
 import { default as Debug } from 'debug'
 import LogService from '../src/log-service'

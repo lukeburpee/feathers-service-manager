@@ -3,6 +3,8 @@ declare module 'feathers-service-tests'
 declare module 'assert'
 declare module 'redbird'
 declare module 'selfsigned'
+declare module 'tempy'
+declare module 'p-series'
 
 interface ServiceOptions {
 	id?: any;
@@ -23,6 +25,7 @@ interface ServiceOptions {
 	proxy?: any;
 	processId?: any;
 	file?: any;
+	defaultCount?: any;
 }
 
 declare module '@feathersjs/commons' {

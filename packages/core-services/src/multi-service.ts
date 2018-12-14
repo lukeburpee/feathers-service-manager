@@ -20,6 +20,10 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public async addService (data: any): Promise<any> {
+		if (Array.isArray(data)) {
+			let services = data.map((service: any) => this.addService(service))
+			return Promise.all(services)
+		}
 		let serviceApp = data.app || this.app
 		delete data.app
 		let id = data[this.services._id] || this.generateId()

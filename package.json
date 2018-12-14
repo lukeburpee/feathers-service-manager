@@ -57,6 +57,7 @@
     "@types/mongoose": "^5.3.4",
     "@types/node": "^10.12.5",
     "@types/uuid": "^3.4.4",
+    "@types/watch": "^1.0.0",
     "@types/write-json-file": "^2.2.1",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",

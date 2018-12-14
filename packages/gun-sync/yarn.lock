@@ -1500,9 +1500,9 @@ validate-npm-package-license@^3.0.1:
     spdx-expression-parse "^3.0.0"
 
 webcrypto-core@^0.1.25:
-  version "0.1.25"
-  resolved "https://registry.yarnpkg.com/webcrypto-core/-/webcrypto-core-0.1.25.tgz#92602cbbf3310fadc671a1446aca336ab3b80e95"
-  integrity sha512-BjpHEls+jFGwGngxbX7NR1Swnw3vTF0aAYAd42wulMdxd2MHXAgp1V3ZYlLALEvGu8do5HeZcCNW70JsnR5BFQ==
+  version "0.1.26"
+  resolved "https://registry.yarnpkg.com/webcrypto-core/-/webcrypto-core-0.1.26.tgz#977e5cdd9173db6ac8b18414d66ee3759a8b1024"
+  integrity sha512-BZVgJZkkHyuz8loKvsaOKiBDXDpmMZf5xG4QAOlSeYdXlFUl9c1FRrVnAXcOdb4fTHMG+TRu81odJwwSfKnWTA==
   dependencies:
     tslib "^1.7.1"
 

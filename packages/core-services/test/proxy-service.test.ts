@@ -1,3 +1,4 @@
+import { suit, test, slow, timeout } from 'mocha-typescript'
 import { expect, use } from 'chai'
 import chaiHttp, { request } from 'chai-http'
 import got from 'got'
