@@ -31,7 +31,21 @@
   },
   "dependencies": {
     "@feathersjs/commons": "^3.0.1",
-    "@feathersjs/feathers": "^3.2.3"
+    "@feathersjs/feathers": "^3.2.3",
+    "p-cancelable": "^1.0.0",
+    "p-event": "^2.1.0",
+    "p-filter": "^1.0.0",
+    "p-forever": "^1.0.1",
+    "p-map": "^2.0.0",
+    "p-pipe": "^1.2.0",
+    "p-progress": "^0.2.0",
+    "p-queue": "^3.0.0",
+    "p-reduce": "^1.0.0",
+    "p-retry": "^2.0.0",
+    "p-series": "^1.1.0",
+    "p-throttle": "^2.0.0",
+    "p-time": "^1.0.0",
+    "p-is-promise": "^2.0.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
