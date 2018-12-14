@@ -55,6 +55,7 @@
     "archiver": "^3.0.0",
     "benchmark": "^2.1.4",
     "binary-extract": "^0.1.1",
+    "cpy": "^7.0.1",
     "debug": "^4.1.0",
     "execa": "^1.0.0",
     "exit-hook": "^2.0.0",

@@ -1693,6 +1693,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/load-json-file@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@types/load-json-file/-/load-json-file-2.0.7.tgz#c887826f5230b7507d5230994d26315c6776be06"
+  integrity sha512-NrH6jPlV77QCVPhAHofWeiOr77TgpKt82c2RVxSBChWBJqyY/u4ngl3CA4mcsAg/w7rNLrkR7dkObMV0ihLLXw==
+
 "@types/mime@*":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
@@ -1763,6 +1768,11 @@
   integrity sha512-tPIgT0GUmdJQNSHxp0X2jnpQfBSTfGxUMc/2CXBU2mnyTFVYVa2ojpoQ74w0U2yn2vw3jnC640+77lkFFpdVDw==
   dependencies:
     "@types/node" "*"
+
+"@types/write-json-file@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@types/write-json-file/-/write-json-file-2.2.1.tgz#74155aaccbb0d532be21f9d66bebc4ea875a5a62"
+  integrity sha512-JdO/UpPm9RrtQBNVcZdt3M7j3mHO/kXaea9LBGx3UgWJd1f9BkIWP7jObLBG6ZtRyqp7KzLFEsaPhWcidVittA==
 
 "@vue/babel-preset-app@3.0.0-beta.11":
   version "3.0.0-beta.11"
