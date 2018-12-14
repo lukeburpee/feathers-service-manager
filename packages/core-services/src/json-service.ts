@@ -1,7 +1,7 @@
 import load from 'load-json-file'
 import write from 'write-json-file'
 
-import { ServiceClass as BaseServiceClass } from './base-service'
+import { ServiceClass as WatcherServiceClass } from './watcher-service'
 
 import { default as Debug } from 'debug'
 
@@ -11,13 +11,10 @@ export default function init (options: ServiceOptions) {
 	return new ServiceClass(options)
 }
 
-export class ServiceClass extends BaseServiceClass {
+export class ServiceClass extends WatcherServiceClass {
 	public json!: any;
 	constructor (options: ServiceOptions) {
 		super(options)
-		if (!options.file) {
-			throw new Error(`json service requires a file path.`)
-		}
 	}
 	public setup (app: any, path: any): any {
 		return load(this.options.filePath)

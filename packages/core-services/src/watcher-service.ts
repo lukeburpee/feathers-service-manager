@@ -9,7 +9,7 @@ export default function init (options: ServiceOptions) {
 }
 
 export class ServiceClass extends BaseServiceClass {
-	public watchPath!: any
+	public filePath!: any
 	constructor (options: ServiceOptions) {
 		super(options)
 		debug('watcher-service initialized')
