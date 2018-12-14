@@ -5,7 +5,7 @@ import express from '@feathersjs/express'
 import socketio from '@feathersjs/socketio'
 import cluster from 'cluster'
 import getStream from 'get-stream'
-import { ServiceClass as BaseServiceClass } from './base-service'
+import { ServiceClass as ProcessServiceClass } from './process-service'
 
 const debug = Debug('feathers-service-manager:core-services:cluster-service')
 
@@ -13,7 +13,7 @@ export default function init (options: ServiceOptions) {
   return new ServiceClass(options)
 }
 
-export class ServiceClass extends BaseServiceClass {
+export class ServiceClass extends ProcessServiceClass {
 	public clusterServer!: any;
 	public clusterCount!: any;
 	public workers!: any;
