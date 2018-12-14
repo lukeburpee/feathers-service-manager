@@ -130,9 +130,9 @@
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
 "@types/node@*":
-  version "10.12.14"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.14.tgz#c03b6380c5c301be0499ecd143b99b76ebe45678"
-  integrity sha512-0rVcFRhM93kRGAU88ASCjX9Y3FWDCh+33G5Z5evpKOea4xcpLqDGwmo64+DjgaSezTN5j9KdnUzvxhOw7fNciQ==
+  version "10.12.15"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.15.tgz#20e85651b62fd86656e57c9c9bc771ab1570bc59"
+  integrity sha512-9kROxduaN98QghwwHmxXO2Xz3MaWf+I1sLVAA6KJDF5xix+IyXVhds0MAfdNwtcpSrzhaTsNB0/jnL86fgUhqA==
 
 "@types/uuid@^3.4.4":
   version "3.4.4"
@@ -5240,11 +5240,11 @@ simple-get@^2.7.0:
     simple-concat "^1.0.0"
 
 simple-peer@^9.1.2:
-  version "9.1.2"
-  resolved "https://registry.yarnpkg.com/simple-peer/-/simple-peer-9.1.2.tgz#f8afa5eb83f8a17d66e437e5ac54c1221eca4b39"
-  integrity sha512-MUWWno5o5cvISKOH4pYQ18PQJLpDaNWoKUbrPPKuspCLCkkh+zhtuQyTE8h2U2Ags+/OUN5wnUe92+9B8/Sm2Q==
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/simple-peer/-/simple-peer-9.2.0.tgz#022105756b7c4489fe9809585ba6a3df8e856599"
+  integrity sha512-BaNhpcMBEI7GjZo+6uKSJgihtpvcopzfhSbzyhSi67d8Ab9Rp5KsXQ8pB2Yx6km46PgjNUga+2fYnHnIPLl5gg==
   dependencies:
-    debug "^3.1.0"
+    debug "^4.0.1"
     get-browser-rtc "^1.0.0"
     inherits "^2.0.1"
     randombytes "^2.0.3"

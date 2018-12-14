@@ -118,9 +118,9 @@
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
 "@types/node@*":
-  version "10.12.14"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.14.tgz#c03b6380c5c301be0499ecd143b99b76ebe45678"
-  integrity sha512-0rVcFRhM93kRGAU88ASCjX9Y3FWDCh+33G5Z5evpKOea4xcpLqDGwmo64+DjgaSezTN5j9KdnUzvxhOw7fNciQ==
+  version "10.12.15"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.15.tgz#20e85651b62fd86656e57c9c9bc771ab1570bc59"
+  integrity sha512-9kROxduaN98QghwwHmxXO2Xz3MaWf+I1sLVAA6KJDF5xix+IyXVhds0MAfdNwtcpSrzhaTsNB0/jnL86fgUhqA==
 
 "@types/uuid@^3.4.4":
   version "3.4.4"
@@ -2275,9 +2275,9 @@ nanoassert@^1.0.0, nanoassert@^1.1.0:
   integrity sha1-TzFS4JVA/eKMdvRLGbvNHVpCR40=
 
 nanobus@^4.3.3:
-  version "4.3.5"
-  resolved "https://registry.yarnpkg.com/nanobus/-/nanobus-4.3.5.tgz#9d106c35a1f136bc34e0c4b5d28230a6cdb9e6ae"
-  integrity sha512-6UlqagLV9/ADqcTU60mipAPEd16WDbO+a9WeeGVn9RucHKNDTcPt9MOf8ZmAvbA3V2CV+EJS28eupNalg4YF8Q==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/nanobus/-/nanobus-4.4.0.tgz#e5c20846fa17cff01ef5aac301410d1e541f81ed"
+  integrity sha512-Hv9USGyH8EsPy0o8pPWE7x3YRIfuZDgMBirzjU6XLebhiSK2g53JlfqgolD0c39ne6wXAfaBNcIAvYe22Bav+Q==
   dependencies:
     nanoassert "^1.1.0"
     nanotiming "^7.2.0"

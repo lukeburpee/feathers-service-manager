@@ -29,7 +29,6 @@ export class ServiceClass extends MultiServiceClass {
 			this.processes = processes.service
 		})
 	}
-
 	public async execute (data: any): Promise<any> {
 		if (!data.command) {
 			throw new Error('execute process requires a command.')
