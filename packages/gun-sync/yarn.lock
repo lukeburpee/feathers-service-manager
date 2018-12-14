@@ -575,9 +575,9 @@ growl@1.10.5:
   integrity sha512-qBr4OuELkhPenW6goKVXiv47US3clb3/IbuWF9KNKEijAy9oeHxU9IgzjvJhHkUzhaj7rOUD7+YGWqUjLp5oSA==
 
 gun@^0.9.99997:
-  version "0.9.999991"
-  resolved "https://registry.yarnpkg.com/gun/-/gun-0.9.999991.tgz#3af466da33b79872fc9b2d5f8deebf317bd2b5c7"
-  integrity sha512-7AzG94nSR8Du+CCdNddVCKuyrqNu0ZXNnxqDYl73PaHYGIlAcL7i0zjtf2VJlRH0MR8TEUZnu42T+iL46awg6A==
+  version "0.9.999992"
+  resolved "https://registry.yarnpkg.com/gun/-/gun-0.9.999992.tgz#7aa023691bb7d456ee0ddb0cfe975832a5c74aa8"
+  integrity sha512-yLZsiXx8GtrTI6CfWXOfk/p4IcENyt8m6+yfPCZg8iRV2f75o+2jdRkMf/Kxwf2j3SogtDft2qCy2cM4CMdl/g==
   dependencies:
     "@trust/webcrypto" "^0.9.2"
     node-webcrypto-ossl "^1.0.38"

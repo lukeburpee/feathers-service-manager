@@ -22,6 +22,7 @@ interface ServiceOptions {
 	disableStringify?: any;
 	proxy?: any;
 	processId?: any;
+	file?: any;
 }
 
 declare module '@feathersjs/commons' {
