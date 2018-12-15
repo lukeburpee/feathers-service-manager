@@ -2,14 +2,14 @@ import { suite, test, slow, timeout } from 'mocha-typescript'
 import { assert, expect } from 'chai'
 import feathers from '@feathersjs/feathers';
 import { default as Debug } from 'debug'
-import { ServiceClass as ProcessService } from '../src/process-service'
+import { ServiceClass } from '../src/process-service'
 
 const debug = Debug('feathers-service-manager:process-service:test')
 
 describe('ProcessService', () => {
 	describe('Custom Methods', () => {
 		describe('createImplementation', () => {
-			@suite class results extends ProcessService {
+			@suite class results extends ServiceClass {
 				constructor(options: ServiceOptions) {
 					super({events:['testing'], disableStringify: true})
 				}
@@ -23,7 +23,7 @@ describe('ProcessService', () => {
 					expect(id in this.store).to.be.true
 				}
 			}
-			@suite class missingCommand extends ProcessService {
+			@suite class missingCommand extends ServiceClass {
 				constructor(options: ServiceOptions) {
 					super({events:['testing'], disableStringify: true})
 				}
@@ -34,7 +34,7 @@ describe('ProcessService', () => {
 			}
 		})
 		describe('removeImplementation', () => {
-			@suite class results extends ProcessService {
+			@suite class results extends ServiceClass {
 				public testId!: any;
 				public testCp!: any;
 				constructor(options: ServiceOptions) {

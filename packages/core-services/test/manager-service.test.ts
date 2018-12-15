@@ -2,11 +2,11 @@ import { suite, test, slow, timeout } from 'mocha-typescript'
 import { expect } from 'chai'
 import feathers from '@feathersjs/feathers';
 import { default as Debug } from 'debug'
-import { ServiceClass } from '../src/log-service'
+import { ServiceClass } from '../src/manager-service'
 
-const debug = Debug('feathers-service-manager:log-service:test')
+const debug = Debug('feathers-service-manager:manager-service:test')
 
-describe('LogService', () => {
+describe('ManagerService', () => {
 	describe('Custom Methods', () => {
 		describe('createImplementation', () => {
 			@suite class result extends ServiceClass {

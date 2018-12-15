@@ -19,7 +19,6 @@ export class ServiceClass extends BaseServiceClass {
 		this.defaultCount = options.defaultCount || 2
 	}
 	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
-		let id = data[this.id] || this.generateId()
 		let count = data.count || this.defaultCount
 		let cluster = data.cluster || c
 		let workers = {}
@@ -31,17 +30,6 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		return super.createImplementation(store, { cluster, workers }, params)
 	}
-	public createWorkers (cluster: any, count: any): any {
-		let workers = {}
-		for (let i = 0; i < count; i++) {
-			let worker = this.createWorker(cluster)
-			workers = {
-				...workers,
-				[worker.id]: worker
-			}
-		}
-		return workers
-	}
 	public createWorker (cluster: any): any {
 		let id = this.generateId()
 		let worker = cluster.fork()
@@ -52,5 +40,16 @@ export class ServiceClass extends BaseServiceClass {
 			messages: []
 		}
 		return current
+	}
+	public createWorkers (cluster: any, count: any): any {
+		let workers = {}
+		for (let i = 0; i < count; i++) {
+			let worker = this.createWorker(cluster)
+			workers = {
+				...workers,
+				[worker.id]: worker
+			}
+		}
+		return workers
 	}
 }

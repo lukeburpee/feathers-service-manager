@@ -1,4 +1,4 @@
-import { suit, test, slow, timeout } from 'mocha-typescript'
+import { suite, test, slow, timeout } from 'mocha-typescript'
 import { expect } from 'chai'
 import feathers from '@feathersjs/feathers'
 import { default as Debug } from 'debug'
