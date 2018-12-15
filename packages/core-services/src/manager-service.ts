@@ -1,6 +1,7 @@
 import { directory, file } from 'tempy'
 import writeJson from 'write-json-file'
 import series from 'p-series'
+import { cpus } from 'os'
 
 import { default as Debug } from 'debug'
 
@@ -28,8 +29,10 @@ export class ServiceClass extends MultiServiceClass {
 	public manifest!: any;
 	public cluster!: any;
 	public log!: any;
+	public cpus!: any;
 	constructor(options: ServiceOptions) {
 		super(options)
+		this.cpus = cpus()
 	}
 	public async setup (app: any, path: any): Promise<any> {
 		await super.setup(app, path)
