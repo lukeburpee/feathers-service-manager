@@ -18,7 +18,7 @@ describe('ClusterService', () => {
 				}
 			}
 		})
-		describe('createWorker', () => {
+		describe('patchImplementation', () => {
 			@suite class results extends ServiceClass {
 				constructor(options: ServiceOptions) {
 					super({events:['testing'], disableStringify: true})
@@ -28,7 +28,87 @@ describe('ClusterService', () => {
 				}
 			}
 		})
-		describe('createWorkers', () => {
+		describe('verifyCreate', () => {
+			@suite class results extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({events:['testing'], disableStringify: true})
+				}
+				@test async 'it' () {
+					expect(true).to.be.true
+				}
+			}
+		})
+		describe('verifyPatch', () => {
+			@suite class results extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({events:['testing'], disableStringify: true})
+				}
+				@test async 'it' () {
+					expect(true).to.be.true
+				}
+			}
+		})
+		describe('verifyScale', () => {
+			@suite class results extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({events:['testing'], disableStringify: true})
+				}
+				@test async 'it' () {
+					expect(true).to.be.true
+				}
+			}
+		})
+		describe('verifyAllowed', () => {
+			@suite class results extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({events:['testing'], disableStringify: true})
+				}
+				@test async 'it' () {
+					expect(true).to.be.true
+				}
+			}
+		})
+		describe('sendVM', () => {
+			@suite class results extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({events:['testing'], disableStringify: true})
+				}
+				@test async 'it' () {
+					expect(true).to.be.true
+				}
+			}
+		})
+		describe('createW', () => {
+			@suite class results extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({events:['testing'], disableStringify: true})
+				}
+				@test async 'it' () {
+					expect(true).to.be.true
+				}
+			}
+		})
+		describe('createWS', () => {
+			@suite class results extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({events:['testing'], disableStringify: true})
+				}
+				@test async 'it' () {
+					expect(true).to.be.true
+				}
+			}
+		})
+		describe('scaleUp', () => {
+			@suite class results extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({events:['testing'], disableStringify: true})
+				}
+				@test async 'it' () {
+					expect(true).to.be.true
+				}
+			}
+		})
+		describe('scaleDown', () => {
 			@suite class results extends ServiceClass {
 				constructor(options: ServiceOptions) {
 					super({events:['testing'], disableStringify: true})
