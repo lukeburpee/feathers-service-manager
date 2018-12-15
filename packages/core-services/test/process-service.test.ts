@@ -10,7 +10,7 @@ describe('ProcessService', () => {
 	describe('Custom Methods', () => {
 		@suite class createImplementation extends ProcessService {
 			constructor(options: ServiceOptions) {
-				super({events:['testing']})
+				super({events:['testing'], disableStringify: true})
 			}
 			@test async 'it creates a child process' () {
 				let { id, cp } = await this.createImplementation(this.store, { command: 'echo', args: ['test']})
@@ -26,7 +26,7 @@ describe('ProcessService', () => {
 			public testId!: any;
 			public testCp!: any;
 			constructor(options: ServiceOptions) {
-				super({events: ['events']})
+				super({events: ['events'], disableStringify: true})
 			}
 			public async before () {
 				let { id, cp } = await this.createImplementation(this.store, { command: 'echo', args: ['test']})
