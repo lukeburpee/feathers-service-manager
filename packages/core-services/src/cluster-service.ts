@@ -37,12 +37,12 @@ export class ServiceClass extends BaseServiceClass {
 					...original,
 					...additional
 				}
-				let count = Object.keys(workers).count
+				let count = Object.keys(workers).length
 				return super.patchImplementation(store, id, { count, settings, workers }, params)
 			}
 			if (data.scaleDown) {
 				let workers = this.scaleDown(original, data.scaleDown)
-				let count = Object.keys(workers).count
+				let count = Object.keys(workers).length
 				return super.patchImplementation(store, id, { count, settings, workers }, params)
 			}
 		}
@@ -50,7 +50,7 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public verifyCreate (options: any): any {
-		if (!data.count || !data.settings) {
+		if (!options.count || !options.settings) {
 			throw new Error('cluster master settings and worker count required to create cluster.')
 		}
 		console.log('cluster create options verified.')
@@ -72,13 +72,13 @@ export class ServiceClass extends BaseServiceClass {
 		let allowed = ['scaleUp', 'scaleDown', 'close']
 		Object.keys(options).map((o: any) => {
 			if (allowed.indexOf(o) === -1 ) {
-				throw new Error(`no cluster service option ${option}.`)
+				throw new Error(`no cluster service option ${o}.`)
 			}
 		})
 	}
 
 	public sendWM (id: any, m: any): any {
-		return c.workers[id].send(m)
+		return c.workers[id]!.send(m)
 	}
 
 	public createW (cluster: any): any {
@@ -96,7 +96,7 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public createWs (cluster: any, count: any): any {
-		let ws = []
+		let ws: string[] = []
 		for (let i = 0; i < count; i++) {
 			let w = this.createW(cluster)
 			ws = [...ws, w]
@@ -113,7 +113,7 @@ export class ServiceClass extends BaseServiceClass {
 	public scaleDown (originals: any, count: any): any {
 		let id
 		let ws = originals
-		let r = []
+		let r: string[] = []
 		for (let i = 0; i < count; i++) {
 			id = ws[i]
 			this.sendWM(id, {text: 'shutdown', from: 'master'})
@@ -123,7 +123,7 @@ export class ServiceClass extends BaseServiceClass {
 		for (let j = 0; j < r.length; j++) {
 			setTimeout(() => {
 				if (c.workers[r[j]]) {
-					c.workers[r[j]].kill('SIGKILL')
+					c.workers[r[j]]!.kill('SIGKILL')
 				}
 			}, 1000)
 		}
