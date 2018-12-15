@@ -1,19 +1,17 @@
 import { suit, test, slow, timeout } from 'mocha-typescript'
+import { expect } from 'chai'
 import feathers from '@feathersjs/feathers';
 import { default as Debug } from 'debug'
-import LogService from '../src/log-service'
+import { ServiceClass as LogService } from '../src/log-service'
 
 const debug = Debug('feathers-service-manager:log-service:test')
 
-describe('feathers-service-manager:log-service', () => {
-	debug('log-service tests starting')
-	const options = {
-		events: ['testing']
+@suit class LogServiceSuite extends LogService {
+	constructor(options: ServiceOptions) {
+		super(options)
 	}
-
-	const app = feathers()
-	app.use('logs', LogService(options))
-	// describe('Common Service Tests', () => {
-	// base(app, errors, 'json')
-	// })
-})
+	@test('create implementation')
+	createImplementation(store: any, data: any, params?: any): any {
+		expect(store).to.equal(this.store)
+	}
+}
