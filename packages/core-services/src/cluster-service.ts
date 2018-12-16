@@ -33,16 +33,16 @@ export class ServiceClass extends BaseServiceClass {
 			let original = store[id].workers
 			if (data.scaleUp) {
 				let additional = this.scaleUp(settings, data.scaleUp)
-				let workers = {
+				let workers = [
 					...original,
 					...additional
-				}
-				let count = Object.keys(workers).length
+				]
+				let count = workers.length
 				return super.patchImplementation(store, id, { count, settings, workers }, params)
 			}
 			if (data.scaleDown) {
 				let workers = this.scaleDown(original, data.scaleDown)
-				let count = Object.keys(workers).length
+				let count = workers.length
 				return super.patchImplementation(store, id, { count, settings, workers }, params)
 			}
 		}
@@ -50,8 +50,11 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public verifyCreate (options: any): any {
-		if (!options.count || !options.settings) {
-			throw new Error('cluster master settings and worker count required to create cluster.')
+		if (!options.count) {
+			throw new Error('worker count required to create cluster.')
+		}
+		if (!options.settings) {
+			throw new Error('cluster master settings required to create cluster.')
 		}
 	}
 
