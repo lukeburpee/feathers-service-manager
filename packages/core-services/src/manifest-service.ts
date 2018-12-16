@@ -15,11 +15,21 @@ export class ServiceClass extends BaseServiceClass {
 		super(options)
 		debug('manifest-service initialized')
 	}
+
 	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
 		this.verifyCreate(data)
-		let { app, cores, health } = data
-		return super.createImplementation(store, { app, cores }, params)
+		return super.createImplementation(store, data, params)
 	}
+
+	public async patchImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
+		let { app, registry, cores, url, status } = data
+		return super.patchImplementation(store, id, data, params)
+	}
+
+	public async removeImplementation (store: any, id: any, params?: any): Promise<any> {
+		return super.removeImplementation(store, id, params)
+	}
+	
 	public verifyCreate (data: any): any {
 		if (!data.app) {
 			throw new Error('manifest service requires an app identifier.')
@@ -27,8 +37,8 @@ export class ServiceClass extends BaseServiceClass {
 		if (!data.cores) {
 			throw new Error('manifest service requires core count.')
 		}
-		if (!data.health) {
-			throw new Error('manifest service requires app health.')
+		if (!data.status) {
+			throw new Error('manifest service requires app status.')
 		}
 	}
 }

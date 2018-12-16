@@ -97,42 +97,125 @@ export class ServiceClass extends MultiServiceClass {
 		})
 	}
 	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
+		this.verifyCreate(data)
+		let id = data[this.id] || this.generateId()
+		let tmp = directory()
+		let registered = await this.registry.create({ spec: data.spec })
+		let { spec } = registered
+		let entry = await this.manifest.create({
+			id,
+			app: id,
+			registry: spec.id,
+			directory: tmp,
+			cores: 0,
+			url: '',
+			status: {
+				generated: false,
+				compressed: false,
+				packaged: false,
+				cached: false,
+				running: false
+			}
+		})
+		let tasks: any = []
+		if (data.hydrate) {
+			return this.hydrate(id, spec, tmp, entry)
+		}
+		if (data.generate) {
+			tasks = [this.writeSpec(spec, tmp), this.generate(id, tmp, entry)]
+			if (data.compress) {
+				tasks = [...tasks, this.compress(id, tmp, entry)]
+				if (data.package) {
+					tasks = [...tasks, this.package(id, tmp, entry)]
+					if (data.run) {
+						tasks = [...tasks, this.run(id, tmp, entry)]
+					}
+				}
+				if (data.run) {
+					tasks = [...tasks, this.run(id, tmp, entry)]
+				}
+			}
+			if (data.run) {
+				tasks = [...tasks, this.run(id, tmp, entry)]
+			}
+		}
+		return series(tasks)
+	}
+
+	public async patchImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
+		return super.patchImplementation(store, data, params)
+	}
+
+	public async removeImplementation (store: any, id: any, params?: any): Promise<any> {
+		return super.removeImplementation(store, id, params)
+	}
+
+	public verifyCreate (data: any): any {
 		if (!data.spec) {
 			throw new Error('spec required to create application.')
 		}
-
-		return super.createImplementation(store, data, params)
 	}
 
 	private async register (spec: any): Promise<any> {
 		return this.registry.create({ spec })
 	}
 
-	private async hydrate (id: any): Promise<any> {
-		let tmp = directory()
-		let spec = this.registry.get(id)
+	private async hydrate (id: any, spec: any, tmp: any, entry?: any): Promise<any> {
 		let write = this.writeSpec(spec, tmp)
-		let generate = this.generate(tmp)
-		return series([tmp, spec, write, generate])
+		let generate = this.generate(id, tmp, entry)
+		let compress = this.compress(id, tmp, entry)
+		let pkg = this.package(id, tmp, entry)
+		let run = this.run(id, tmp, entry)
+		return series([write, generate, pkg, run])
+	}
+
+	private async updateStatus (id: any, category: any, status: any, entry?: any): Promise<any> {
+		if (!entry) {
+			let entry = await this.manifest.get(id)
+		}
+		entry = { ...entry, status: { ...entry.status, [category]: status }}
+		return this.manifest.patch(id, entry)
 	}
 
 	private async writeSpec (spec: any, cwd: any): Promise<any> {
 		return writeJson(`${cwd}/feathers-gen-specs.json`, spec)
 	}
 
-	private async generate (tmp: any): Promise<any> {
-		return this.p.create({command: 'yarn yes | feathers-plus', args: ['generate', 'app'] })
+	private async generate (id: any, tmp: any, entry?: any): Promise<any> {
+		if (!entry) {
+			let entry = await this.manifest.get(id)
+		}
+		let { stdout, stderr } = this.p.create({command: 'yarn yes | feathers-plus', args: ['generate', 'app'] })
+		return this.updateStatus(id, 'generated', true, entry)
 	}
 
-	private async compress (cwd: any): Promise<any> {
-		return this.p.create({command: 'yarn ncc', args: ['build', '${cwd}/src/index.ts', '-o', 'dist'], options: { cwd }})
+	private async compress (id: any, tmp: any, entry?: any): Promise<any> {
+		if (!entry) {
+			let entry = await this.manifest.get(id)
+		}
+		let { stdout, stderr } = this.p.create({command: 'yarn ncc', args: ['build', '${cwd}/src/index.ts', '-o', 'dist'], options: { cwd: tmp }})
+		return this.updateStatus(id, 'compressed', true, entry)
 	}
 
-	private async package (cwd: any): Promise<any> {
-		return this.p.create({command: 'yarn pkg', options: { cwd }})
+	private async package (id: any, tmp: any, entry?: any): Promise<any> {
+		if (!entry) {
+			let entry = await this.manifest.get(id)
+		}
+		let { stdout, stderr } = this.p.create({command: 'yarn pkg', options: { cwd: tmp }})
+		return this.updateStatus(id, 'packaged', true, entry)
 	}
 
-	private async runCompressed (cwd: any): Promise<any> {
-		return this.cluster.create({settings: { exec: `yarn ncc`, args: ['run', `${cwd}`] }})
+	private async run (id: any, tmp: any, entry?: any): Promise<any> {
+		if (!entry) {
+			let entry = await this.manifest.get(id)
+		}
+		let cluster = await this.cluster.create({
+			settings: {
+				exec: entry.status.compressed ? `yarn ncc` : `node`,
+				args: [
+					entry.status.compressed ? 'run ${tmp}/dist/index.js' : '${tmp}/src/index.js'
+				]
+			}})
+		return this.updateStatus(id, 'running', true, entry)
 	}
 }

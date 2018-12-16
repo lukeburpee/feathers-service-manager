@@ -21,7 +21,7 @@ export class ServiceClass extends BaseServiceClass {
 		let settings = data.settings
 
 		if (c.isMaster) {
-			let workers = this.scaleUp(settings, count)
+			let workers = this.scaleUp(settings, [], count)
 			return super.createImplementation(store, { id, settings, workers }, params)
 		}
 	}
@@ -30,18 +30,14 @@ export class ServiceClass extends BaseServiceClass {
 		if (id in store) {
 			this.verifyPatch(data)
 			let settings = store[id].settings
-			let original = store[id].workers
+			let originals = store[id].workers
 			if (data.scaleUp) {
-				let additional = this.scaleUp(settings, data.scaleUp)
-				let workers = [
-					...original,
-					...additional
-				]
+				let workers = this.scaleUp(settings, originals, data.scaleUp)
 				let count = workers.length
 				return super.patchImplementation(store, id, { count, settings, workers }, params)
 			}
 			if (data.scaleDown) {
-				let workers = this.scaleDown(original, data.scaleDown)
+				let workers = this.scaleDown(originals, data.scaleDown)
 				let count = workers.length
 				return super.patchImplementation(store, id, { count, settings, workers }, params)
 			}
@@ -105,9 +101,13 @@ export class ServiceClass extends BaseServiceClass {
 		return ws
 	}
 
-	public scaleUp (settings: any, count: any): any {
+	public scaleUp (settings: any, originals: any, count: any): any {
 		c.setupMaster(settings)
-		let ws = this.createWs(c, count)
+		let add = this.createWs(c, count)
+		let ws = [
+			...originals,
+			...add
+		]
 		return ws
 	}
 

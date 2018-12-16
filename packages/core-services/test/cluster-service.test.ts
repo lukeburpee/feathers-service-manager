@@ -42,26 +42,30 @@ describe('ClusterService', () => {
 						super({ events: ['testing'], disableStringify: true })
 					}
 					@test async 'it throws an error if missing settings' () {
-						await this.createImplementation(this.store, {
-							count: 1
-						}).catch((error: any) => {
-							expect(error.message).to.equal(
+						try {
+							let cluster: any = await this.createImplementation(this.store, { count: 1 })
+						} 
+						catch (e) {
+							expect(e.message).to.equal(
 								'cluster master settings required to create cluster.'
 							)
-						})
+						}
 					}
 					@test async 'it throws an error if missing count' () {
-						await this.createImplementation(this.store, {
-							settings: {
-								exec: 'echo',
-								args: ['test'],
-								silent: true
-							}
-						}).catch((error: any) => {
-							expect(error.message).to.equal(
+						try {
+							let cluster: any = await this.createImplementation(this.store, {
+								settings: {
+									exec: 'echo',
+									args: ['test'],
+									silent: true
+								}
+							})
+						}
+						catch (e) {
+							expect(e.message).to.equal(
 								'worker count required to create cluster.'
 							)
-						})
+						}
 					}
 				}
 			})
@@ -124,10 +128,14 @@ describe('ClusterService', () => {
 						this.testId = this.generateId()
 					}
 					@test async 'it throws an error' () {
-						this.patchImplementation(this.store, this.testId, { scaleDown: 1 })
-							.catch((error: any) => {
-								expect(error.message).to.equal(`No record found for id '${this.testId}'`)
-							})
+						try {
+							let cluster: any = this.patchImplementation(this.store, this.testId, { scaleDown: 1 })
+						}
+						catch (e) {
+							expect(e.message).to.equal(
+								`No record found for id '${this.testId}'`
+							)	
+						}
 					}
 				}
 			})
@@ -178,8 +186,10 @@ describe('ClusterService', () => {
 		})
 		describe('createW', () => {
 			@suite class results extends ServiceClass {
+				public testId!: any
 				constructor(options: ServiceOptions) {
 					super({ events: ['testing'], disableStringify: true })
+					this.testId = this.generateId()
 				}
 				@test async 'it adds a worker to a cluster' () {
 					expect(true).to.be.true
@@ -188,8 +198,10 @@ describe('ClusterService', () => {
 		})
 		describe('createWS', () => {
 			@suite class results extends ServiceClass {
+				public testId!: any
 				constructor(options: ServiceOptions) {
 					super({ events: ['testing'], disableStringify: true })
+					this.testId = this.generateId()
 				}
 				@test async 'it adds multiple workers to a cluster' () {
 					expect(true).to.be.true
@@ -198,27 +210,65 @@ describe('ClusterService', () => {
 		})
 		describe('scaleUp', () => {
 			@suite class results extends ServiceClass {
+				public testId!: any
 				constructor(options: ServiceOptions) {
 					super({ events: ['testing'], disableStringify: true })
+					this.testId = this.generateId()
 				}
-				@test async 'it adds a worker to a cluster' () {
-					expect(true).to.be.true
+				public async before() {
+					await this.create({
+						id: this.testId, 
+						count: 1,
+						settings: {
+							exec: 'echo',
+							args: ['test'],
+							silent: true
+						}
+					})
 				}
-				@test async 'it adds multiple workers to a cluster' () {
-					expect(true).to.be.true
+				@test async 'creates a worker to add to cluster' () {
+					let cluster = await this.get(this.testId)
+					let { settings, count, workers } = cluster
+					let updated = await this.scaleUp(settings, workers, 1)
+					expect(updated.length).to.equal(2)
+				}
+				@test async 'creates multiple workers to add to cluster' () {
+					let cluster = await this.get(this.testId)
+					let { settings, count, workers } = cluster
+					let updated = await this.scaleUp(settings, workers, 2)
+					expect(updated.length).to.equal(3)
 				}
 			}
 		})
 		describe('scaleDown', () => {
 			@suite class results extends ServiceClass {
+				public testId!: any
 				constructor(options: ServiceOptions) {
 					super({ events: ['testing'], disableStringify: true })
+					this.testId = this.generateId()
+				}
+				public async before() {
+					await this.create({
+						id: this.testId, 
+						count: 3,
+						settings: {
+							exec: 'echo',
+							args: ['test'],
+							silent: true
+						}
+					})
 				}
 				@test async 'it removes a worker from a cluster' () {
-					expect(true).to.be.true
+					let cluster = await this.get(this.testId)
+					let { workers } = cluster
+					let updated = await this.scaleDown(workers, 1)
+					expect(updated.length).to.equal(2)
 				}
 				@test async 'it removes multiple workers from a cluster' () {
-					expect(true).to.be.true
+					let cluster = await this.get(this.testId)
+					let { workers } = cluster
+					let updated = await this.scaleDown(workers, 2)
+					expect(updated.length).to.equal(1)
 				}
 			}
 		})
