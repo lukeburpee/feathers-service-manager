@@ -26,7 +26,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 	}
 
-	public patchImplementation (store: any, id: any, data: any, params?: any): any {
+	public async patchImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
 		if (id in store) {
 			this.verifyPatch(data)
 			let settings = store[id].settings
