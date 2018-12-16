@@ -30,7 +30,7 @@
     "clean": "rimraf node_modules"
   },
   "dependencies": {
-    "@feathersjs/commons": "^3.0.1",
+    "@feathersjs/commons": "^4.0.0",
     "@feathersjs/feathers": "^3.2.3"
   },
   "devDependencies": {
