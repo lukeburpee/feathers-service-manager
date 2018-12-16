@@ -11,12 +11,52 @@ describe('ManifestService', () => {
 		describe('createImplementation', () => {
 			@suite class result extends ServiceClass {
 				constructor(options: ServiceOptions) {
-					super({events: ['testing']})
+					super({ events: ['testing'] })
 				}
-				@test 'it' () {
-					expect(true).to.be.true
+				@test async 'creates and returns an app manifest entry' () {
+					let app = this.generateId()
+					let entry = await this.createImplementation(this.store, { app, cores: 1, health: { status: 'running' } })
+					expect(entry.app).to.exist
+				}
+				@test async 'adds manifest entry to store' () {
+					let app = this.generateId()
+					let entry = await this.createImplementation(this.store, { app, cores: 1, health: { status: 'running' } })
+					expect(entry.id in this.store).to.be.true
 				}
 			}
+		})
+		describe('verifyCreate', () => {
+			@suite class result extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({ events: ['testing'] })
+				}
+				@test async 'it throws an error if missing appId' () {
+					this.createImplementation(this.store, { cores: 1, health: { status: 'running' } })
+						.catch((error: any) => {
+							expect(error.message).to.equal(
+								'manifest service requires an app identifier.'
+							)
+						})
+				}
+				@test async 'it throws an error if missing cores' () {
+					let app = this.generateId()
+					this.createImplementation(this.store, { app, health: { status: 'running' } })
+						.catch((error: any) => {
+							expect(error.message).to.equal(
+								'manifest service requires core count.'
+							)
+						})
+				}
+				@test async 'it throws an error if missing health' () {
+					let app = this.generateId()
+					this.createImplementation(this.store, { app, cores: 1 })
+						.catch((error: any) => {
+							expect(error.message).to.equal(
+								'manifest service requires app health.'
+							)
+						})
+				}
+			}	
 		})
 	})
 })

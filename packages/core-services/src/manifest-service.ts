@@ -16,10 +16,19 @@ export class ServiceClass extends BaseServiceClass {
 		debug('manifest-service initialized')
 	}
 	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
-		if (!data.appId) {
+		this.verifyCreate(data)
+		let { app, cores, health } = data
+		return super.createImplementation(store, { app, cores }, params)
+	}
+	public verifyCreate (data: any): any {
+		if (!data.app) {
 			throw new Error('manifest service requires an app identifier.')
 		}
-		let appId = data.appId
-		return super.createImplementation(store, { appId }, params)
+		if (!data.cores) {
+			throw new Error('manifest service requires core count.')
+		}
+		if (!data.health) {
+			throw new Error('manifest service requires app health.')
+		}
 	}
 }

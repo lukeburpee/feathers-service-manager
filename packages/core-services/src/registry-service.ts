@@ -22,4 +22,9 @@ export class ServiceClass extends BaseServiceClass {
 		let spec = data.spec
 		return super.createImplementation(store, { spec }, params)
 	}
+	public verifyCreate (data: any): any {
+		if (!data.spec) {
+			throw new Error('registery service requires application spec.')
+		}
+	}
 }
