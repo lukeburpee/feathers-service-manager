@@ -117,7 +117,7 @@ export class ServiceClass extends BaseServiceClass {
 		let r: string[] = []
 		for (let i = 0; i < count; i++) {
 			id = ws[i]
-			this.sendWM(id, {text: 'shutdown', from: 'master'})
+			this.sendWM(id, { text: 'shutdown', from: 'master' })
 			r = r.concat([id])
 			ws = ws.slice(1)
 		}

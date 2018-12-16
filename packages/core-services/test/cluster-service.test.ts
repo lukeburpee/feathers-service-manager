@@ -116,6 +116,21 @@ describe('ClusterService', () => {
 					}
 				}
 			})
+			describe('cluster id not in store', () => {
+				@suite class results extends ServiceClass {
+					public testId!: any;
+					constructor(options: ServiceOptions) {
+						super({ events: ['testing'], disableStringify: true })
+						this.testId = this.generateId()
+					}
+					@test async 'it throws an error' () {
+						this.patchImplementation(this.store, this.testId, { scaleDown: 1 })
+							.catch((error: any) => {
+								expect(error.message).to.equal(`No record found for id '${this.testId}'`)
+							})
+					}
+				}
+			})
 		})
 		describe('verifyCreate', () => {
 			@suite class results extends ServiceClass {
