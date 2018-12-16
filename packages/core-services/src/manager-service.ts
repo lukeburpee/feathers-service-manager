@@ -121,14 +121,18 @@ export class ServiceClass extends MultiServiceClass {
 	}
 
 	private async generate (tmp: any): Promise<any> {
-		return this.p.create({command: 'yes | feathers-plus', args: ['generate', 'app'] })
+		return this.p.create({command: 'yarn yes | feathers-plus', args: ['generate', 'app'] })
 	}
 
 	private async compress (cwd: any): Promise<any> {
-		return this.p.create({command: 'ncc', args: ['build', 'src/index.js', '-o', 'dist'], options: { cwd }})
+		return this.p.create({command: 'yarn ncc', args: ['build', '${cwd}/src/index.ts', '-o', 'dist'], options: { cwd }})
 	}
 
 	private async package (cwd: any): Promise<any> {
-		return this.p.create({command: 'pkg', options: { cwd }})
+		return this.p.create({command: 'yarn pkg', options: { cwd }})
+	}
+
+	private async runCompressed (cwd: any): Promise<any> {
+		return this.cluster.create({settings: { exec: `yarn ncc`, args: ['run', `${cwd}`] }})
 	}
 }

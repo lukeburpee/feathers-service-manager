@@ -53,13 +53,11 @@ export class ServiceClass extends BaseServiceClass {
 		if (!options.count || !options.settings) {
 			throw new Error('cluster master settings and worker count required to create cluster.')
 		}
-		console.log('cluster create options verified.')
 	}
 
 	public verifyPatch (options: any): any {
 		this.verifyScale(options)
 		this.verifyAllowed(options)
-		console.log('cluster patch options verified.')
 	}
 
 	public verifyScale (options: any): any {
