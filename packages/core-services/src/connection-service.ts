@@ -15,7 +15,8 @@ export class ServiceClass extends BaseServiceClass {
 	public memberId!: any;
 	public client!: any;
 	public defaultOptions!: any;
-	constructor (options: ServiceOptions) {
+	constructor (options: ServiceOptions);
+	constructor (options: ConnectionOptions) {
 		super(options)
 		if (!options.client && !options.connectionId) {
 			throw new Error(`${this.getConnectionType()} client or connectionId must be provided`)

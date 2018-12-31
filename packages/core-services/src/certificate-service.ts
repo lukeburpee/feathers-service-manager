@@ -15,9 +15,10 @@ export class ServiceClass extends BaseServiceClass {
 
 	private defaultSettings?: any;
 
-	constructor (options: ServiceOptions) {
+	constructor (options: ServiceOptions);
+	constructor (options: CertificateOptions) {
 		super(options)
-		this.defaultSettings = { days: 365 }
+		this.defaultSettings = options.defaultSettings || { days: 365 }
 		debug('certificate-service initialized')
 	}
 

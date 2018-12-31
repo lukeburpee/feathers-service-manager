@@ -22,7 +22,7 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public async patchImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
-		let { app, registry, cores, url, status } = data
+		let { appId, registry, cores, url, status } = data
 		return super.patchImplementation(store, id, data, params)
 	}
 
@@ -31,8 +31,8 @@ export class ServiceClass extends BaseServiceClass {
 	}
 	
 	public verifyCreate (data: any): any {
-		if (!data.app) {
-			throw new Error('manifest service requires an app identifier.')
+		if (!data.appId) {
+			throw new Error('manifest service requires an appId.')
 		}
 		if (!data.cores) {
 			throw new Error('manifest service requires core count.')

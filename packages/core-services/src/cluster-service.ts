@@ -45,29 +45,29 @@ export class ServiceClass extends BaseServiceClass {
 		return this.throwNotFound(id)
 	}
 
-	public verifyCreate (options: any): any {
-		if (!options.count) {
+	public verifyCreate (data: any): any {
+		if (!data.count) {
 			throw new Error('worker count required to create cluster.')
 		}
-		if (!options.settings) {
+		if (!data.settings) {
 			throw new Error('cluster master settings required to create cluster.')
 		}
 	}
 
-	public verifyPatch (options: any): any {
-		this.verifyScale(options)
-		this.verifyAllowed(options)
+	public verifyPatch (data: any): any {
+		this.verifyScale(data)
+		this.verifyAllowed(data)
 	}
 
-	public verifyScale (options: any): any {
-		if (options.scaleUp && options.scaleDown) {
+	public verifyScale (data: any): any {
+		if (data.scaleUp && data.scaleDown) {
 			throw new Error('cluster can only be scaled in one direction at a time.')
 		}
 	}
 
-	public verifyAllowed (options: any): any {
+	public verifyAllowed (data: any): any {
 		let allowed = ['scaleUp', 'scaleDown', 'close']
-		Object.keys(options).map((o: any) => {
+		Object.keys(data).map((o: any) => {
 			if (allowed.indexOf(o) === -1 ) {
 				throw new Error(`no cluster service option ${o}.`)
 			}
@@ -80,16 +80,7 @@ export class ServiceClass extends BaseServiceClass {
 
 	public createW (cluster: any): any {
 		let w = cluster.fork()
-		let id = w.id
-		w.on('message', (m: any) => {
-			switch(m.type){
-				case 'shutdown':
-					return w.process.exit(0)
-				default:
-					return console.log(m)
-			}
-		})
-		return id
+		return w
 	}
 
 	public createWs (cluster: any, count: any): any {
@@ -116,17 +107,10 @@ export class ServiceClass extends BaseServiceClass {
 		let ws = originals
 		let r: string[] = []
 		for (let i = 0; i < count; i++) {
-			id = ws[i]
+			id = ws[i].id
 			this.sendWM(id, { text: 'shutdown', from: 'master' })
 			r = r.concat([id])
 			ws = ws.slice(1)
-		}
-		for (let j = 0; j < r.length; j++) {
-			setTimeout(() => {
-				if (c.workers[r[j]]) {
-					c.workers[r[j]]!.kill('SIGKILL')
-				}
-			}, 1000)
 		}
 		return ws
 	}

@@ -1,0 +1,23 @@
+{
+  "options": {
+    "ver": "1.0.0",
+    "inspectConflicts": false,
+    "semicolons": true,
+    "freeze": [],
+    "ts": false
+  },
+  "app": {
+    "environmentsAllowingSeedData": "",
+    "seedData": false,
+    "name": "test-two",
+    "description": "Project test-two",
+    "src": "src",
+    "packager": "npm@>= 3.0.0",
+    "providers": [
+      "rest",
+      "socketio"
+    ]
+  },
+  "services": {},
+  "hooks": {}
+}

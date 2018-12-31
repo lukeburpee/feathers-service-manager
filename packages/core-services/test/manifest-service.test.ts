@@ -14,13 +14,13 @@ describe('ManifestService', () => {
 					super({ events: ['testing'] })
 				}
 				@test async 'creates and returns an app manifest entry' () {
-					let app = this.generateId()
-					let entry = await this.createImplementation(this.store, { app, cores: 1, status: 'running' })
-					expect(entry.app).to.exist
+					let appId = this.generateId()
+					let entry = await this.createImplementation(this.store, { appId, cores: 1, status: 'running' })
+					expect(entry.appId).to.exist
 				}
 				@test async 'adds manifest entry to store' () {
-					let app = this.generateId()
-					let entry = await this.createImplementation(this.store, { app, cores: 1, status: 'running' })
+					let appId = this.generateId()
+					let entry = await this.createImplementation(this.store, { appId, cores: 1, status: 'running' })
 					expect(entry.id in this.store).to.be.true
 				}
 			}
@@ -39,8 +39,8 @@ describe('ManifestService', () => {
 						})
 				}
 				@test async 'it throws an error if missing cores' () {
-					let app = this.generateId()
-					this.createImplementation(this.store, { app, status: 'running' })
+					let appId = this.generateId()
+					this.createImplementation(this.store, { appId, status: 'running' })
 						.catch((error: any) => {
 							expect(error.message).to.equal(
 								'manifest service requires core count.'
@@ -48,8 +48,8 @@ describe('ManifestService', () => {
 						})
 				}
 				@test async 'it throws an error if missing status' () {
-					let app = this.generateId()
-					this.createImplementation(this.store, { app, cores: 1 })
+					let appId = this.generateId()
+					this.createImplementation(this.store, { appId, cores: 1 })
 						.catch((error: any) => {
 							expect(error.message).to.equal(
 								'manifest service requires app status.'

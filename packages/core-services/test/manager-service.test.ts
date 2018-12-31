@@ -14,8 +14,10 @@ describe('ManagerService', () => {
 					constructor(options: ServiceOptions) {
 						super({events: ['testing']})
 					}
-					@test async 'registers process ("p") service' () {
+					public async before () {
 						await this.setup(feathers(), '/x')
+					}
+					@test async 'registers process ("p") service' () {
 						expect(this.app.service('p')).to.not.equal(undefined)
 					}
 				}
@@ -25,8 +27,10 @@ describe('ManagerService', () => {
 					constructor(options: ServiceOptions) {
 						super({events: ['testing']})
 					}
-					@test async 'registers "proxy" service' () {
+					public async before () {
 						await this.setup(feathers(), '/x')
+					}
+					@test async 'registers "proxy" service' () {
 						expect(this.app.service('proxy')).to.not.equal(undefined)
 					}
 				}
@@ -36,8 +40,10 @@ describe('ManagerService', () => {
 					constructor(options: ServiceOptions) {
 						super({events: ['testing']})
 					}
-					@test async 'registers "registry" service' () {
+					public async before () {
 						await this.setup(feathers(), '/x')
+					}
+					@test async 'registers "registry" service' () {
 						expect(this.app.service('registry')).to.not.equal(undefined)
 					}
 				}
@@ -47,8 +53,10 @@ describe('ManagerService', () => {
 					constructor(options: ServiceOptions) {
 						super({events: ['testing']})
 					}
-					@test async 'registers "manifest" service' () {
+					public async before () {
 						await this.setup(feathers(), '/x')
+					}
+					@test async 'registers "manifest" service' () {
 						expect(this.app.service('manifest')).to.not.equal(undefined)
 					}
 				}
@@ -58,8 +66,10 @@ describe('ManagerService', () => {
 					constructor(options: ServiceOptions) {
 						super({events: ['testing']})
 					}
-					@test async 'registers "cluster" service' () {
+					public async before () {
 						await this.setup(feathers(), '/x')
+					}
+					@test async 'registers "cluster" service' () {
 						expect(this.app.service('cluster')).to.not.equal(undefined)
 					}
 				}
@@ -69,8 +79,10 @@ describe('ManagerService', () => {
 					constructor(options: ServiceOptions) {
 						super({events: ['testing']})
 					}
-					@test async 'registers "log" service' () {
+					public async before () {
 						await this.setup(feathers(), '/x')
+					}
+					@test async 'registers "log" service' () {
 						expect(this.app.service('log')).to.not.equal(undefined)
 					}
 				}
@@ -87,6 +99,56 @@ describe('ManagerService', () => {
 					expect(true).to.be.true
 				}
 			}
+			describe('hydrate option', () => {
+				@suite class result extends ServiceClass {
+					constructor(options: ServiceOptions) {
+						super({events: ['testing']})
+					}
+					@test 'it generates, compresses, packages, and runs an application' () {
+						expect(true).to.be.true
+					}
+				}
+			})
+			describe('generate option', () => {
+				@suite class result extends ServiceClass {
+					constructor(options: ServiceOptions) {
+						super({events: ['testing']})
+					}
+					@test 'it generates an application from a spec' () {
+						expect(true).to.be.true
+					}
+				}
+			})
+			describe('compress option', () => {
+				@suite class result extends ServiceClass {
+					constructor(options: ServiceOptions) {
+						super({events: ['testing']})
+					}
+					@test 'it compresses an application' () {
+						expect(true).to.be.true
+					}
+				}
+			})
+			describe('package option', () => {
+				@suite class result extends ServiceClass {
+					constructor(options: ServiceOptions) {
+						super({events: ['testing']})
+					}
+					@test 'it packages an application' () {
+						expect(true).to.be.true
+					}
+				}
+			})
+			describe('run option', () => {
+				@suite class result extends ServiceClass {
+					constructor(options: ServiceOptions) {
+						super({events: ['testing']})
+					}
+					@test 'it runs an application' () {
+						expect(true).to.be.true
+					}
+				}
+			})
 		})
 		describe('register', () => {
 			@suite class result extends ServiceClass {
@@ -108,6 +170,7 @@ describe('ManagerService', () => {
 				}
 			}
 		})
+		describe('updateStatus', () => {})
 		describe('writeSpec', () => {
 			@suite class result extends ServiceClass {
 				constructor(options: ServiceOptions) {
@@ -139,6 +202,16 @@ describe('ManagerService', () => {
 			}
 		})
 		describe('package', () => {
+			@suite class result extends ServiceClass {
+				constructor(options: ServiceOptions) {
+					super({events: ['testing']})
+				}
+				@test 'it' () {
+					expect(true).to.be.true
+				}
+			}
+		})
+		describe('run', () => {
 			@suite class result extends ServiceClass {
 				constructor(options: ServiceOptions) {
 					super({events: ['testing']})

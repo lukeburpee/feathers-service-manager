@@ -1,5 +1,6 @@
 import { suite, test, slow, timeout } from 'mocha-typescript'
 import { assert, expect } from 'chai'
+import c from 'cluster'
 import feathers from '@feathersjs/feathers';
 import { default as Debug } from 'debug'
 import { ServiceClass } from '../src/cluster-service'
@@ -178,6 +179,17 @@ describe('ClusterService', () => {
 			@suite class results extends ServiceClass {
 				constructor(options: ServiceOptions) {
 					super({ events: ['testing'], disableStringify: true })
+				}
+				public async before() {
+					await this.create({
+						id: this.testId, 
+						count: 1,
+						settings: {
+							exec: 'echo',
+							args: ['test'],
+							silent: true
+						}
+					})
 				}
 				@test async 'it sends a message to a worker' () {
 					expect(true).to.be.true

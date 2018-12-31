@@ -17,13 +17,16 @@ export class ServiceClass extends BaseServiceClass {
 		if (!data.port) {
 			throw new Error(`proxy service requires port`)
 		}
-		const port = data.port
+		const bunyan = data.bunyan || false
 		const cluster = data.cluster ? data.cluster : null
+		const port = data.port
 		const ssl = data.ssl ? data.ssl : null
+
 		const proxy = redbird({
+			bunyan,
+			cluster,
 			port,
-			ssl,
-			cluster
+			ssl
 		})
 		if (data.register) {
 			return this.registerRoutes(proxy, data.register)

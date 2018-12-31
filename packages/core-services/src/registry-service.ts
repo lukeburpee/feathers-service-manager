@@ -16,11 +16,11 @@ export class ServiceClass extends BaseServiceClass {
 		debug('registry-service initialized')
 	}
 	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
-		if (!data.spec) {
-			throw new Error('registery service requires application spec.')
-		}
+		this.verifyCreate(data)
+		let version = data.version || 'v1'
+		let code = data.code || ''
 		let spec = data.spec
-		return super.createImplementation(store, { spec }, params)
+		return super.createImplementation(store, { [version]: { code, spec }}, params)
 	}
 	public verifyCreate (data: any): any {
 		if (!data.spec) {

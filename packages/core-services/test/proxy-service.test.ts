@@ -38,8 +38,8 @@ describe('feathers-service-manager:proxy-service', () => {
 					port: 3000,
 					ssl: {
 						port: 3100,
-						key: './certs/dev-key.pem',
-						cert: './certs/dev-cert.pem'
+						key: './test-data/test-certs/dev-key.pem',
+						cert: './test-data/test-certs/dev-cert.pem'
 					},
 					register: [{src: 'localhost:4000', target: 'localhost:5000'}]
 				}).then((test: any) => {

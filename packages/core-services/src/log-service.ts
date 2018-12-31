@@ -15,6 +15,24 @@ export class ServiceClass extends BaseServiceClass {
 		super(options)
 	}
 	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
+		this.validateCreate(data)
 		return super.createImplementation(store, data, params)
+	}
+	private validateCreate (data: any): any {
+		if (!data.appId) {
+			throw new Error('log requires appId.')
+		}
+		if (!data.service) {
+			throw new Error('log requires service.')
+		}
+		if (!data.type) {
+			throw new Error('log requires type.')
+		}
+		if (!data.status) {
+			throw new Error('log requires status.')
+		}
+		if (!data.message) {
+			throw new Error('log requires message.')
+		}
 	}
 }

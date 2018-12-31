@@ -1,6 +1,15 @@
 {
   "name": "@feathers-service-manager/workspace",
   "private": true,
+  "workspaces": {
+    "packages": [
+        "./packages/*"
+    ],
+    "nohoist": [
+        "./packages/*",
+        "@types"
+    ]
+  },
   "author": {
     "name": "Luke Burpee",
     "email": "lukeburpee@gmail.com"
@@ -11,14 +20,16 @@
   },
   "license": "MIT",
   "scripts": {
-    "install": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
     "clean": "rimraf node_modules && rimraf packages/**/node_modules && rimraf packages/**/dist",
     "clean:lock-files": "rimraf yarn.lock && rimraf packages/**/yarn.lock",
     "test": "nyc lerna run test",
+    "build": "tsc -b packages/**/*",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "coverage": "yarn coverage:coveralls && yarn coverage:codecov",
     "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "coverage:codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "coverage:codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "prepare": "lerna run build"
   },
   "devDependencies": {
     "@feathersjs/client": "^3.7.5",

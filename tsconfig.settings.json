@@ -1,0 +1,28 @@
+{
+    "exclude": [
+        "node_modules"
+    ],
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "lib": [
+            "es2015",
+            "es2017",
+            "esnext.asynciterable"
+        ],
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "composite": true,
+        "strict": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "rootDir": ".",
+        "baseUrl": "./packages",
+        "paths": {
+            "@feathers-service-manager/*": ["./*/src"]
+        },
+        "typeRoots": ["./node_modules/@types", "./packages/types"]
+    }
+}

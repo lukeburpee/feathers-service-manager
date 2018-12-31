@@ -31,7 +31,7 @@ describe('RegistryService', () => {
 				}
 				@test async 'creates and returns an app spec' () {
 					let test = await this.createImplementation(this.store, { spec })
-					expect(test.spec.options).to.exist
+					expect(test.v1.spec.options).to.exist
 				}
 				@test async 'adds app spec to store' () {
 					let test = await this.createImplementation(this.store, { spec })
@@ -46,12 +46,12 @@ describe('RegistryService', () => {
 				}
 				@test async 'it throws an error if missing spec' () {
 					let id = this.generateId()
-					this.createImplementation(this.store, { id })
-						.catch((error: any) => {
-							expect(error.message).to.equal(
-								'registery service requires application spec.'
-							)
-						})
+					try {
+						let test = await this.createImplementation(this.store, { id })
+					}
+					catch (e) {
+						expect(e.message).to.equal('registery service requires application spec.')
+					}
 				}
 			}
 		})

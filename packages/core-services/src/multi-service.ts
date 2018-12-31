@@ -10,7 +10,7 @@ export default function init (options: ServiceOptions) {
 
 export class ServiceClass extends BaseServiceClass {
 	public services!: any
-	constructor(options: ServiceOptions) {
+	constructor(options: MultiOptions) {
 		super(options)
 	}
 
