@@ -38,4 +38,5 @@ interface ManagerOptions extends MultiOptions {
 	registryOptions?: ServiceOptions;
 	manifestOptions?: ServiceOptions;
 	clusterOptions?: ServiceOptions;
+	defaultPkgTargets?: string;
 }

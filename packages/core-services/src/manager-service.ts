@@ -155,13 +155,15 @@ export class ServiceClass extends MultiServiceClass {
 	}
 
 	private async addPkgOptions (dir: any): Promise<any> {
-		let appPkg = await readJson(`${tmp}/package.json`)
 		let dist = `${dir}/dist`
 		let bin = `./${dist}/index.js`
 		let scripts = `${dist}/*.js`
 		let assets = `${dist}/public/**/*`
 		let pkg = { scripts, assets }
-		return writeJson(`${dir}/package.json`, { ...appPkg, bin, pkg })
+		return readJson(`${dir}/package.json`).then((json: any) => {
+			let updated = { ...json, bin, pkg }
+			return writeJson(`"${dir}/package.json"`, updated)
+		})
 	}
 
 	private async generate (id: any, tmp: any, entry?: any): Promise<any> {
