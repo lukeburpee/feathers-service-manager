@@ -26,7 +26,7 @@
     "test": "nyc lerna run test",
     "build": "tsc -b packages/**/*",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
-    "coverage": "yarn coverage:coveralls && yarn coverage:codecov",
+    "coverage": "lerna run coverage:coveralls && lerna run coverage:codecov",
     "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
     "coverage:codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "prepare": "lerna run build"
