@@ -46,7 +46,7 @@ export class ServiceClass extends MultiServiceClass {
 			throw new Error('manager service build count must be greater than zero.')
 		}
 
-		if (this.cpus <= this.totalCount) {
+		if (this.cpus < this.totalCount) {
 			throw new Error('manager service cpu allocation must be less than or equal to available system cpus.')
 		}
 	}
