@@ -24,7 +24,7 @@
     "clean": "rimraf node_modules && rimraf packages/**/node_modules && rimraf packages/**/dist",
     "clean:lock-files": "rimraf yarn.lock && rimraf packages/**/yarn.lock",
     "test": "nyc lerna run test",
-    "build": "tsc -b packages/**/*",
+    "build": "lerna run build",
     "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "coverage": "lerna run coverage:coveralls && lerna run coverage:codecov",
     "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
