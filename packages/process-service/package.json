@@ -1,0 +1,66 @@
+{
+  "name": "@feathers-service-manager/process-service",
+  "version": "0.0.1-alpha",
+  "description": "",
+  "main": "dist/",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "author": {
+    "name": "Luke Burpee",
+    "email": "lukeburpee@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukeburpee/feathers-service-manager/packages/process-service.git"
+  },
+  "keywords": [
+    "feathers",
+    "typescript",
+    "service-discovery",
+    "service-management"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "tslint": "tslint -p tsconfig.json -c tslint.json",
+    "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "clean": "rimraf node_modules",
+    "pretest": "yarn build",
+    "test": "ts-mocha test/*.ts"
+  },
+  "dependencies": {
+    "@feathers-service-manager/base-service": "^0.0.1-alpha",
+    "@feathers-service-manager/types": "^0.0.1-alpha",
+    "@feathers-service-manager/utils": "^0.0.1-alpha",
+    "@feathersjs/errors": "^3.3.4",
+    "@feathersjs/feathers": "^3.2.3",
+    "@sindresorhus/is": "^0.13.0",
+    "debug": "^4.1.0",
+    "execa": "^1.0.0",
+    "feathers-hooks-common": "^4.19.4",
+    "fkill": "^5.3.0",
+    "hook-std": "^1.2.0",
+    "rxjs": "^6.3.3",
+    "sift": "^7.0.1",
+    "stream-to-observable": "^0.2.0",
+    "uuid": "^3.3.2",
+    "vm2": "^3.6.4"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "rimraf": "^2.6.2",
+    "ts-mocha": "^2.0.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6"
+  }
+}

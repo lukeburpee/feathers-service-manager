@@ -9,7 +9,7 @@ import { _ } from '@feathersjs/commons';
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
 
-import { default as MemoryService } from '@feathers-service-manager/core-services'
+import MemoryService from '@feathers-service-manager/base-service'
 import BaseService, { ServiceClass } from '../src/base-service'
 
 const debug = Debug('feathers-mongodb-manager:base-service:test')

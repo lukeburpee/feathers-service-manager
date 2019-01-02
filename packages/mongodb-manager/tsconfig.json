@@ -10,11 +10,14 @@
             "node",
             "feathersjs__feathers",
             "mongodb",
-            "mongoose"
+            "mongoose",
+            "@feathers-service-manager/types/feathers-service-manager"
         ]
     },
     "references": [
-    	{ "path": "../core-services" },
+        { "path": "../base-service" },
+    	{ "path": "../connection-service" },
+        { "path": "../types" },
     	{ "path": "../utils" }
     ]
 }

@@ -36,7 +36,8 @@
     "test": "ts-mocha test/**/*.ts"
   },
   "dependencies": {
-    "@feathers-service-manager/core-services": "^0.0.1-alpha",
+    "@feathers-service-manager/connection-service": "^0.0.1-alpha",
+    "@feathers-service-manager/types": "^0.0.1-alpha",
     "@feathers-service-manager/utils": "^0.0.1-alpha",
     "@feathersjs/commons": "^3.0.1",
     "@feathersjs/errors": "^3.3.4",

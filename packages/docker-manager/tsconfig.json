@@ -12,12 +12,13 @@
         	"mocha",
         	"node",
         	"feathersjs__feathers",
-        	"feathers-service-tests"
+        	"feathers-service-tests",
+            "@feathers-service-manager/types/feathers-service-manager"
         ]
     },
     "references": [
+        { "path": "../connection-service" },
         { "path": "../types" },
-    	{ "path": "../core-services" },
     	{ "path": "../utils" }
     ]
 }

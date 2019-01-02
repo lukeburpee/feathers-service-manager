@@ -8,11 +8,13 @@
         "outDir": "dist",
         "types": [
             "node",
-            "feathersjs__feathers"
+            "feathersjs__feathers",
+            "@feathers-service-manager/types/feathers-service-manager"
         ]
     },
     "references": [
-    	{ "path": "../core-services" },
+    	{ "path": "../connection-service" },
+        { "path": "../types" },
     	{ "path": "../utils" }
     ]
 }

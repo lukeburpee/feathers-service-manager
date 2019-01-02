@@ -1,6 +1,6 @@
 import { default as Debug } from 'debug'
 
-import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
+import { ServiceClass as ConnectionServiceClass } from '@feathers-service-manager/connection-service'
 
 const debug = Debug('feathers-service-manager:mongodb-manager:base-service')
 

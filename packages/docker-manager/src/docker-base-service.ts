@@ -1,4 +1,4 @@
-import { ConnectionServiceClass } from '@feathers-service-manager/core-services'
+import { ServiceClass as ConnectionServiceClass } from '@feathers-service-manager/connection-service'
 
 export default function init (options: ServiceOptions) {
   return new ServiceClass(options)

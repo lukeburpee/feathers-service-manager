@@ -1,0 +1,42 @@
+{
+    "extends": "../../tsconfig.settings.json",
+    "include": [
+        "src"
+    ],
+    "exclude": [
+    	"test/test-data"
+    ],
+    "compilerOptions": {
+        "outDir": "dist",
+        "rootDir": "src",
+        "types": [
+        	"node",
+            "chai",
+            "mocha",
+        	"feathersjs__feathers",
+        	"@feathers-service-manager/types/feathers-service-manager",
+        	"@feathers-service-manager/types/feathers-service-tests",
+        	"@feathers-service-manager/types/feathersjs__commons",
+        	"@feathers-service-manager/types/p-series",
+        	"@feathers-service-manager/types/redbird",
+        	"@feathers-service-manager/types/selfsigned",
+        	"@feathers-service-manager/types/tempy"
+        ]
+    },
+    "references": [
+        { "path": "../base-service" },
+        { "path": "../certificate-service" },
+        { "path": "../cluster-service" },
+        { "path": "../connection-service" },
+        { "path": "../job-service" },
+        { "path": "../log-service" },
+        { "path": "../manifest-service" },
+        { "path": "../multi-service" },
+        { "path": "../process-service" },
+        { "path": "../proxy-service" },
+        { "path": "../registry-service" },
+        { "path": "../task-service" },
+    	{ "path": "../types" },
+    	{ "path": "../utils" }
+    ]
+}
