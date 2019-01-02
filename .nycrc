@@ -6,7 +6,6 @@
 		".tsx"
 	],
 	"exclude": [
-		"**/src/index.ts",
 		"**/**/*.d.ts",
 		"**/test/*",
 		"**/dist/*",
