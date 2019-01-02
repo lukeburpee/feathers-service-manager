@@ -11,5 +11,4 @@ notifications:
 cache: yarn
 before_install:
   - npm install -g yarn@1.10.1
-  - lerna bootstrap
 after_success: yarn coverage
