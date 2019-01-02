@@ -4,247 +4,254 @@ import feathers from '@feathersjs/feathers';
 import { v4 as uuid } from 'uuid'
 import { default as Debug } from 'debug'
 
-import { default as CertificateService } from '../src'
+import { default as CertificateService, ServiceClass } from '../src'
 
 const debug = Debug('feathers-service-manager:certificate-service')
 
-describe('feathers-service-manager:certificate-service:test', () => {
-	const options = {
-		events: ['testing']
-	}
-	describe('Requiring', () => {
-		debug('starting certificate-service require test')
-		it('exposes the Service Constructor', () => {
-			expect(typeof CertificateService).to.equal('function')
-		})
-	})
+describe('CertificateService', () => {
 	describe('Standard Service Methods', () => {
 		describe('create', () => {
-			const commonApp = feathers()
-			commonApp.use('certificates', CertificateService(options))
-			const certificates = commonApp.service('certificates')
-			it(`creates and returns pem certificate with provided attributes and settings`, async () => {
-				return certificates.create({
-					attributes: {
-						name: 'test'
-					},
-					settings: {
-						days: 364
-					}
-				}).then((result: any) => {
-					expect(result).to.have.property('id')
-					expect(result).to.have.property('private')
-					expect(result).to.have.property('public')
-					expect(result).to.have.property('cert')
-					expect(result).to.have.property('attributes')
-					expect(result).to.have.property('settings')
-				})
-			})
+			@suite class result extends ServiceClass {
+				constructor(options: CertificateOptions) {
+					super({ events: ['testing'], disableStringify: true })
+				}
+				@test async 'it create pem with provided attributes and settings' () {
+					let attributes = { name: 'test' }
+					let settings = { days: 364 }
+					let pem = await this.create({ attributes, settings })
+					expect(pem).to.have.property('id')
+					expect(pem).to.have.property('private')
+					expect(pem).to.have.property('public')
+					expect(pem).to.have.property('cert')
+					expect(pem).to.have.property('attributes')
+					expect(pem).to.have.property('settings')
+				}
+			}
 			describe('missing attributes', () => {
-				it('creates a certificate with null attributes', async () => {
-					return certificates.create({
-						settings: {
-							days: 364
-						}
-					}).then((result: any) => {
-						expect(result).to.have.property('id')
-						expect(result).to.have.property('private')
-						expect(result).to.have.property('public')
-						expect(result).to.have.property('cert')
-						expect(result).to.have.property('attributes', null)
-						expect(result).to.have.property('settings')
-					})
-				})
+				@suite class result extends ServiceClass {
+					constructor(options: CertificateOptions) {
+						super({ events: ['testing'], disableStringify: true })
+					}
+					@test async 'it create pem with null attributes' () {
+						let settings = { days: 364 }
+						let pem = await this.create({ settings })
+						expect(pem).to.have.property('id')
+						expect(pem).to.have.property('private')
+						expect(pem).to.have.property('public')
+						expect(pem).to.have.property('cert')
+						expect(pem).to.have.property('attributes')
+						expect(pem).to.have.property('settings')
+					}
+				}
 			})
 			describe('missing settings', () => {
-				it('creates a certificate with null settings', async () => {
-					return certificates.create({
-						attributes: {
-							name: 'test'
-						}
-					}).then((result: any) => {
-						expect(result).to.have.property('id')
-						expect(result).to.have.property('private')
-						expect(result).to.have.property('public')
-						expect(result).to.have.property('cert')
-						expect(result).to.have.property('attributes')
-						expect(result).to.have.property('settings', null)
-					})
-				})
+				@suite class result extends ServiceClass {
+					constructor(options: CertificateOptions) {
+						super({ events: ['testing'], disableStringify: true })
+					}
+					@test async 'it creates pem with null settings' () {
+						let attributes = { name: 'test' }
+						let pem = await this.create({ attributes })
+						expect(pem).to.have.property('id')
+						expect(pem).to.have.property('private')
+						expect(pem).to.have.property('public')
+						expect(pem).to.have.property('cert')
+						expect(pem).to.have.property('attributes')
+						expect(pem).to.have.property('settings')
+					}
+				}
 			})
 			describe('invalid attributes', () => {
-				it('throws an error', async () => {
-					return certificates.create({
-						attributes: {
-							test: 'test'
-						},
-						settings: {
-							days: 364
+				@suite class result extends ServiceClass {
+					constructor(options: CertificateOptions) {
+						super({ events: ['testing'], disableStringify: true })
+					}
+					@test async 'it throws an error' () {
+						let attributes = { test: 'test' }
+						let settings = { days: 364 }
+						try {
+							await this.create({ attributes, settings })
 						}
-					}).catch((error: any) => {
-						expect(error.message).to.equal('certificate-service error: Invalid certificate attribute test')
-					})
-				})
+						catch (e) {
+							expect(e.message).to.equal('certificate-service error: Invalid certificate attribute test')
+						}
+					}
+				}
 			})
 		})
 		describe('get', () => {
-			const commonApp = feathers()
-			commonApp.use('certificates', CertificateService(options))
-			const certificates = commonApp.service('certificates')
-			const getId = uuid()
-			before((done: any) => {
-				certificates.create({
-					id: getId,
-					attributes: {
-						name: 'test'
-					}
-				}).then(() => {
-					done()
-				})
-			})
-			it('returns a certificate by id', async () => {
-				return certificates.get(getId).then((result: any) => {
-					expect(result).to.have.property('id', getId)
-					expect(result).to.have.property('private')
-					expect(result).to.have.property('public')
-					expect(result).to.have.property('cert')
-					expect(result).to.have.property('attributes')
-					expect(result).to.have.property('settings')
-				})
-			})
-			it('supports $select', async () => {
-				return certificates.get(getId, { query: {$select: ['cert'] }}).then((result: any) => {
-					expect(result).to.have.property('id')
-					expect(result).to.have.property('cert')
-					expect(result).to.not.have.property('private')
-					expect(result).to.not.have.property('public')
-					expect(result).to.not.have.property('attributes')
-					expect(result).to.not.have.property('settings')
-				})
-			})
+			@suite class result extends ServiceClass {
+				public testId!: string;
+				public testPem!: any;
+				constructor(options: CertificateOptions) {
+					super({ events: ['testing'], disableStringify: true })
+					this.testId = this.generateId()
+				}
+				public async before() {
+					let attributes = { name: 'test' }
+					let settings = { days: 360 }
+					this.testPem = await this.create({ id: this.testId, attributes, settings })
+				}
+				@test async 'it returns a certificate by id' () {
+					let pem = await this.get(this.testId)
+					expect(pem.id).to.equal(this.testId)
+				}
+				@test async 'it supports $select' () {
+					let pem = await this.get(this.testId, { query: { $select: ['cert'] }})
+					expect(pem.id).to.equal(this.testPem.id)
+					expect(pem.cert).to.equal(this.testPem.cert)
+					expect(pem).to.not.have.property('public')
+				}
+			}
 		})
 		describe('patch', () => {
-			const commonApp = feathers()
-			commonApp.use('certificates', CertificateService(options))
-			const certificates = commonApp.service('certificates')
-			const patchId = uuid()
-			let current: any = {}
-			before((done: any) => {
-				certificates.create({
-					id: patchId,
-					attributes: {
-						name: 'test'
-					}
-				}).then((result: any) => {
-					current = result
-					done()
-				})
-			})
-			it('regenerates pems from current settings', async () => {
-				return certificates.patch(patchId, {
-					regenerate: true
-				}).then((result: any) => {
-					expect(result.id).to.equal(current.id)
-					expect(result.attributes.name).to.equal(current.attributes.name)
-					expect(result.settings).to.equal(current.settings)
-					expect(result.private).to.not.equal(current.private)
-					expect(result.public).to.not.equal(current.public)
-					expect(result.cert).to.not.equal(current.cert)
-				})
-			})
-			it('regenerates pem by id, using new attributes and settings', async () => {
-				return certificates.patch(patchId, {
-					attributes: {
-						name: 'test_two'
-					}
-				}).then((result: any) => {
-					expect(result).to.have.property('id', patchId)
-					expect(result.private).to.not.equal(current.private)
-					expect(result.public).to.not.equal(current.public)
-					expect(result.cert).to.not.equal(current.cert)
-				})
-			})
+			@suite class result extends ServiceClass {
+				public testId!: string;
+				public testPem!: any;
+				constructor(options: CertificateOptions) {
+					super({ events: ['testing'], disableStringify: true })
+					this.testId = this.generateId()
+				}
+				public async before() {
+					let attributes = { name: 'test' }
+					let settings = { days: 360 }
+					this.testPem = await this.create({ id: this.testId, attributes, settings })
+				}
+				@test async 'it regenerates pem by id, using current attributes and settings' () {
+					let pem = await this.patch(this.testId, { regenerate: true })
+					expect(pem.id).to.equal(this.testId)
+					expect(pem.attributes.name).to.equal('test')
+					expect(pem.settings.days).to.equal(360)
+					expect(pem.private).to.not.equal(this.testPem.private)
+					expect(pem.public).to.not.equal(this.testPem.public)
+					expect(pem.cert).to.not.equal(this.testPem.cert)
+				}
+				@test async 'it regenerates pems with new attributes' () {
+					let attributes = { name: 'new-attributes' }
+					let pem = await this.patch(this.testId, { attributes })
+					expect(pem.id).to.equal(this.testId)
+					expect(pem.attributes.name).to.equal('new-attributes')
+					expect(pem.settings.days).to.equal(360)
+					expect(pem.private).to.not.equal(this.testPem.private)
+					expect(pem.public).to.not.equal(this.testPem.public)
+					expect(pem.cert).to.not.equal(this.testPem.cert)
+				}
+				@test async 'it regenerates pems with new settings' () {
+					let settings = { days: 320 }
+					let pem = await this.patch(this.testId, { settings })
+					expect(pem.id).to.equal(this.testId)
+					expect(pem.attributes.name).to.equal('test')
+					expect(pem.settings.days).to.equal(320)
+					expect(pem.private).to.not.equal(this.testPem.private)
+					expect(pem.public).to.not.equal(this.testPem.public)
+					expect(pem.cert).to.not.equal(this.testPem.cert)
+				}
+			}
 			describe('id not found in store', () => {
-				it('throws an error', async () => {
-					const errorId = uuid()
-					return certificates.patch(errorId, {
-						attribuutes: {
-							name: 'name'
+				@suite class result extends ServiceClass {
+					public testId!: string;
+					constructor(options: CertificateOptions) {
+						super({ events: ['testing'], disableStringify: true })
+						this.testId = this.generateId()
+					}
+					@test async 'it throws an error' () {
+						try {
+							await this.patch(this.testId, { regenerate: true })
 						}
-					}).catch((error: any) => {
-						expect(error.message).to.equal(`No record found for id '${errorId}'`)
-					})
-				})
+						catch (e) {
+							expect(e.message).to.equal(`No record found for id '${this.testId}'`)
+						}
+					}
+				}
 			})
 			describe('patch data contains public, private, cert properties', () => {
-				it('throws an error', async () => {
-					return certificates.patch(patchId, {
-						attributes: {
-							name: 'test_three'
-						},
-						private: 'private'
-					})
-					.catch((error: any) => {
-						expect(error.message)
-						.to.equal(`certificate-service update error: certificate ${patchId} pem cannot be changed directly.`)
-					})
-				})
+				@suite class result extends ServiceClass {
+					public testId!: string;
+					constructor(options: CertificateOptions) {
+						super({ events: ['testing'], disableStringify: true })
+						this.testId = this.generateId()
+					}
+					public async before() {
+						await this.create({ id: this.testId })
+					}
+					@test async 'it throws an error' () {
+						try {
+							this.patch(this.testId, { public: 'test' })
+						}
+						catch (e) {
+							expect(e.message)
+							.to.equal(`certificate-service update error: certificate ${this.testId} pem cannot be changed directly.`)
+						}
+					}
+				}
 			})
 		})
 		describe('update', () => {
-			const commonApp = feathers()
-			commonApp.use('certificates', CertificateService(options))
-			const certificates = commonApp.service('certificates')
-			const updateId = uuid()
-			let current: any = {}
-			before((done: any) => {
-				certificates.create({
-					id: updateId,
-					attributes: {
-						name: 'test'
-					}
-				}).then((result: any) => {
-					current = result
-					done()
-				})
-			})
-			it('regenerates pem by id, using new attributes and settings', async () => {
-				return certificates.update(updateId, {
-					attributes: {
-						name: 'test_two'
-					}
-				}).then((result: any) => {
-					expect(result).to.have.property('id', updateId)
-					expect(result.private).to.not.equal(current.private)
-					expect(result.public).to.not.equal(current.public)
-					expect(result.cert).to.not.equal(current.cert)
-				})
-			})
+			@suite class result extends ServiceClass {
+				public testId!: string;
+				public testPem!: any;
+				constructor(options: CertificateOptions) {
+					super({ events: ['testing'], disableStringify: true })
+					this.testId = this.generateId()
+				}
+				public async before () {
+					let attributes = { name: 'test' }
+					let settings = { days: 300 }
+					this.testPem = await this.create({ id: this.testId, attributes, settings })
+				}
+				@test async 'regenerates pem by id, using new attributes and settings' () {
+					let attributes = { name: 'new-attributes' }
+					let settings = { days: 320 }
+					let pem = await this.update(this.testId, { attributes, settings })
+					expect(pem.id).to.equal(this.testId)
+					expect(pem.attributes.name).to.equal('new-attributes')
+					expect(pem.settings.days).to.equal(320)
+					expect(pem.cert).to.not.equal(this.testPem.cert)
+					expect(pem.public).to.not.equal(this.testPem.public)
+					expect(pem.private).to.not.equal(this.testPem.private)
+				}
+			}
 			describe('id not found in store', () => {
-				it('throws an error', async () => {
-					const errorId = uuid()
-					return certificates.update(errorId, {
-						attribuutes: {
-							name: 'name'
+				@suite class result extends ServiceClass {
+					public testId!: string;
+					constructor(options: CertificateOptions) {
+						super({ events: ['testing'], disableStringify: true })
+						this.testId = this.generateId()
+					}
+					@test async 'it throws an error' () {
+						try {
+							let attributes = { name: 'test' }
+							let settings = { days: 320 }
+							await this.update(this.testId, { attributes, settings })
 						}
-					}).catch((error: any) => {
-						expect(error.message).to.equal(`No record found for id '${errorId}'`)
-					})
-				})
+						catch (e) {
+							expect(e.message)
+							.to.equal(`No record found for id '${this.testId}'`)
+						}
+					}
+				}
 			})
 			describe('update data contains public, private, cert properties', () => {
-				it('throws an error', async () => {
-					return certificates.update(updateId, {
-						attributes: {
-							name: 'test_three'
-						},
-						private: 'private'
-					})
-					.catch((error: any) => {
-						expect(error.message)
-						.to.equal(`certificate-service update error: certificate ${updateId} pem cannot be changed directly.`)
-					})
-				})
+				@suite class result extends ServiceClass {
+					public testId!: string;
+					public testPem!: any;
+					constructor(options: CertificateOptions) {
+						super({ events: ['testing'], disableStringify: true })
+						this.testId = this.generateId()
+					}
+					public async before () {
+						await this.create({ id: this.testId })
+					}
+					@test async 'it throws an error' () {
+						try {
+							await this.update(this.testId, { public: 'test' })
+						}
+						catch (e) {
+							expect(e.message)
+							.to.equal(`certificate-service update error: certificate ${this.testId} pem cannot be changed directly.`)
+						}
+					}
+				}
 			})
 		})
 	})
