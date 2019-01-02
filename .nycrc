@@ -19,5 +19,6 @@
 		"text-summary",
 		"lcov"
 	],
+	"cache": false,
 	"all": true
 }
