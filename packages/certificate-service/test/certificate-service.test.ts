@@ -186,7 +186,7 @@ describe('CertificateService', () => {
 					}
 					@test(timeout(10000)) async 'it throws an error' () {
 						try {
-							this.patch(this.testId, { public: 'test' })
+							await this.patch(this.testId, { public: 'test' })
 						}
 						catch (e) {
 							expect(e.message)
