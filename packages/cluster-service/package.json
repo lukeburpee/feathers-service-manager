@@ -46,6 +46,7 @@
     "execa": "^1.0.0",
     "feathers-hooks-common": "^4.19.4",
     "fkill": "^5.3.0",
+    "pidusage": "^2.0.17",
     "pkg": "^4.3.5",
     "rxjs": "^6.3.3",
     "sift": "^7.0.1",

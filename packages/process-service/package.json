@@ -47,6 +47,7 @@
     "feathers-hooks-common": "^4.19.4",
     "fkill": "^5.3.0",
     "hook-std": "^1.2.0",
+    "pidusage": "^2.0.17",
     "rxjs": "^6.3.3",
     "sift": "^7.0.1",
     "stream-to-observable": "^0.2.0",
