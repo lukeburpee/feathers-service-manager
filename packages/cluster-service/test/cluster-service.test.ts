@@ -177,8 +177,10 @@ describe('ClusterService', () => {
 		})
 		describe('sendWM', () => {
 			@suite class results extends ServiceClass {
+				public testId!: string;
 				constructor(options: ServiceOptions) {
 					super({ events: ['testing'], disableStringify: true })
+					this.testId = this.generateId()
 				}
 				public async before() {
 					await this.create({
