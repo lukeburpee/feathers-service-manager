@@ -74,7 +74,7 @@ export class ServiceClass extends MultiServiceClass {
 		if (this.proxyCount === 0) {
 			throw new Error('manager service proxy count must be greater than zero.')
 		}
-		if (this.cpuCount < this.totalCount) {
+		if (this.cpus < this.totalCount) {
 			throw new Error('manager service cpu allocation must be less than or equal to available system cpus.')
 		}
 	}
