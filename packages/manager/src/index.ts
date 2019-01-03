@@ -34,21 +34,11 @@ export class ServiceClass extends MultiServiceClass {
 	public buildCount!: any;
 	public totalCount!: any;
 	public defaultPkgTargets!: any;
+	constructor(options: ServiceOptions);
 	constructor(options: ManagerOptions) {
 		super(options)
-		this.cpus = cpus().length
-		this.buildCount = options.buildCount || 1
-		this.proxyCount = options.proxyCount || 1
-		this.totalCount = this.proxyCount + this.buildCount
+		this.setCpus (options)
 		this.defaultPkgTargets = options.defaultPkgTargets || 'node10-linux-x64'
-
-		if (this.buildCount === 0) {
-			throw new Error('manager service build count must be greater than zero.')
-		}
-
-		if (this.cpus < this.totalCount) {
-			throw new Error('manager service cpu allocation must be less than or equal to available system cpus.')
-		}
 	}
 	public async setup (app: any, path: any): Promise<any> {
 		await super.setup(app, path)
@@ -72,6 +62,23 @@ export class ServiceClass extends MultiServiceClass {
 			this.log = app.service('log')
 		})
 	}
+	public setCpus (options: ManagerOptions): any {
+		this.cpus = cpus().length
+		this.buildCount = options.buildCount || 1
+		this.proxyCount = options.proxyCount || 1
+		this.totalCount = this.proxyCount + this.buildCount
+
+		if (this.buildCount === 0) {
+			throw new Error('manager service build count must be greater than zero.')
+		}
+		if (this.proxyCount === 0) {
+			throw new Error('manager service proxy count must be greater than zero.')
+		}
+		if (this.cpuCount < this.totalCount) {
+			throw new Error('manager service cpu allocation must be less than or equal to available system cpus.')
+		}
+	}
+
 	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
 		this.validateCreate(data)
 		let id = data[this.id] || this.generateId()
@@ -103,26 +110,26 @@ export class ServiceClass extends MultiServiceClass {
 		return series(tasks)
 	}
 
-	public async patchImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
-		return super.patchImplementation(store, data, params)
-	}
-
-	public async removeImplementation (store: any, id: any, params?: any): Promise<any> {
-		return super.removeImplementation(store, id, params)
-	}
-
 	public validateCreate (data: any): any {
 		if (!data.spec) {
 			throw new Error('spec required to create application.')
 		}
 	}
 
+	public async patchImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
+		return super.patchImplementation(store, data, params)
+	}
+
 	public validatePatch (data: any): any {}
+
+	public async updateImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
+		return super.patchImplementation(store, data, params)
+	}
 
 	public validateUpdate (data: any): any {}
 
-	private async register (spec: any, code?: any): Promise<any> {
-		return this.registry.create({ code, spec })
+	public async removeImplementation (store: any, id: any, params?: any): Promise<any> {
+		return super.removeImplementation(store, id, params)
 	}
 
 	private async hydrate (id: any, spec: any, tmp: any, code?: any, entry?: any): Promise<any> {
