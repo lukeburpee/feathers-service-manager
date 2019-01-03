@@ -127,11 +127,11 @@ export class ServiceClass extends MultiServiceClass {
 
 	private async hydrate (id: any, spec: any, tmp: any, code?: any, entry?: any): Promise<any> {
 		return series([
-			this.writeSpec(spec, tmp),
-			this.writeCodeList(code, tmp),
-			this.generate(id, tmp, entry),
-			this.package(id, tmp, entry),
-			this.run(id, tmp, entry)
+			() => this.writeSpec(spec, tmp),
+			() => this.writeCodeList(code, tmp),
+			() => this.generate(id, tmp, entry),
+			() => this.package(id, tmp, entry),
+			() => this.run(id, tmp, entry)
 		])
 	}
 

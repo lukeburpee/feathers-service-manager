@@ -17,10 +17,9 @@
         	"@feathers-service-manager/types/feathers-service-manager",
         	"@feathers-service-manager/types/feathers-service-tests",
         	"@feathers-service-manager/types/feathersjs__commons",
-        	"@feathers-service-manager/types/p-series",
-        	"@feathers-service-manager/types/redbird",
-        	"@feathers-service-manager/types/selfsigned",
-        	"@feathers-service-manager/types/tempy"
+            "@feathers-service-manager/types/p-filter",
+            "@feathers-service-manager/types/p-pipe",
+        	"@feathers-service-manager/types/selfsigned"
         ]
     },
     "references": [

@@ -11,7 +11,9 @@
             "feathersjs__feathers",
             "mongodb",
             "mongoose",
-            "@feathers-service-manager/types/feathers-service-manager"
+            "@feathers-service-manager/types/feathers-service-manager",
+            "@feathers-service-manager/types/p-filter",
+            "@feathers-service-manager/types/p-pipe"
         ]
     },
     "references": [

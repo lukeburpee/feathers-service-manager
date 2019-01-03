@@ -32,8 +32,10 @@
     "clean": "rimraf node_modules"
   },
   "dependencies": {
+    "@feathers-service-manager/types": "^0.0.1-alpha",
     "@feathersjs/commons": "^3.0.1",
     "@feathersjs/feathers": "^3.2.3",
+    "p-all": "^1.0.0",
     "p-cancelable": "^1.0.0",
     "p-event": "^2.1.0",
     "p-filter": "^1.0.0",
@@ -46,8 +48,7 @@
     "p-retry": "^2.0.0",
     "p-series": "^1.1.0",
     "p-throttle": "^2.0.0",
-    "p-time": "^1.0.0",
-    "p-is-promise": "^2.0.0"
+    "p-time": "^1.0.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
