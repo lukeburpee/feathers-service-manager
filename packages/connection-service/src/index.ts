@@ -35,7 +35,7 @@ export class ServiceClass extends BaseServiceClass {
 		})
 	}
 
-	public connect (options?: any, connections?: any): any {
+	protected async connect (options?: any, connections?: any): Promise<any> {
 		this.options = options
 		return this.createConnection(
 			this.connectionId,
