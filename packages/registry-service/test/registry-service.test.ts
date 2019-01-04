@@ -50,7 +50,7 @@ describe('RegistryService', () => {
 						let test = await this.createImplementation(this.store, this.storeIsService, { id })
 					}
 					catch (e) {
-						expect(e.message).to.equal('registery service requires application spec.')
+						expect(e.message).to.equal('registery service requires spec.')
 					}
 				}
 			}
