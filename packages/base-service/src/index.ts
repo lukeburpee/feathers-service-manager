@@ -62,14 +62,14 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		throw new NotFound(`No record found for id '${id}'`)
 	}
 
-	public createImplementation (store: any, data: any, params?: Params): any {
+	public createImplementation (store: any, storeIsService: boolean, data: any, params?: Params): any {
 		let id = data[this.id] || this.generateId();
 		let current = _.extend({}, data, { [this.id]: id });
 		return Promise.resolve((store[id] = current))
 			.then(_select(params, this.id, this.disableStringify));
 		}
 
-	public getImplementation (store: any, id: Id, params?: Params): any {
+	public getImplementation (store: any, storeIsService: boolean, id: Id, params?: Params): any {
 		if (id in store) {
 			return Promise.resolve(store[id])
 				.then(_select(params, this.id, this.disableStringify));
@@ -77,7 +77,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		return false
 	}
 
-	public findImplementation (store: any, params: Params | any, getFilter = filterQuery): any {
+	public findImplementation (store: any, storeIsService: boolean, params: Params | any, getFilter = filterQuery): any {
 		const { query, filters } = this.processParams(params.query || {}, getFilter)
 		const map = _select(params, this.disableStringify);
 		return this.listImplementation(store)
@@ -97,7 +97,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		return Promise.resolve(_.values(store))
 	}
 
-	public updateImplementation (store: any, id: Id, data: any, params?: Params): any {
+	public updateImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): any {
 		if (id in store) {
 			// We don't want our id to change type if it can be coerced
 			data = _.extend({}, data, { [this.id]: id });
@@ -108,7 +108,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		return this.throwNotFound(id)
 	}
 
-	public patchImplementation (store: any, id: Id, data: any, params?: Params): any {
+	public patchImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): any {
 		if (id in store) {
 			_.extend(store[id], _.omit(data, this.id));
 			return Promise.resolve(store[id])
@@ -117,7 +117,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		return this.throwNotFound(id)
 	}
 
-	public removeImplementation (store: any, id: Id, params?: Params): any {
+	public removeImplementation (store: any, storeIsService: boolean, id: Id, params?: Params): any {
 		if (id in store) {
 			return this.removeFromStore(store, id, params)
 		}
@@ -159,7 +159,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	// Find without hooks and mixins that can be used internally and always returns
 	// a pagination object
 	public async _find (params: Params | any, getFilter = filterQuery) {
-		return this.findImplementation(this.store, params, getFilter)
+		return this.findImplementation(this.store, this.storeIsService, params, getFilter)
 	}
 
 	public async find (params: Params | any): Promise<any> {
@@ -173,7 +173,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 
 	public async get (id: Id, params?: Params): Promise<any> {
-		const results = this.getImplementation(this.store, id, params)
+		const results = this.getImplementation(this.store, this.storeIsService, id, params)
 		if (!results) {
 			return this.throwNotFound(id)
 		}
@@ -181,7 +181,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 	// Create without hooks and mixins that can be used internally
 	public async _create (data: any, params?: Params): Promise<any> {
-		return this.createImplementation(this.store, data, params)
+		return this.createImplementation(this.store, this.storeIsService, data, params)
 	}
 
 	public async create (data: any, params?: Params): Promise<any> {
@@ -192,7 +192,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 	// Update without hooks and mixins that can be used internally
 	public async _update (id: Id, data: any, params: Params | undefined): Promise<any> {
-		return this.updateImplementation(this.store, id, data, params)
+		return this.updateImplementation(this.store, this.storeIsService, id, data, params)
 	}
 
 	public async update (id: Id, data: any, params?: Params): Promise<any> {
@@ -203,7 +203,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 	// Patch without hooks and mixins that can be used internally
 	public async _patch (id: Id, data: any, params?: Params): Promise<any> {
-		return this.patchImplementation(this.store, id, data, params)
+		return this.patchImplementation(this.store, this.storeIsService, id, data, params)
 	}
 
 	public async patch (id: Id, data: any, params?: Params): Promise<any> {
@@ -217,7 +217,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 	// Remove without hooks and mixins that can be used internally
 	public async _remove (id: Id, params?: Params): Promise<any> {
-		return this.removeImplementation(this.store, id, params)
+		return this.removeImplementation(this.store, this.storeIsService, id, params)
 	}
 
 	public async remove (id: Id, params?: Params): Promise<any> {
