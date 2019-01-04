@@ -6,6 +6,7 @@ interface ServiceOptions {
 	matcher?: any;
 	sorter?: any;
 	store?: any;
+	storeIsService?: boolean;
 	Model?: any;
 	disableStringify?: boolean;
 }

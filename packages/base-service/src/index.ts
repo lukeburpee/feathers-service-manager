@@ -19,6 +19,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	public id!: any;
 	public _id!: any;
 	public store!: any;
+	public storeIsService!: any;
 	public Model!: any;
 	public events!: any;
 	public _matcher!: any;
@@ -45,6 +46,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		this.paginate = options.paginate ? options.paginate : {}
 		this._id = this.id = options.idField || options.id || 'id'
 		this.store = options.store || {}
+		this.storeIsService = options.storeIsService || false
 		this.Model = options.Model || {}
 		this.events = options.events || []
 		this._matcher = options.matcher
@@ -75,6 +77,22 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		return false
 	}
 
+	public findImplementation (store: any, params: Params | any, getFilter = filterQuery): any {
+		const { query, filters } = this.processParams(params.query || {}, getFilter)
+		const map = _select(params, this.disableStringify);
+		return this.listImplementation(store)
+			.then((items: any) => {
+				const values = this.formatListValues(items)
+				const { total, filteredValues } = this.filterListValues(query, filters, values)
+				return {
+					total,
+					limit: filters.$limit || 0,
+					skip: filters.$skip || 0,
+					data: map(filteredValues)
+				}
+			})
+	}
+
 	public listImplementation (store: any): any {
 		return Promise.resolve(_.values(store))
 	}
@@ -99,7 +117,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		return this.throwNotFound(id)
 	}
 
-	public removeImplementation(store: any, id: Id, params?: Params): any {
+	public removeImplementation (store: any, id: Id, params?: Params): any {
 		if (id in store) {
 			return this.removeFromStore(store, id, params)
 		}
@@ -141,19 +159,7 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	// Find without hooks and mixins that can be used internally and always returns
 	// a pagination object
 	public async _find (params: Params | any, getFilter = filterQuery) {
-		const { query, filters } = this.processParams(params.query || {}, getFilter)
-		const map = _select(params, this.disableStringify);
-		return this.listImplementation(this.store)
-			.then((items: any) => {
-				const values = this.formatListValues(items)
-				const { total, filteredValues } = this.filterListValues(query, filters, values)
-				return {
-					total,
-					limit: filters.$limit || 0,
-					skip: filters.$skip || 0,
-					data: map(filteredValues)
-				}
-			})
+		return this.findImplementation(this.store, params, getFilter)
 	}
 
 	public async find (params: Params | any): Promise<any> {
