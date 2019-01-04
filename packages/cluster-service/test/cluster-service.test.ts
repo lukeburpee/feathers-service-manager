@@ -15,7 +15,7 @@ describe('ClusterService', () => {
 					super({ events: ['testing'], disableStringify: true })
 				}
 				@test async 'it creates cluster and workers' () {
-					let cluster = await this.createImplementation(this.store, {
+					let cluster = await this.createImplementation(this.store, this.storeIsService, {
 						count: 1,
 						settings: {
 							exec: 'echo',
@@ -26,7 +26,7 @@ describe('ClusterService', () => {
 					expect(cluster.workers.length).to.equal(1)
 				}
 				@test async 'it adds cluster settings and worker ids to store' () {
-					let cluster = await this.createImplementation(this.store, {
+					let cluster = await this.createImplementation(this.store, this.storeIsService, {
 						count: 1,
 						settings: {
 							exec: 'echo',
@@ -44,7 +44,7 @@ describe('ClusterService', () => {
 					}
 					@test async 'it throws an error if missing settings' () {
 						try {
-							let cluster: any = await this.createImplementation(this.store, { count: 1 })
+							let cluster: any = await this.createImplementation(this.store, this.storeIsService, { count: 1 })
 						} 
 						catch (e) {
 							expect(e.message).to.equal(
@@ -54,7 +54,7 @@ describe('ClusterService', () => {
 					}
 					@test async 'it throws an error if missing count' () {
 						try {
-							let cluster: any = await this.createImplementation(this.store, {
+							let cluster: any = await this.createImplementation(this.store, this.storeIsService, {
 								settings: {
 									exec: 'echo',
 									args: ['test'],
@@ -91,7 +91,7 @@ describe('ClusterService', () => {
 						})
 					}
 					@test async 'it adds workers to a cluster by id' () {
-						let cluster = await this.patchImplementation(this.store, this.testId, { scaleUp: 1 })
+						let cluster = await this.patchImplementation(this.store, this.storeIsService, this.testId, { scaleUp: 1 })
 						expect(cluster.workers.length).to.equal(3)
 					}
 				}
@@ -116,7 +116,7 @@ describe('ClusterService', () => {
 						})
 					}
 					@test async 'it removes workers from a cluster by id' () {
-						let cluster = await this.patchImplementation(this.store, this.testId, { scaleDown: 1 })
+						let cluster = await this.patchImplementation(this.store, this.storeIsService, this.testId, { scaleDown: 1 })
 						expect(cluster.workers.length).to.equal(1)
 					}
 				}
@@ -130,7 +130,7 @@ describe('ClusterService', () => {
 					}
 					@test async 'it throws an error' () {
 						try {
-							let cluster: any = this.patchImplementation(this.store, this.testId, { scaleDown: 1 })
+							let cluster: any = this.patchImplementation(this.store, this.storeIsService, this.testId, { scaleDown: 1 })
 						}
 						catch (e) {
 							expect(e.message).to.equal(
