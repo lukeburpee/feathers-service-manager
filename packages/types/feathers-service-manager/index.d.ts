@@ -25,6 +25,22 @@ interface ConnectionOptions extends ServiceOptions {
 
 interface MultiOptions extends ServiceOptions {
 	multiOptions?: ServiceOptions;
+	services?: any;
+}
+
+interface RegistryOptions extends MultiOptions {
+	registryType?: any;
+	versionate?: boolean;
+	specKeys?: any;
+}
+
+interface JobOptions extends MultiOptions {
+	registry?: any;
+	taskRegistry?: any;
+}
+
+interface TaskOptions extends MultiOptions {
+	registry?: any;
 }
 
 interface ManagerOptions extends MultiOptions {

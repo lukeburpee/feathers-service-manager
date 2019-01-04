@@ -3,6 +3,7 @@
   "version": "0.0.1-alpha",
   "description": "",
   "main": "dist/",
+  "types": "dist/index.d.ts",
   "directories": {
     "lib": "dist",
     "test": "test"

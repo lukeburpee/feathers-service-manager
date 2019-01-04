@@ -41,7 +41,7 @@
     "@feathers-service-manager/certificate-service": "^0.0.1-alpha",
     "@feathers-service-manager/cluster-service": "^0.0.1-alpha",
     "@feathers-service-manager/connection-service": "^0.0.1-alpha",
-    "@feathers-service-manager/job-service": "^0.0.1-alpha",
+    "@feathers-service-manager/job-manager": "^0.0.1-alpha",
     "@feathers-service-manager/log-service": "^0.0.1-alpha",
     "@feathers-service-manager/manifest-service": "^0.0.1-alpha",
     "@feathers-service-manager/multi-service": "^0.0.1-alpha",

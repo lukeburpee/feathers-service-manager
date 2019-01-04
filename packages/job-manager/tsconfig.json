@@ -14,13 +14,15 @@
         	"@feathers-service-manager/types/feathers-service-manager",
         	"@feathers-service-manager/types/feathers-service-tests",
         	"@feathers-service-manager/types/feathersjs__commons",
-        	"@feathers-service-manager/types/redbird",
-        	"@feathers-service-manager/types/selfsigned",
-        	"@feathers-service-manager/types/tempy"
+            "@feathers-service-manager/types/p-filter",
+            "@feathers-service-manager/types/p-pipe"
         ]
     },
     "references": [
         { "path": "../base-service" },
+        { "path": "../job-service" },
+        { "path": "../multi-service" },
+        { "path": "../registry-service" },
     	{ "path": "../types" },
     	{ "path": "../utils" }
     ]

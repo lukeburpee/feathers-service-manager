@@ -45,12 +45,12 @@ export class ServiceClass extends MultiServiceClass {
 
 		let { processOptions, proxyOptions, registryOptions, manifestOptions, clusterOptions, logOptions } = this.options
 
-		let p = { app, service: 'p', serviceOptions: processOptions || { provider: ProcessService, disableStringify: true }}
-		let proxy = { app, service: 'proxy', serviceOptions: proxyOptions || { provider: ProxyService, disableStringify: true }}
-		let registry = { app, service: 'registry', serviceOptions: registryOptions || { provider: RegistryService, disableStringify: true }}
-		let manifest = { app, service: 'manifest', serviceOptions: manifestOptions || { provider: ManifestService, disableStringify: true }}
-		let cluster = { app, service: 'cluster', serviceOptions: clusterOptions || { disableStringify: true }}
-		let log = { app, service: 'log', serviceOptions: logOptions || { provider: LogService, disableStringify: true }}
+		let p = { app, service: 'p', provider: ProcessService, serviceOptions: processOptions || { disableStringify: true }}
+		let proxy = { app, service: 'proxy', provider: ProxyService, serviceOptions: proxyOptions || { disableStringify: true }}
+		let registry = { app, service: 'registry', provider: RegistryService, serviceOptions: registryOptions || { disableStringify: true }}
+		let manifest = { app, service: 'manifest', provider: ManifestService, serviceOptions: manifestOptions || { disableStringify: true }}
+		let cluster = { app, service: 'cluster', provider: ClusterService, serviceOptions: clusterOptions || { disableStringify: true }}
+		let log = { app, service: 'log', provider: LogService, serviceOptions: logOptions || { disableStringify: true }}
 		let services = [p, proxy, registry, manifest, cluster, log]
 		
 		await this.addService(services).then((services: any) => {
@@ -83,7 +83,7 @@ export class ServiceClass extends MultiServiceClass {
 		this.validateCreate(data)
 		let id = data[this.id] || this.generateId()
 		let tmp = directory()
-		let registered = await this.registry.create({ code: data.code, spec: data.spec })
+		let registered = await this.registry.create({ spec: data.spec })
 		let { spec } = registered.v1
 		let appId = id
 		let registry = spec.id

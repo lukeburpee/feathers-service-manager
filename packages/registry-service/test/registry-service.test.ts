@@ -39,7 +39,7 @@ describe('RegistryService', () => {
 				}
 			}
 		})
-		describe('verifyCreate', () => {
+		describe('validateCreate', () => {
 			@suite class result extends ServiceClass {
 				constructor(options: ServiceOptions) {
 					super({ events: ['testing'] })

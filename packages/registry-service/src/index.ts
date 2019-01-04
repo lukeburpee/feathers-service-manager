@@ -2,29 +2,49 @@ import { _select } from '@feathers-service-manager/utils'
 
 import { ServiceClass as BaseServiceClass } from '@feathers-service-manager/base-service'
 
-import { default as Debug } from 'debug'
-
-const debug = Debug('@feathers-service-manager:registry-service')
-
 export default function init (options: ServiceOptions) {
 	return new ServiceClass(options)
 }
 
 export class ServiceClass extends BaseServiceClass {
-	constructor (options: ServiceOptions) {
+	public registryType!: any;
+	public versionate!: any;
+	public specKeys!: any;
+	constructor (options: ServiceOptions);
+	constructor (options: RegistryOptions) {
 		super(options)
-		debug('registry-service initialized')
+		this.registryType = `${options.registryType}-registry` || 'registry'
+		this.versionate = options.versionate || false
+		this.specKeys = options.specKeys || null
 	}
 	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
-		this.verifyCreate(data)
-		let version = data.version || 'v1'
-		let code = data.code || ''
+		this.validateCreate(data)
 		let spec = data.spec
-		return super.createImplementation(store, { [version]: { code, spec }}, params)
-	}
-	public verifyCreate (data: any): any {
-		if (!data.spec) {
-			throw new Error('registery service requires application spec.')
+		if (this.versionate) {
+			return super.createImplementation(store, { [data.version]: { spec }})
 		}
+		return super.createImplementation(store, { spec })
+	}
+	public validateCreate (data: any): any {
+		if (this.specKeys) {
+			this.validateSpecKeys(data.spec)
+		}
+		if (this.versionate) {
+			if (!data.version) {
+				throw new Error('Registry service is versionated. Please provide version when creating spec.')
+			}
+		}
+		if (!data.spec) {
+			throw new Error('registery service requires spec.')
+		}
+	}
+	public validateSpecKeys (spec: any): any {
+		let specKeys = Object.keys(spec)
+		specKeys.forEach((key: any) => {
+			if (!this.specKeys.includes(key)) {
+				throw new Error(`Invalid spec provided to ${this.registryType} service.`)
+			}
+		})
+		return true
 	}
 }

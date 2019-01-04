@@ -1,5 +1,6 @@
 import { default as Debug } from 'debug'
 import execa from 'execa'
+import pidusage from 'pidusage'
 
 import { ServiceClass as BaseServiceClass } from '@feathers-service-manager/base-service'
 
