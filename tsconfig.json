@@ -1,31 +1,22 @@
 {
 	"files": [],
 	"references": [
-		{ "path": "automerge-sync" },
 		{ "path": "base-service" },
 		{ "path": "certificate-service" },
 		{ "path": "cluster-service" },
 		{ "path": "connection-service" },
-		{ "path": "dat-sync" },
 		{ "path": "docker-manager" },
 		{ "path": "elasticsearch-manager" },
-		{ "path": "gun-sync" },
-		{ "path": "ipfs-sync" },
-		{ "path": "job-service" },
-		{ "path": "log-service" },
+		{ "path": "job-manager" },
 		{ "path": "manager" },
 		{ "path": "manifest-service" },
 		{ "path": "mongodb-manager" },
 		{ "path": "multi-service" },
-		{ "path": "orbit-sync" },
-		{ "path": "pouch-sync" },
 		{ "path": "process-service" },
 		{ "path": "proxy-service" },
-		{ "path": "redis-manager" },
 		{ "path": "registry-service" },
 		{ "path": "task-service" },
 		{ "path": "types" },
-		{ "path": "upload-manager" },
 		{ "path": "utils" }
 	]
 }
