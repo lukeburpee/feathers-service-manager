@@ -15,12 +15,12 @@ describe('ManifestService', () => {
 				}
 				@test async 'creates and returns an app manifest entry' () {
 					let appId = this.generateId()
-					let entry = await this.createImplementation(this.store, { appId, cores: 1, status: 'running' })
+					let entry = await this.createImplementation(this.store, this.storeIsService, { appId, cores: 1, status: 'running' })
 					expect(entry.appId).to.exist
 				}
 				@test async 'adds manifest entry to store' () {
 					let appId = this.generateId()
-					let entry = await this.createImplementation(this.store, { appId, cores: 1, status: 'running' })
+					let entry = await this.createImplementation(this.store, this.storeIsService, { appId, cores: 1, status: 'running' })
 					expect(entry.id in this.store).to.be.true
 				}
 			}
@@ -31,7 +31,7 @@ describe('ManifestService', () => {
 					super({ events: ['testing'] })
 				}
 				@test async 'it throws an error if missing appId' () {
-					this.createImplementation(this.store, { cores: 1, status: 'running' })
+					this.createImplementation(this.store, this.storeIsService, { cores: 1, status: 'running' })
 						.catch((error: any) => {
 							expect(error.message).to.equal(
 								'manifest service requires an app identifier.'
@@ -40,7 +40,7 @@ describe('ManifestService', () => {
 				}
 				@test async 'it throws an error if missing cores' () {
 					let appId = this.generateId()
-					this.createImplementation(this.store, { appId, status: 'running' })
+					this.createImplementation(this.store, this.storeIsService, { appId, status: 'running' })
 						.catch((error: any) => {
 							expect(error.message).to.equal(
 								'manifest service requires core count.'
@@ -49,7 +49,7 @@ describe('ManifestService', () => {
 				}
 				@test async 'it throws an error if missing status' () {
 					let appId = this.generateId()
-					this.createImplementation(this.store, { appId, cores: 1 })
+					this.createImplementation(this.store, this.storeIsService, { appId, cores: 1 })
 						.catch((error: any) => {
 							expect(error.message).to.equal(
 								'manifest service requires app status.'
