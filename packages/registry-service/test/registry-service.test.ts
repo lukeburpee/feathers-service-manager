@@ -31,7 +31,7 @@ describe('RegistryService', () => {
 				}
 				@test async 'creates and returns an app spec' () {
 					let test = await this.createImplementation(this.store, this.storeIsService, { spec })
-					expect(test.v1.spec.options).to.exist
+					expect(test.spec.options).to.exist
 				}
 				@test async 'adds app spec to store' () {
 					let test = await this.createImplementation(this.store, this.storeIsService, { spec })
