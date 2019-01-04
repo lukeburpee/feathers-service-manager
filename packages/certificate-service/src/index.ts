@@ -67,13 +67,15 @@ export class ServiceClass extends BaseServiceClass {
 	}
 
 	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: Params): Promise<any> {
+		let id = data[this.id] || this.generateId();
 		let pems = await this.generateCertificate(data)
 		const current = _.extend({},
 			{ attributes: data.attributes || null },
 			{ settings: data.settings || null },
 			pems
 		)
-		return super.createImplementation(store, storeIsService, current, params)
+		return Promise.resolve((store[id] = current))
+			.then(_select(params, this.id))
 	}
 
 	public updateImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): any {
