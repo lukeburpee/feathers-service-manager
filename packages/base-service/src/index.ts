@@ -63,6 +63,9 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 
 	public createImplementation (store: any, storeIsService: boolean, data: any, params?: Params): any {
+		if (storeIsService) {
+			return store.create(data, params)
+		}
 		let id = data[this.id] || this.generateId();
 		let current = _.extend({}, data, { [this.id]: id });
 		return Promise.resolve((store[id] = current))
@@ -70,6 +73,9 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 		}
 
 	public getImplementation (store: any, storeIsService: boolean, id: Id, params?: Params): any {
+		if (storeIsService) {
+			return store.get(id, params)
+		}
 		if (id in store) {
 			return Promise.resolve(store[id])
 				.then(_select(params, this.id, this.disableStringify));
@@ -78,6 +84,9 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 
 	public findImplementation (store: any, storeIsService: boolean, params: Params | any, getFilter = filterQuery): any {
+		if (storeIsService) {
+			return store.find(params)
+		}
 		const { query, filters } = this.processParams(params.query || {}, getFilter)
 		const map = _select(params, this.disableStringify);
 		return this.listImplementation(store)
@@ -98,6 +107,9 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 
 	public updateImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): any {
+		if (storeIsService) {
+			return store.update(id, data, params)
+		}
 		if (id in store) {
 			// We don't want our id to change type if it can be coerced
 			data = _.extend({}, data, { [this.id]: id });
@@ -109,6 +121,9 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 
 	public patchImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): any {
+		if (storeIsService) {
+			return store.patch(id, data, params)
+		}
 		if (id in store) {
 			_.extend(store[id], _.omit(data, this.id));
 			return Promise.resolve(store[id])
@@ -118,6 +133,9 @@ export class ServiceClass implements Partial<ServiceMethods<any>>, SetupMethod {
 	}
 
 	public removeImplementation (store: any, storeIsService: boolean, id: Id, params?: Params): any {
+		if (storeIsService) {
+			return store.remove(id, params)
+		}
 		if (id in store) {
 			return this.removeFromStore(store, id, params)
 		}
