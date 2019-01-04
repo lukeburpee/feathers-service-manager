@@ -19,14 +19,14 @@ export class ServiceClass extends BaseServiceClass {
 			throw new Error('execute process requires a command.')
 		}
 		let cp = execa(data.command, data.args || [], data.options || [])
-		return super.createImplementation(store, { cp }, params)
+		return super.createImplementation(store, storeIsService, { cp }, params)
 	}
 
 	public async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
 		if (id in store) {
 			let cp = store[id].cp
 			cp.kill()
-			return super.removeImplementation(store, id, params)
+			return super.removeImplementation(store, storeIsService, id, params)
 		}
 		return this.throwNotFound(id)
 	}
