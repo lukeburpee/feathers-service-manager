@@ -16,21 +16,11 @@ export class ServiceClass extends MultiServiceClass {
 	constructor (options: MultiOptions);
 	constructor (options: JobOptions) {
 		super(options)
-		this.validateOptions(options)
 		debug('job-service initialized')
-	}
-	public validateOptions (options: JobOptions): any {
-		if (!options.registry) {
-			throw new Error('job service requires registry.')
-		}
-		if (!options.taskRegistry) {
-			throw new Error('job service requires task registry.')
-		}
-		this.registry = options.registry
-		this.taskRegistry = options.taskRegistry
 	}
 	public async setup (app: any, path: any): Promise<any> {
 		super.setup(app, path)
+		this.registryCheck()
 		let tasks = await this.addService({ 
 			app, 
 			service: 'tasks',
@@ -41,5 +31,15 @@ export class ServiceClass extends MultiServiceClass {
 			}
 		})
 		this.tasks = tasks.service
+	}
+	public registryCheck (): any {
+		if (!this.options.registry) {
+			throw new Error('job service requires registry.')
+		}
+		if (!this.options.taskRegistry) {
+			throw new Error('job service requires task registry.')
+		}
+		this.registry = this.options.registry
+		this.taskRegistry = this.options.taskRegistry
 	}
 }

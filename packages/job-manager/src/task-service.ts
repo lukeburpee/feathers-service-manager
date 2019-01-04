@@ -16,17 +16,11 @@ export class ServiceClass extends MultiServiceClass {
 	public c!: any;
 	constructor (options: TaskOptions) {
 		super(options)
-		this.setOptions(options)
 		debug('task-service initialized')
-	}
-	public setOptions (options: TaskOptions): any {
-		if (!options.registry) {
-			throw new Error('task service requires task registry.')
-		}
-		this.registry = options.registry
 	}
 	public async setup (app: any, path: any): Promise<any> {
 		super.setup(app, path)
+		this.registryCheck()
 		let p = await this.addService({
 			app,
 			service: 'p',
@@ -45,5 +39,11 @@ export class ServiceClass extends MultiServiceClass {
 		})
 		this.p = p.service
 		this.c = c.service
+	}
+	public registryCheck (): any {
+		if (!this.options.registry) {
+			throw new Error('task service requires task registry.')
+		}
+		this.registry = this.options.registry
 	}
 }
