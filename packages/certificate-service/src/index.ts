@@ -75,8 +75,7 @@ export class ServiceClass extends BaseServiceClass {
 			{ settings: data.settings || null },
 			pems
 		)
-		return Promise.resolve((store[id] = current))
-			.then(_select(params, this.id))
+		return super.createImplementation(store, storeIsService, current, params)
 	}
 
 	public updateImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): any {
