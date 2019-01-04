@@ -65,7 +65,7 @@ export class ServiceClass extends BaseServiceClass {
 			resolve(proxy)
 		})
 	}
-	public createImplementation (store: any, data: any, params: any): any {
+	public createImplementation (store: any, storeIsService: boolean, data: any, params: any): any {
 		let id = data[this.id] || this.generateId()
 		return this.generateProxy(data).then((proxy: any) => {
 			const current = {
@@ -76,7 +76,7 @@ export class ServiceClass extends BaseServiceClass {
 				.then(_select(params, this.id, this.disableStringify))
 		})
 	}
-	public patchImplementation (store: any, id: any, data: any, params: any): any {
+	public patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params: any): any {
 		if (id in store) {
 			const proxy = store[id].proxy
 			if (data.register) {
@@ -115,7 +115,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		return this.throwNotFound(id)
 	}
-	public removeImplementation (store: any, id: any, params?: any): any {
+	public removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): any {
 		if (id in store) {
 			const proxy = store[id].proxy
 			proxy.close()

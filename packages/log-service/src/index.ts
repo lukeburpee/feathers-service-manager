@@ -14,9 +14,9 @@ export class ServiceClass extends BaseServiceClass {
 	constructor(options: ServiceOptions) {
 		super(options)
 	}
-	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
+	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		this.validateCreate(data)
-		return super.createImplementation(store, data, params)
+		return super.createImplementation(store, storeIsService, data, params)
 	}
 	private validateCreate (data: any): any {
 		if (!data.appId) {

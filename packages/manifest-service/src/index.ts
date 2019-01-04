@@ -16,18 +16,18 @@ export class ServiceClass extends BaseServiceClass {
 		debug('manifest-service initialized')
 	}
 
-	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
+	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		this.verifyCreate(data)
-		return super.createImplementation(store, data, params)
+		return super.createImplementation(store, storeIsService, data, params)
 	}
 
-	public async patchImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
+	public async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
 		let { appId, registry, cores, url, status } = data
-		return super.patchImplementation(store, id, data, params)
+		return super.patchImplementation(store, storeIsService, id, data, params)
 	}
 
-	public async removeImplementation (store: any, id: any, params?: any): Promise<any> {
-		return super.removeImplementation(store, id, params)
+	public async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
+		return super.removeImplementation(store, storeIsService, id, params)
 	}
 	
 	public verifyCreate (data: any): any {

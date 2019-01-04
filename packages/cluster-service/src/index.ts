@@ -14,7 +14,7 @@ export class ServiceClass extends BaseServiceClass {
 		super(options)
 	}
 
-	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
+	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		this.verifyCreate(data)
 		let id = data[this.id] || this.generateId()
 		let count = data.count
@@ -22,11 +22,11 @@ export class ServiceClass extends BaseServiceClass {
 
 		if (c.isMaster) {
 			let workers = this.scaleUp(settings, [], count)
-			return super.createImplementation(store, { id, settings, workers }, params)
+			return super.createImplementation(store, storeIsService, { id, settings, workers }, params)
 		}
 	}
 
-	public async patchImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
+	public async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
 		if (id in store) {
 			this.verifyPatch(data)
 			let settings = store[id].settings
@@ -34,12 +34,12 @@ export class ServiceClass extends BaseServiceClass {
 			if (data.scaleUp) {
 				let workers = this.scaleUp(settings, originals, data.scaleUp)
 				let count = workers.length
-				return super.patchImplementation(store, id, { count, settings, workers }, params)
+				return super.patchImplementation(store, storeIsService, id, { count, settings, workers }, params)
 			}
 			if (data.scaleDown) {
 				let workers = this.scaleDown(originals, data.scaleDown)
 				let count = workers.length
-				return super.patchImplementation(store, id, { count, settings, workers }, params)
+				return super.patchImplementation(store, storeIsService, id, { count, settings, workers }, params)
 			}
 		}
 		return this.throwNotFound(id)

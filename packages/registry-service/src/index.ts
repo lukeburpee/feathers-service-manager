@@ -17,13 +17,13 @@ export class ServiceClass extends BaseServiceClass {
 		this.versionate = options.versionate || false
 		this.specKeys = options.specKeys || null
 	}
-	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
+	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		this.validateCreate(data)
 		let spec = data.spec
 		if (this.versionate) {
-			return super.createImplementation(store, { [data.version]: { spec }})
+			return super.createImplementation(store, storeIsService, { [data.version]: { spec }})
 		}
-		return super.createImplementation(store, { spec })
+		return super.createImplementation(store, storeIsService, { spec })
 	}
 	public validateCreate (data: any): any {
 		if (this.specKeys) {

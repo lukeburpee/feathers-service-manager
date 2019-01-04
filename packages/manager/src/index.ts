@@ -79,7 +79,7 @@ export class ServiceClass extends MultiServiceClass {
 		}
 	}
 
-	public async createImplementation (store: any, data: any, params?: any): Promise<any> {
+	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		this.validateCreate(data)
 		let id = data[this.id] || this.generateId()
 		let tmp = directory()
@@ -116,20 +116,20 @@ export class ServiceClass extends MultiServiceClass {
 		}
 	}
 
-	public async patchImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
-		return super.patchImplementation(store, data, params)
+	public async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
+		return super.patchImplementation(store, storeIsService, data, params)
 	}
 
 	public validatePatch (data: any): any {}
 
-	public async updateImplementation (store: any, id: any, data: any, params?: any): Promise<any> {
-		return super.patchImplementation(store, data, params)
+	public async updateImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
+		return super.patchImplementation(store, storeIsService, data, params)
 	}
 
 	public validateUpdate (data: any): any {}
 
-	public async removeImplementation (store: any, id: any, params?: any): Promise<any> {
-		return super.removeImplementation(store, id, params)
+	public async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
+		return super.removeImplementation(store, storeIsService, id, params)
 	}
 
 	private async hydrate (id: any, spec: any, tmp: any, code?: any, entry?: any): Promise<any> {
