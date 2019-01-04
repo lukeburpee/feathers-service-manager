@@ -69,7 +69,6 @@ export class ServiceClass extends BaseServiceClass {
 	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: Params): Promise<any> {
 		let pems = await this.generateCertificate(data)
 		const current = _.extend({},
-			{ [this.id]: id },
 			{ attributes: data.attributes || null },
 			{ settings: data.settings || null },
 			pems
