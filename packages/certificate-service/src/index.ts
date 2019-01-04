@@ -70,6 +70,7 @@ export class ServiceClass extends BaseServiceClass {
 		let id = data[this.id] || this.generateId();
 		let pems = await this.generateCertificate(data)
 		const current = _.extend({},
+			{ [this.id]: id },
 			{ attributes: data.attributes || null },
 			{ settings: data.settings || null },
 			pems
