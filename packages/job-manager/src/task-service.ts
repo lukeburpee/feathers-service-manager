@@ -40,7 +40,7 @@ export class ServiceClass extends MultiServiceClass {
 		this.p = p.service
 		this.c = c.service
 	}
-	public registryCheck (): any {
+	private registryCheck (): any {
 		if (!this.options.registry) {
 			throw new Error('task service requires task registry.')
 		}

@@ -62,7 +62,7 @@ export class ServiceClass extends MultiServiceClass {
 			this.log = app.service('log')
 		})
 	}
-	public setCpus (options: ManagerOptions): any {
+	protected setCpus (options: ManagerOptions): any {
 		this.cpus = cpus().length
 		this.buildCount = options.buildCount || 1
 		this.proxyCount = options.proxyCount || 1
@@ -79,7 +79,7 @@ export class ServiceClass extends MultiServiceClass {
 		}
 	}
 
-	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
+	protected async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		this.validateCreate(data)
 		let id = data[this.id] || this.generateId()
 		let tmp = directory()
@@ -110,29 +110,29 @@ export class ServiceClass extends MultiServiceClass {
 		return series(tasks)
 	}
 
-	public validateCreate (data: any): any {
+	protected validateCreate (data: any): any {
 		if (!data.spec) {
 			throw new Error('spec required to create application.')
 		}
 	}
 
-	public async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
+	protected async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
 		return super.patchImplementation(store, storeIsService, data, params)
 	}
 
-	public validatePatch (data: any): any {}
+	protected validatePatch (data: any): any {}
 
-	public async updateImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
+	protected async updateImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
 		return super.patchImplementation(store, storeIsService, data, params)
 	}
 
-	public validateUpdate (data: any): any {}
+	protected validateUpdate (data: any): any {}
 
-	public async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
+	protected async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
 		return super.removeImplementation(store, storeIsService, id, params)
 	}
 
-	private async hydrate (id: any, spec: any, tmp: any, code?: any, entry?: any): Promise<any> {
+	protected async hydrate (id: any, spec: any, tmp: any, code?: any, entry?: any): Promise<any> {
 		return series([
 			() => this.writeSpec(spec, tmp),
 			() => this.writeCodeList(code, tmp),
@@ -142,7 +142,7 @@ export class ServiceClass extends MultiServiceClass {
 		])
 	}
 
-	private async updateStatus (id: any, category: any, s: any, entry?: any): Promise<any> {
+	protected async updateStatus (id: any, category: any, s: any, entry?: any): Promise<any> {
 		if (!entry) {
 			let entry = await this.manifest.get(id)
 		}
@@ -151,17 +151,17 @@ export class ServiceClass extends MultiServiceClass {
 		return this.manifest.patch(id, entry)
 	}
 
-	private async writeSpec (spec: any, cwd: any): Promise<any> {
+	protected async writeSpec (spec: any, cwd: any): Promise<any> {
 		return writeJson(`${cwd}/feathers-gen-specs.json`, spec)
 	}
 
-	private async writeCodeList (codeList: any, cwd: any): Promise<any> {
+	protected async writeCodeList (codeList: any, cwd: any): Promise<any> {
 		let { id, cp } = this.p.create({command: 'feathers-plus', args: ['generate', 'codelist'] })
 		let { stdout } = await cp
 		return fs.outputFileAsync(`${cwd}/feathers-gen-code.js`, stdout)
 	}
 
-	private async addPkgOptions (dir: any): Promise<any> {
+	protected async addPkgOptions (dir: any): Promise<any> {
 		let dist = `${dir}/dist`
 		let bin = `./${dist}/index.js`
 		let scripts = `${dist}/*.js`
@@ -173,7 +173,7 @@ export class ServiceClass extends MultiServiceClass {
 		})
 	}
 
-	private async generate (id: any, tmp: any, entry?: any): Promise<any> {
+	protected async generate (id: any, tmp: any, entry?: any): Promise<any> {
 		if (!entry) {
 			let entry = await this.manifest.get(id)
 		}
@@ -181,7 +181,7 @@ export class ServiceClass extends MultiServiceClass {
 		return this.updateStatus(id, 'generated', true, entry)
 	}
 
-	private async package (id: any, tmp: any, entry?: any, targets?: string): Promise<any> {
+	protected async package (id: any, tmp: any, entry?: any, targets?: string): Promise<any> {
 		if (!entry) {
 			let entry = await this.manifest.get(id)
 		}
@@ -190,7 +190,7 @@ export class ServiceClass extends MultiServiceClass {
 		return this.updateStatus(id, 'packaged', true, entry)
 	}
 
-	private async run (id: any, dir: any, entry?: any, target?: any): Promise<any> {
+	protected async run (id: any, dir: any, entry?: any, target?: any): Promise<any> {
 		if (!entry) {
 			let entry = await this.manifest.get(id)
 		}
@@ -207,7 +207,7 @@ export class ServiceClass extends MultiServiceClass {
 		return this.updateStatus(id, 'running', true, entry)
 	}
 
-	private async setWorkerLog (appId: any, worker: any): Promise<any> {
+	protected async setWorkerLog (appId: any, worker: any): Promise<any> {
 		let service = 'cluster-service'
 		let type, message
 		worker.on('online', () => {

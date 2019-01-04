@@ -48,7 +48,7 @@ export class ServiceClass extends BaseServiceClass {
 		return null
 	}
 
-	public async generateCertificate (data?: any): Promise<any> {
+	protected async generateCertificate (data?: any): Promise<any> {
 		let attributes = this.validateCertAttributes(data.attributes)
 		let settings = data.settings || this.defaultSettings
 		return new Promise((resolve, reject) => {
@@ -62,11 +62,11 @@ export class ServiceClass extends BaseServiceClass {
 		})
 	}
 
-	public throwPemChangeError (id: any): any {
+	protected throwPemChangeError (id: any): any {
 		throw new Error(`certificate-service update error: certificate ${id} pem cannot be changed directly.`)
 	}
 
-	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: Params): Promise<any> {
+	protected async createImplementation (store: any, storeIsService: boolean, data: any, params?: Params): Promise<any> {
 		let id = data[this.id] || this.generateId();
 		let pems = await this.generateCertificate(data)
 		const current = _.extend({},
@@ -78,7 +78,7 @@ export class ServiceClass extends BaseServiceClass {
 		return super.createImplementation(store, storeIsService, current, params)
 	}
 
-	public updateImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): any {
+	protected async updateImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): Promise<any> {
 		if (id in store) {
 			if (data.private || data.public || data.cert) {
 				this.throwPemChangeError(id)
@@ -89,7 +89,7 @@ export class ServiceClass extends BaseServiceClass {
 		return this.throwNotFound(id)
 	}
 
-	public patchImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): any {
+	protected async patchImplementation (store: any, storeIsService: boolean, id: Id, data: any, params?: Params): Promise<any> {
 		if (id in store) {
 			if (data.private || data.public || data.cert) {
 				this.throwPemChangeError(id)

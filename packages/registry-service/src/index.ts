@@ -17,7 +17,7 @@ export class ServiceClass extends BaseServiceClass {
 		this.versionate = options.versionate || false
 		this.specKeys = options.specKeys || null
 	}
-	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
+	protected async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		this.validateCreate(data)
 		let spec = data.spec
 		if (this.versionate) {
@@ -25,7 +25,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		return super.createImplementation(store, storeIsService, { spec })
 	}
-	public validateCreate (data: any): any {
+	protected validateCreate (data: any): any {
 		if (this.specKeys) {
 			this.validateSpecKeys(data.spec)
 		}
@@ -38,7 +38,7 @@ export class ServiceClass extends BaseServiceClass {
 			throw new Error('registery service requires spec.')
 		}
 	}
-	public validateSpecKeys (spec: any): any {
+	protected validateSpecKeys (spec: any): any {
 		let specKeys = Object.keys(spec)
 		specKeys.forEach((key: any) => {
 			if (!this.specKeys.includes(key)) {

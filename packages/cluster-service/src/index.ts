@@ -14,7 +14,7 @@ export class ServiceClass extends BaseServiceClass {
 		super(options)
 	}
 
-	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
+	protected async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		this.verifyCreate(data)
 		let id = data[this.id] || this.generateId()
 		let count = data.count
@@ -26,7 +26,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 	}
 
-	public async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
+	protected async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params?: any): Promise<any> {
 		if (id in store) {
 			this.verifyPatch(data)
 			let settings = store[id].settings
@@ -45,7 +45,7 @@ export class ServiceClass extends BaseServiceClass {
 		return this.throwNotFound(id)
 	}
 
-	public verifyCreate (data: any): any {
+	protected verifyCreate (data: any): any {
 		if (!data.count) {
 			throw new Error('worker count required to create cluster.')
 		}
@@ -54,18 +54,18 @@ export class ServiceClass extends BaseServiceClass {
 		}
 	}
 
-	public verifyPatch (data: any): any {
+	protected verifyPatch (data: any): any {
 		this.verifyScale(data)
 		this.verifyAllowed(data)
 	}
 
-	public verifyScale (data: any): any {
+	protected verifyScale (data: any): any {
 		if (data.scaleUp && data.scaleDown) {
 			throw new Error('cluster can only be scaled in one direction at a time.')
 		}
 	}
 
-	public verifyAllowed (data: any): any {
+	protected verifyAllowed (data: any): any {
 		let allowed = ['scaleUp', 'scaleDown', 'close']
 		Object.keys(data).map((o: any) => {
 			if (allowed.indexOf(o) === -1 ) {
@@ -74,16 +74,16 @@ export class ServiceClass extends BaseServiceClass {
 		})
 	}
 
-	public sendWM (id: any, m: any): any {
+	protected sendWM (id: any, m: any): any {
 		return c.workers[id]!.send(m)
 	}
 
-	public createW (cluster: any): any {
+	protected createW (cluster: any): any {
 		let w = cluster.fork()
 		return w
 	}
 
-	public createWs (cluster: any, count: any): any {
+	protected createWs (cluster: any, count: any): any {
 		let ws: string[] = []
 		for (let i = 0; i < count; i++) {
 			let w = this.createW(cluster)
@@ -92,7 +92,7 @@ export class ServiceClass extends BaseServiceClass {
 		return ws
 	}
 
-	public scaleUp (settings: any, originals: any, count: any): any {
+	protected scaleUp (settings: any, originals: any, count: any): any {
 		c.setupMaster(settings)
 		let add = this.createWs(c, count)
 		let ws = [
@@ -102,7 +102,7 @@ export class ServiceClass extends BaseServiceClass {
 		return ws
 	}
 
-	public scaleDown (originals: any, count: any): any {
+	protected scaleDown (originals: any, count: any): any {
 		let id
 		let ws = originals
 		let r: string[] = []

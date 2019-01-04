@@ -19,7 +19,7 @@ export class ServiceClass extends BaseServiceClass {
 		this.multiCheck(app)
 	}
 
-	public async addService (data: any): Promise<any> {
+	protected async addService (data: any): Promise<any> {
 		if (Array.isArray(data)) {
 			let services = data.map((service: any) => this.addService(service))
 			return Promise.all(services)
@@ -35,18 +35,18 @@ export class ServiceClass extends BaseServiceClass {
 		return service
 	}
 
-	public getService (id: any, params?: any): any {
+	protected getService (id: any, params?: any): any {
 		return this.services.get(id, params)
 	}
-	public findService (params?: any): any {
+	protected findService (params?: any): any {
 		return this.services.find(params)
 	}
 
-	public removeService (id: any, params?: any): any {
+	protected removeService (id: any, params?: any): any {
 		return this.services.remove(id, params)
 	}
 
-	public serviceCheck (app: any, data: any): any {
+	protected serviceCheck (app: any, data: any): any {
 		if (typeof data.service === 'string') {
 			if (typeof app.service(data.service) === 'undefined') {
 				debug(`no service ${data.service} found on application setup. ${data.service} will be created`)
@@ -60,7 +60,7 @@ export class ServiceClass extends BaseServiceClass {
 		return data.service
 	}
 
-	private multiCheck (app: any): any {
+	protected multiCheck (app: any): any {
 		if (this.options.multiOptions) {
 			this.services = this.serviceCheck(app, this.options.multiOptions)
 			return this.services

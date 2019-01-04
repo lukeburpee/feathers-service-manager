@@ -54,23 +54,23 @@ export class ServiceClass extends MultiServiceClass {
 		this.jobRegistry = jobRegistry.service
 		this.taskRegistry = taskRegistry.service
 	}
-	private async registerDefaultJobs (): Promise<any> {}
-	private async registerDefaultTasks (): Promise<any> {
+	protected async registerDefaultJobs (): Promise<any> {}
+	protected async registerDefaultTasks (): Promise<any> {
 		let tasks = [{
 			action: 'copy',
 			command: 'cpy'
 		}]
 	}
-	private async registerTask (spec: any): Promise<any> {
+	protected async registerTask (spec: any): Promise<any> {
 		return this.taskRegistry.create(spec)
 	}
-	private async registerJob (spec: any): Promise<any> {
+	protected async registerJob (spec: any): Promise<any> {
 		return this.jobRegistry.create(spec)
 	}
-	private async queueJob (id: any): Promise<any> {}
-	private async setJobPriority (id: any, priority: any): Promise<any> {}
-	private async cancelJob (id: any): Promise<any> {}
-	private async pauseJob (id: any): Promise<any> {}
-	private async runJob (id: any): Promise<any> {}
-	public async createImplementation(store: any, data: any, params?: any): Promise<any> {}
+	protected async queueJob (id: any): Promise<any> {}
+	protected async setJobPriority (id: any, priority: any): Promise<any> {}
+	protected async cancelJob (id: any): Promise<any> {}
+	protected async pauseJob (id: any): Promise<any> {}
+	protected async runJob (id: any): Promise<any> {}
+	protected async createImplementation(store: any, data: any, params?: any): Promise<any> {}
 }

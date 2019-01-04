@@ -17,7 +17,7 @@ export class ServiceClass extends BaseServiceClass {
 	public getServiceType(): any {
 		return 'databases-service'
 	}
-	public createImplementation (store: any, storeIsService: boolean, data: any, params?: any): any {
+	protected async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		if (!data.name) {
 			throw new Error('name required to create new mongodb database')
 		}

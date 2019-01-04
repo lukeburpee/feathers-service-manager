@@ -13,7 +13,7 @@ export class ServiceClass extends BaseServiceClass {
 	constructor (options: ServiceOptions) {
 		super(options)
 	}
-	public generateProxy (data: any): any {
+	protected generateProxy (data: any): any {
 		if (!data.port) {
 			throw new Error(`proxy service requires port`)
 		}
@@ -36,7 +36,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		return Promise.resolve(proxy)
 	}
-	public registerRoutes (proxy: any, routes: any): any {
+	protected registerRoutes (proxy: any, routes: any): any {
 		return new Promise(resolve => {
 			routes.forEach((route: any) => {
 				if (route.options) {
@@ -53,7 +53,7 @@ export class ServiceClass extends BaseServiceClass {
 			resolve(proxy)
 		})
 	}
-	public unregisterRoutes (proxy: any, routes: any): any {
+	protected unregisterRoutes (proxy: any, routes: any): any {
 		return new Promise(resolve => {
 			routes.forEach((route: any) => {
 				if (route.target === 'all') {
@@ -65,7 +65,7 @@ export class ServiceClass extends BaseServiceClass {
 			resolve(proxy)
 		})
 	}
-	public async createImplementation (store: any, storeIsService: boolean, data: any, params: any): Promise<any> {
+	protected async createImplementation (store: any, storeIsService: boolean, data: any, params: any): Promise<any> {
 		const id = data[this.id] || this.generateId()
 		const proxy = await this.generateProxy(data)
 		const current = {
@@ -74,7 +74,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		return super.createImplementation(store, storeIsService, current, params)
 	}
-	public async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params: any): Promise<any> {
+	protected async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params: any): Promise<any> {
 		if (id in store) {
 			const proxy = store[id].proxy
 			if (data.register) {
@@ -113,7 +113,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		return this.throwNotFound(id)
 	}
-	public async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
+	protected async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
 		if (id in store) {
 			const proxy = store[id].proxy
 			proxy.close()

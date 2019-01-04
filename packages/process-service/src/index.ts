@@ -14,7 +14,7 @@ export class ServiceClass extends BaseServiceClass {
 	constructor(options: ServiceOptions) {
 		super(options)
 	}
-	public async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
+	protected async createImplementation (store: any, storeIsService: boolean, data: any, params?: any): Promise<any> {
 		if (!data.command) {
 			throw new Error('execute process requires a command.')
 		}
@@ -22,7 +22,7 @@ export class ServiceClass extends BaseServiceClass {
 		return super.createImplementation(store, storeIsService, { cp }, params)
 	}
 
-	public async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
+	protected async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
 		if (id in store) {
 			let cp = store[id].cp
 			cp.kill()
