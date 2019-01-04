@@ -46,7 +46,4 @@ export class ServiceClass extends MultiServiceClass {
 		this.p = p.service
 		this.c = c.service
 	}
-	public async registerDefaults (defaults: any): any {
-		return this.registry.create(defaults)
-	}
 }

@@ -20,8 +20,9 @@
     },
     "references": [
         { "path": "../base-service" },
-        { "path": "../job-service" },
+        { "path": "../cluster-service" },
         { "path": "../multi-service" },
+        { "path": "../process-service" },
         { "path": "../registry-service" },
     	{ "path": "../types" },
     	{ "path": "../utils" }

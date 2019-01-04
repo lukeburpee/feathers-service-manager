@@ -1,6 +1,7 @@
 import { ServiceClass as MultiServiceClass } from '@feathers-service-manager/multi-service'
-import JobService from '@feathers-service-manager/job-service'
 import RegistryService from '@feathers-service-manager/registry-service'
+
+import JobService from './job-service'
 
 import { default as Debug } from 'debug'
 
@@ -12,7 +13,8 @@ export default function init (options: MultiOptions) {
 
 export class ServiceClass extends MultiServiceClass {
 	public jobs!: any;
-	public registry!: any;
+	public taskRegistry!: any;
+	public jobRegistry!: any;
 	constructor (options: MultiOptions) {
 		super(options)
 		debug('job-manager initialized')
@@ -52,8 +54,8 @@ export class ServiceClass extends MultiServiceClass {
 		this.jobRegistry = jobRegistry.service
 		this.taskRegistry = taskRegistry.service
 	}
-	private async registerDefaultJobs (): any {}
-	private async registerDefaultTasks (): any {
+	private async registerDefaultJobs (): Promise<any> {}
+	private async registerDefaultTasks (): Promise<any> {
 		let tasks = [{
 			action: 'copy',
 			command: 'cpy'

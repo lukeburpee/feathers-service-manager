@@ -27,14 +27,13 @@
         { "path": "../certificate-service" },
         { "path": "../cluster-service" },
         { "path": "../connection-service" },
-        { "path": "../job-service" },
+        { "path": "../job-manager" },
         { "path": "../log-service" },
         { "path": "../manifest-service" },
         { "path": "../multi-service" },
         { "path": "../process-service" },
         { "path": "../proxy-service" },
         { "path": "../registry-service" },
-        { "path": "../task-service" },
     	{ "path": "../types" },
     	{ "path": "../utils" }
     ]

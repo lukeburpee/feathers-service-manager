@@ -26,7 +26,7 @@ export class ServiceClass extends MultiServiceClass {
 		if (!options.taskRegistry) {
 			throw new Error('job service requires task registry.')
 		}
-		this.registry = options.jobRegistry
+		this.registry = options.registry
 		this.taskRegistry = options.taskRegistry
 	}
 	public async setup (app: any, path: any): Promise<any> {
