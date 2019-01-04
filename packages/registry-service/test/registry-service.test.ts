@@ -30,11 +30,11 @@ describe('RegistryService', () => {
 					super({ events: ['testing'] })
 				}
 				@test async 'creates and returns an app spec' () {
-					let test = await this.createImplementation(this.store, { spec })
+					let test = await this.createImplementation(this.store, this.storeIsService, { spec })
 					expect(test.v1.spec.options).to.exist
 				}
 				@test async 'adds app spec to store' () {
-					let test = await this.createImplementation(this.store, { spec })
+					let test = await this.createImplementation(this.store, this.storeIsService, { spec })
 					expect(test.id in this.store).to.be.true
 				}
 			}
@@ -47,7 +47,7 @@ describe('RegistryService', () => {
 				@test async 'it throws an error if missing spec' () {
 					let id = this.generateId()
 					try {
-						let test = await this.createImplementation(this.store, { id })
+						let test = await this.createImplementation(this.store, this.storeIsService, { id })
 					}
 					catch (e) {
 						expect(e.message).to.equal('registery service requires application spec.')

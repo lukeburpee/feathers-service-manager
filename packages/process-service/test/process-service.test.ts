@@ -14,12 +14,12 @@ describe('ProcessService', () => {
 					super({events:['testing'], disableStringify: true})
 				}
 				@test async 'it creates a child process' () {
-					let { id, cp } = await this.createImplementation(this.store, { command: 'echo', args: ['test']})
+					let { id, cp } = await this.createImplementation(this.store, this.storeIsService, { command: 'echo', args: ['test']})
 					cp = await cp
 					expect(cp.stdout).to.equal('test')
 				}
 				@test async 'it adds child process to service store' () {
-					let { id, cp } = await this.createImplementation(this.store, { command: 'echo', args: ['test']})
+					let { id, cp } = await this.createImplementation(this.store, this.storeIsService, { command: 'echo', args: ['test']})
 					expect(id in this.store).to.be.true
 				}
 			}
@@ -41,16 +41,16 @@ describe('ProcessService', () => {
 					super({events: ['events'], disableStringify: true})
 				}
 				public async before () {
-					let { id, cp } = await this.createImplementation(this.store, { command: 'echo', args: ['test']})
+					let { id, cp } = await this.createImplementation(this.store, this.storeIsService, { command: 'echo', args: ['test']})
 					this.testId = id
 					this.testCp = cp
 				}
 				@test async 'it kills a child process' () {
-					let test = await this.removeImplementation(this.store, this.testId)
+					let test = await this.removeImplementation(this.store, this.storeIsService, this.testId)
 					expect(test.id).to.equal(this.testId)
 				}
 				@test async 'it removes child process from service store' () {
-					let test = await this.removeImplementation(this.store, this.testId)
+					let test = await this.removeImplementation(this.store, this.storeIsService, this.testId)
 					expect(test.id in this.store).to.be.false
 				}
 			}

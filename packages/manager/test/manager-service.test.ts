@@ -139,7 +139,7 @@ describe('Manager', () => {
 						}
 						@test 'it throws an error' () {
 							try {
-								await this.createImplementation(this.store, { hydrate: true })
+								await this.createImplementation(this.store, this.storeIsService, { hydrate: true })
 							}
 							catch (e) {
 								expect(e.message)
