@@ -65,7 +65,7 @@ export class ServiceClass extends BaseServiceClass {
 			resolve(proxy)
 		})
 	}
-	public createImplementation (store: any, storeIsService: boolean, data: any, params: any): any {
+	public async createImplementation (store: any, storeIsService: boolean, data: any, params: any): Promise<any> {
 		const id = data[this.id] || this.generateId()
 		const proxy = await this.generateProxy(data)
 		const current = {
@@ -74,7 +74,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		return super.createImplementation(store, storeIsService, current, params)
 	}
-	public patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params: any): any {
+	public async patchImplementation (store: any, storeIsService: boolean, id: any, data: any, params: any): Promise<any> {
 		if (id in store) {
 			const proxy = store[id].proxy
 			if (data.register) {
@@ -113,7 +113,7 @@ export class ServiceClass extends BaseServiceClass {
 		}
 		return this.throwNotFound(id)
 	}
-	public removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): any {
+	public async removeImplementation (store: any, storeIsService: boolean, id: any, params?: any): Promise<any> {
 		if (id in store) {
 			const proxy = store[id].proxy
 			proxy.close()
