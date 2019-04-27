@@ -1597,12 +1597,15 @@
   dependencies:
     "@types/express" "*"
 
-"@types/feathersjs__express@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@types/feathersjs__express/-/feathersjs__express-1.1.4.tgz#35fe4aecffb69de8bc5df02e6026712c97d4385b"
-  integrity sha512-cT5wAHnUdMpXBThqRxJR0UteOjU8wdXCUxTXYCnU7x5Cq7sXXlq3fNE+bDmeWqVAXsqSqbN6lPjMxz90NPzPVQ==
+"@types/feathersjs__express@*", "@types/feathersjs__express@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@types/feathersjs__express/-/feathersjs__express-1.1.6.tgz#fc24b54e0d5cf5c2e241ceaf9d8d206ee1825b5e"
+  integrity sha512-FqnAjpYWx9ThKZTRsra76xJZx8irZeN1gt4Q0zGsvDFHGL8fWF4Sr1uBGVeEQd8HtkHXoL6iBzymQljow0x/hQ==
   dependencies:
     "@types/express" "*"
+    "@types/express-serve-static-core" "*"
+    "@types/feathersjs__express" "*"
+    "@types/feathersjs__feathers" "*"
 
 "@types/feathersjs__feathers@*", "@types/feathersjs__feathers@^3.0.5":
   version "3.1.1"
