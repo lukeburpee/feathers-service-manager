@@ -1649,10 +1649,10 @@
     "@types/feathersjs__socket-commons" "*"
     "@types/socket.io" "*"
 
-"@types/fs-extra-promise@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@types/fs-extra-promise/-/fs-extra-promise-1.0.7.tgz#0028a11e2f26a5a2391954bf199bfbb0c9806a1f"
-  integrity sha512-HEyt6v64my1B6fBvMPzS1mc/mxbDikqSzJ7Qw9kHowMKPSPLFSKzaiJo9bsE7xUQa9OwCpEDlX+QEBxPiXnRPg==
+"@types/fs-extra-promise@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra-promise/-/fs-extra-promise-1.0.8.tgz#ea8b68987479453315f5297ebdbf50705f66f4f8"
+  integrity sha512-78fjr//sdyyc4yDFL7zM7363bwGrtXU0Rvb+TYtLBm1asgA8aVdgNBSEHtf5ovX5Rffcw0ZuV32itygBT/6mcg==
   dependencies:
     "@types/bluebird" "*"
     "@types/fs-extra" "^4"
