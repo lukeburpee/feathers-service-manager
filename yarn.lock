@@ -1604,12 +1604,11 @@
   dependencies:
     "@types/express" "*"
 
-"@types/feathersjs__feathers@*", "@types/feathersjs__feathers@^3.0.5":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@types/feathersjs__feathers/-/feathersjs__feathers-3.1.1.tgz#fc8bf1c12bd04d9576f87faf84c4d4202341c6ba"
-  integrity sha512-4/IC/qQI+V9WbhmQnMvuQctcURvdyVvSJ+3JANVEqedzvApW/P8TUfVHeJ/k7EaXBgglShI6rNSKwZTVNOiVRw==
+"@types/feathersjs__feathers@^3.1.5":
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/@types/feathersjs__feathers/-/feathersjs__feathers-3.1.5.tgz#4a2b3ef7d561c64c08b82463276d69119e7fc4b9"
+  integrity sha512-sv8sIp59wVLpDQs2Mo3t437KQxUCFSS0JrGjMcjLSdvFzjHB81IhHhVHnH5g4VBUa6Yt4INr1eOEq/Ql0Ij9+g==
   dependencies:
-    "@types/feathersjs__feathers" "*"
     "@types/node" "*"
 
 "@types/feathersjs__primus-client@^1.0.1":
