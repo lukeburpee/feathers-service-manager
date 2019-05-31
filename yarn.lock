@@ -1585,10 +1585,12 @@
   resolved "https://registry.yarnpkg.com/@types/feathersjs__authentication/-/feathersjs__authentication-2.1.2.tgz#e322b30b8312e317d654e4bf0d3788c4026e66ad"
   integrity sha512-gYOd/PungIVY0V1XpDBfAnXxO+J7n66Rd8yFQlhezRuIQqGOgEjS2fTUb6tCPIOVdffwRF2Ild9OAg76QL0z/A==
 
-"@types/feathersjs__configuration@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/feathersjs__configuration/-/feathersjs__configuration-1.0.1.tgz#3887f2b02e751543cf6462e027e6b1cd32a2b715"
-  integrity sha512-6ZFaNScNM/s0uN/HB95Xq1ldB+J3E7uq2737IIKm/J5kLfNVwhRTSpAWcD8lakTa6MVzsWgaUAIU7lXcpQj20A==
+"@types/feathersjs__configuration@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/feathersjs__configuration/-/feathersjs__configuration-1.0.3.tgz#1bfe7c36877feb30805eb1e325fa3fc36e7ff12b"
+  integrity sha512-JShKt9HE7Fojrx3FPb+ZwHZ878DT5sXb1jOpSCKLPixJHuEQKtj6lhA9aOrtSqKLP9bPDXFHiHQNHGJ8WFkUYw==
+  dependencies:
+    "@types/feathersjs__feathers" "*"
 
 "@types/feathersjs__errors@^3.2.1":
   version "3.2.1"
