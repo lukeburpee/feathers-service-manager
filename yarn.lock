@@ -1641,10 +1641,10 @@
   dependencies:
     "@types/socket.io-client" "*"
 
-"@types/feathersjs__socketio@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/feathersjs__socketio/-/feathersjs__socketio-3.0.3.tgz#f213d6d55340ecd044032ee642d5cf050e53f871"
-  integrity sha512-g+DkEkI54KJ87v6e7VsWOvK+3IViUp3DAzqQZ8Yj8hPvi2etkxgTf0TUEBwwfwG4ALeKDnfkllmAzGlx4Jmfxw==
+"@types/feathersjs__socketio@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@types/feathersjs__socketio/-/feathersjs__socketio-3.0.5.tgz#53c56033df55c0def5a5fabd0e769c4aae3ac1cd"
+  integrity sha512-0AfUCkSLcsBn8tf+XqT8LPj7Dq1SGTR/fOh12TYIyuFHL8HXc/+yN4JiQmHE8TfLNoleYB49sRzTJM43o4HQlg==
   dependencies:
     "@types/feathersjs__socket-commons" "*"
     "@types/socket.io" "*"
