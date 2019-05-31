@@ -35,7 +35,7 @@
     "@types/express": "^4.16.0",
     "@types/feathersjs__authentication": "^2.1.2",
     "@types/feathersjs__authentication-client": "^1.0.4",
-    "@types/feathersjs__authentication-jwt": "^1.0.3",
+    "@types/feathersjs__authentication-jwt": "1.0.6",
     "@types/feathersjs__authentication-local": "^1.0.3",
     "@types/feathersjs__configuration": "^1.0.1",
     "@types/feathersjs__errors": "^3.2.1",
