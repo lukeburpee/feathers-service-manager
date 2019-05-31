@@ -1566,12 +1566,14 @@
   resolved "https://registry.yarnpkg.com/@types/feathersjs__authentication-client/-/feathersjs__authentication-client-1.0.4.tgz#6ec90e8daf8c254db212e6489c2bbd899bede92f"
   integrity sha512-5UdrRulbaQ3P/vMKitUYL3MDs1SyhbbplCsMhMCgGBx0IScCS3oOW61+oFhqYu2WBhYNYmpBdeBMTODHuk30lg==
 
-"@types/feathersjs__authentication-jwt@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/feathersjs__authentication-jwt/-/feathersjs__authentication-jwt-1.0.3.tgz#46f64c8246afb355fc619edae8c60c0e314e32ba"
-  integrity sha512-6/d2G4Olk1ws3dj9slTTp5UONRvI8m8kSOS7+IWOaHdP3vbya2sMZs0Mx2+8Am1ve7/HJnTQtWqsxL478Leqaw==
+"@types/feathersjs__authentication-jwt@*", "@types/feathersjs__authentication-jwt@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@types/feathersjs__authentication-jwt/-/feathersjs__authentication-jwt-1.0.7.tgz#168abd297e0bba290e9490c225fc3a6bc7a0dbc7"
+  integrity sha512-brDiW+1L/hSaxSc7Fdfbb6qLRugNZD3dOW5l6YBKEoeupJgGmfzocJ/jjs7pz8Ac0xEHJScPtOdtdPX/PSAP4A==
   dependencies:
     "@types/express" "*"
+    "@types/feathersjs__authentication-jwt" "*"
+    "@types/feathersjs__feathers" "*"
 
 "@types/feathersjs__authentication-local@^1.0.3":
   version "1.0.3"
