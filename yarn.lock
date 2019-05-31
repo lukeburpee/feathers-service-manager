@@ -1612,10 +1612,10 @@
     "@types/feathersjs__feathers" "*"
     "@types/node" "*"
 
-"@types/feathersjs__primus-client@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/feathersjs__primus-client/-/feathersjs__primus-client-1.0.1.tgz#3bc9ea01f21df8a8f106aafaf2f3d5770bc6673e"
-  integrity sha512-AwcHTZp5KCQbY6aoiVDoM1PkzfeDgpKetBR6MaaeWPOYirUoO2LJX9AetaSYgf2Zm5IPwxqgiUezu2eUJmA8tQ==
+"@types/feathersjs__primus-client@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/feathersjs__primus-client/-/feathersjs__primus-client-1.0.3.tgz#4ac51d73ebdcdaecdc495614d601aead3cd3f18b"
+  integrity sha512-4VHN0KnGTZcIYpXdow6Ozlft+7kxC0EDbsHKU/klZvIyzbtyoBF0I4H3Tk27iPpKXg7u+K93AdzVs4EpNl1nZw==
 
 "@types/feathersjs__primus@^3.0.1":
   version "3.0.1"
