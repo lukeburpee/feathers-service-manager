@@ -1573,12 +1573,14 @@
   dependencies:
     "@types/express" "*"
 
-"@types/feathersjs__authentication-local@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/feathersjs__authentication-local/-/feathersjs__authentication-local-1.0.3.tgz#ff34212102f9a49d76854de9a36fc316c97bfdaa"
-  integrity sha512-T5O8YUFcYKXs/bZiwkczXgjls1taLpdyZbdNPsEJcfOTxrLgImAAFZAg9Ao6kQ0xRn+lp4fQT18nG5IKT1UZng==
+"@types/feathersjs__authentication-local@*", "@types/feathersjs__authentication-local@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@types/feathersjs__authentication-local/-/feathersjs__authentication-local-1.0.5.tgz#d03820c5189715f455aca7452bccdaaa9cd2d5d5"
+  integrity sha512-KNZ4EZpBtc3Bu9h3AAtIy943DRu0dze5nz3Vsy6pEuWmqJQTcKHHqpG1Q7byZ8XpMZ9e9ytoAWf5ZuKk8XC9ow==
   dependencies:
     "@types/express" "*"
+    "@types/feathersjs__authentication-local" "*"
+    "@types/feathersjs__feathers" "*"
 
 "@types/feathersjs__authentication@^2.1.2":
   version "2.1.2"
