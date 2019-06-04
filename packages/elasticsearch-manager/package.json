@@ -41,7 +41,7 @@
     "@feathersjs/errors": "^3.3.4",
     "@feathersjs/feathers": "^3.2.3",
     "debug": "^4.1.0",
-    "elasticsearch": "^15.2.0",
+    "elasticsearch": "^16.1.1",
     "rxjs": "^6.3.3",
     "sift": "^7.0.1",
     "uberproto": "^2.0.4",
