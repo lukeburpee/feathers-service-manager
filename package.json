@@ -58,7 +58,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "codecov": "^3.1.0",
-    "coveralls": "^3.0.2",
+    "coveralls": "3.0.3",
     "feathers-service-tests": "^0.10.2",
     "lerna": "^3.4.3",
     "lerna-changelog": "^0.8.2",
