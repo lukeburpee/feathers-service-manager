@@ -45,7 +45,7 @@
     "@types/uuid": "^3.4.4",
     "debug": "^4.1.0",
     "mongodb": "^3.1.9",
-    "mongoose": "^5.3.11",
+    "mongoose": "^5.6.1",
     "rxjs": "^6.3.3",
     "sift": "^7.0.1",
     "uberproto": "^2.0.4",
