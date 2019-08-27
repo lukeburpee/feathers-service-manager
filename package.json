@@ -21,7 +21,7 @@
     "coverage:codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "devDependencies": {
-    "@feathersjs/client": "^3.7.5",
+    "@feathersjs/client": "^4.3.0",
     "@feathersjs/configuration": "^2.0.4",
     "@feathersjs/express": "^1.2.7",
     "@feathersjs/primus": "^3.2.6",
