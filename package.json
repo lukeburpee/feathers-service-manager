@@ -24,7 +24,7 @@
     "@feathersjs/client": "^3.7.5",
     "@feathersjs/configuration": "^2.0.4",
     "@feathersjs/express": "^1.2.7",
-    "@feathersjs/primus": "^3.2.6",
+    "@feathersjs/primus": "^4.3.2",
     "@feathersjs/socketio": "^3.2.7",
     "@feathersjs/socketio-client": "^1.1.5",
     "@types/chai": "^4.1.7",
