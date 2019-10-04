@@ -1704,10 +1704,10 @@
     "@types/bson" "*"
     "@types/node" "*"
 
-"@types/mongoose@^5.3.4":
-  version "5.3.5"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.3.5.tgz#9e84a5ddebfb404adc3b5afa90b41e7474397870"
-  integrity sha512-SLnO5co2keWe1PLuf9mVm3WSZGUH+JNSOjw/szJEWUelTKwRt/+FaTvfgc9j+XIlHs8zZSfRbvFIh/PC+3KJhA==
+"@types/mongoose@^5.5.19":
+  version "5.5.19"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.5.19.tgz#6aa07a0dca8493afd436111bdb834d0a81dc7acd"
+  integrity sha512-VIT+chW2nMHKK5vleT5PKOt8i72PwFbSHAKDKL0RQ9QcXvUex9LtR0Mq4nAI3WM8AwvvJqwFUCk4XY4r+PZlQA==
   dependencies:
     "@types/mongodb" "*"
     "@types/node" "*"
