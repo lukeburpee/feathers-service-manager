@@ -39,7 +39,7 @@
     "@feathers-service-manager/utils": "^0.0.1-alpha",
     "@feathersjs/commons": "^3.0.1",
     "@feathersjs/errors": "^3.3.4",
-    "@feathersjs/feathers": "^3.2.3",
+    "@feathersjs/feathers": "^4.3.10",
     "debug": "^4.1.0",
     "elasticsearch": "^15.2.0",
     "rxjs": "^6.3.3",
