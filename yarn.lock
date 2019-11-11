@@ -811,10 +811,10 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@feathersjs/client@^3.7.5":
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/@feathersjs/client/-/client-3.7.5.tgz#ecffdf7e83d2ce8c6b6192f958571f430d8a824f"
-  integrity sha512-7edTLWOntvvBCL2yBcyXNPH9gDMpwpzn2IkroLfC8pSy4lnF956YChGcjOlRHiJ7w7H1GDXx42Qr26SJkxPZEA==
+"@feathersjs/client@^4.3.11":
+  version "4.3.11"
+  resolved "https://registry.yarnpkg.com/@feathersjs/client/-/client-4.3.11.tgz#edd351a41c5c3576a195d28ebe8c3bd5ea468c28"
+  integrity sha512-PxbFWzjnCAFXgfKM461OiutVhqj959UCtsdKC199lTHXivivg5HlZvtorZKT2wyPPxJxNV23b7Q04hKVmR04Ng==
 
 "@feathersjs/commons@^3.0.1":
   version "3.0.1"
