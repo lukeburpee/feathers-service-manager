@@ -95,6 +95,11 @@
   resolved "https://registry.yarnpkg.com/@feathersjs/commons/-/commons-3.0.1.tgz#cf844b91ba5fe3ec419384d986d85929067a3058"
   integrity sha512-wo2boFwbKqm53h/Wv2F+ggiTxSFOPaCupa6VHujJle/RZrox5On6zbaoO0B1yFZbj1tCJ6kT2IDpFg9StHL0oA==
 
+"@feathersjs/commons@^4.4.3":
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/@feathersjs/commons/-/commons-4.4.3.tgz#5c76109128f1c90fb3dad7e961dc3e54667688d8"
+  integrity sha512-hPIvq9V3iEYvvml3fz8HN+rP26cWX+REOdf23ZfW8S213SEmH9sYIzx1TvZ7c/t2/mj5nPJkWk+vF3IoHUadng==
+
 "@feathersjs/feathers@^3.2.3":
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/@feathersjs/feathers/-/feathers-3.2.3.tgz#889a64acd7e336d131ce53ea7512e4f48642e218"
