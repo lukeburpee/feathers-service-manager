@@ -40,7 +40,7 @@
     "@feathers-service-manager/core-services": "^0.0.1-alpha",
     "@feathers-service-manager/utils": "^0.0.1-alpha",
     "@feathersjs/commons": "^3.0.1",
-    "@feathersjs/errors": "^3.3.4",
+    "@feathersjs/errors": "^4.4.3",
     "@feathersjs/feathers": "^3.2.3",
     "@types/uuid": "^3.4.4",
     "debug": "^4.1.0",
