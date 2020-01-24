@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@feathersjs/client": "^3.7.5",
-    "@feathersjs/configuration": "^2.0.4",
+    "@feathersjs/configuration": "^4.5.1",
     "@feathersjs/express": "^1.2.7",
     "@feathersjs/primus": "^3.2.6",
     "@feathersjs/socketio": "^3.2.7",
