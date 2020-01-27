@@ -1696,10 +1696,18 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.5.tgz#8a4accfc403c124a0bafe8a9fc61a05ec1032073"
   integrity sha512-lAVp+Kj54ui/vLUFxsJTMtWvZraZxum3w3Nwkble2dNuV5VnPA+Mi2oGX9XYJAaIvZi3tn3cbjS/qcJXRb6Bww==
 
-"@types/mongodb@*", "@types/mongodb@^3.1.14":
+"@types/mongodb@*":
   version "3.1.17"
   resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.1.17.tgz#11351b147b68e7674cff9055ea82072521bc6fe3"
   integrity sha512-u6tSIpfdsgK74aE0TuyqZYhHscw+gHs6dQNSsFUTFXubhhxCqovmV3nJRS0YKSw0sfqbzUgGzbG5+yorUPRnFg==
+  dependencies:
+    "@types/bson" "*"
+    "@types/node" "*"
+
+"@types/mongodb@^3.3.15":
+  version "3.3.15"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.3.15.tgz#f8b80a7a1f42fa90f58a1273df80f0e5764e3d25"
+  integrity sha512-q2dL0VEdFdE9iS0xrTP0NSgJJBFH4hBvt3beglCwU3qMWrz7dCuu/CrRjPB4+R8jLjCi/Gik2Mkd+lU0sYsZgQ==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
