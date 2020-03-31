@@ -45,7 +45,7 @@
     "rxjs": "^6.3.3",
     "sift": "^7.0.1",
     "uberproto": "^2.0.4",
-    "uuid": "^3.3.2"
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
