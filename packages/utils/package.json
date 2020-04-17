@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@feathersjs/commons": "^3.0.1",
-    "@feathersjs/feathers": "^3.2.3"
+    "@feathersjs/feathers": "^4.5.3"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
