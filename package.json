@@ -47,7 +47,7 @@
     "@types/feathersjs__socketio": "^3.0.3",
     "@types/feathersjs__socketio-client": "^1.0.1",
     "@types/fs-extra": "^5.0.4",
-    "@types/fs-extra-promise": "^1.0.7",
+    "@types/fs-extra-promise": "^1.0.9",
     "@types/into-stream": "^3.1.0",
     "@types/jsonfile": "^4.0.1",
     "@types/mocha": "^5.2.5",
